@@ -1,0 +1,3 @@
+rootProject.name = 'familink'
+
+include ':app'
