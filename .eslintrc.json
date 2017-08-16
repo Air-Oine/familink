@@ -1,0 +1,30 @@
+{
+        "parser": "babel-eslint",
+        "extends": "airbnb",
+        "env": {
+            // I write for browser
+            "browser": true,
+            // in CommonJS
+            "node": true,
+            "jest": true,
+            "jasmine": true
+        },
+        "settings": {
+            "import/resolver": {
+                "node": {
+                    "extensions": [".js", ".ios.js", ".android.js"]
+                }
+            }
+        },
+        "plugins": [
+            "react",
+            "react-native"
+        ],
+        "rules": {
+            "react/jsx-filename-extension": "off",
+            "react-native/no-unused-styles": "error",
+            "react-native/no-inline-styles": "error",
+            "react-native/no-color-literals": "error",
+            "import/no-extraneous-dependencies": ["error",{"devDependencies": true}]
+        }
+    }
