@@ -9,6 +9,7 @@
 	},
 	"dependencies": {
 		"react": "16.0.0-alpha.12",
+		"react-i18next": "^4.8.0",
 		"react-native": "0.47.1"
 	},
 	"devDependencies": {
@@ -25,6 +26,13 @@
 		"react-test-renderer": "16.0.0-alpha.12"
 	},
 	"jest": {
-		"preset": "react-native"
+		"preset": "react-native",
+		"transformIgnorePatterns": [
+			"<rootDir>/node_modules/(?!(jest-)?react-native|react-navigation|react-clone-referenced-element)"
+		],
+		"setupFiles": [
+			"<rootDir>/node_modules/react-native/jest/setup.js",
+			"<rootDir>/config/jest/setup-files/index.js"
+		]
 	}
 }
