@@ -3,11 +3,11 @@ import {
   AppRegistry,
 } from 'react-native';
 
-import NavigationContainer from './src/NavigationContainer';
+import Application from './src/Application';
 
 export default function familink() {
   return (
-    <NavigationContainer />
+    <Application />
   );
 }
 

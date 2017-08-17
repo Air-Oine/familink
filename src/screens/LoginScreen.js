@@ -26,8 +26,3 @@ export default class HomeScreen extends Component {
     );
   }
 }
-/* TODO :
-HomeScreen.propType = {
-  token: PropTypes.arrayOf(PropTypes.Todo).required,
-};
-*/
