@@ -1,9 +1,11 @@
 import React from 'react';
+import { AppRegistry } from 'react-native';
+import NavigationContainer from './src/NavigationContainer';
 import {
   AppRegistry,
+  View,
+  Text,
 } from 'react-native';
-
-import NavigationContainer from './src/NavigationContainer';
 
 export default function familink() {
   return (
