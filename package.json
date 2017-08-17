@@ -10,7 +10,9 @@
 	"dependencies": {
 		"react": "16.0.0-alpha.12",
 		"react-i18next": "^4.8.0",
-		"react-native": "0.47.1"
+		"react-native": "0.47.1",
+		"react-native-i18n": "^2.0.4",
+		"react-native-i18n-complete": "^0.1.8"
 	},
 	"devDependencies": {
 		"babel-eslint": "^7.2.3",
