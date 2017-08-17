@@ -37,7 +37,7 @@ export class Application extends Component {
 
 function mapStateToProps(state) {
   return {
-    todoList: state.todosReducer.todos
+    token: state.familinkReducer.token
   }
 }
 
