@@ -35,7 +35,7 @@ stackNavigatorConfig[FORGOTTENPWD_SCENE_NAME] = {
 };
 
 const ApplicationNavigator = StackNavigator(stackNavigatorConfig, {
-  initialRouteName: HOME_SCENE_NAME,
+  initialRouteName: SIGNIN_SCENE_NAME,
 });
 
 

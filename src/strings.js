@@ -8,16 +8,26 @@ I18n.translations = {
   },
   fr: {
     test: 'Bienvenue sur React Native!',
+    signIn_User: 'Utilisateur',
+    signIn_Pwd: 'Mot de passe',
+    signIn_PwdConfirm: 'Confirmer mot de passe',
+    signIn_LastName: 'Nom',
+    signIn_FirstName: 'Prénom',
+    signIn_Email: 'Email',
   },
 };
 
 const AppString = {
-  test: I18n.t('test'),
+  signIn_User: I18n.t('signIn_User'),
+  signIn_Pwd: I18n.t('signIn_Pwd'),
+  signIn_PwdConfirm: I18n.t('signIn_PwdConfirm'),
+  signIn_LastName: I18n.t('signIn_LastName'),
+  signIn_FirstName: I18n.t('signIn_FirstName'),
+  signIn_Email: I18n.t('signIn_Email'),
 };
-console.log(AppString)
 /**
  * Usage :
- * import strings from './strings';
- * {strings.translatableText}
+ * import AppString from './strings';
+ * strings.translatableText
  */
 export default AppString;
