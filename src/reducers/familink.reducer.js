@@ -1,7 +1,8 @@
-import { ADD_TOKEN } from '../actions/familink.actions';
+import { ADD_TOKEN, CREATE_USER } from '../actions/familink.actions';
 
 export const initialState = {
   userToken: '',
+  user: 'azerty',
 };
 
 export default function familinkReducer(state = initialState, action) {
@@ -10,6 +11,11 @@ export default function familinkReducer(state = initialState, action) {
       return {
         ...state,
         userToken: state.userToken,
+      };
+    case CREATE_USER:
+      return {
+        ...state,
+        user: state.user,
       };
     default:
       return state;

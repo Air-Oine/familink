@@ -4,6 +4,7 @@ import {
   Text,
 } from 'react-native';
 import Menu from '../components/Menu';
+import WebServices from '../webServices/WebServices';
 
 export const HOME_SCENE_NAME = 'HOME_SCENE';
 
@@ -22,12 +23,14 @@ export default class HomeScreen extends Component {
 
     this.state = {
       isOpen: false,
-    };
+      data: '',
+    };  
+    console.log(WebServices.createUser()); 
   }
   /* constructor(props) {
     super(props);
   } */
-
+  
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen,
