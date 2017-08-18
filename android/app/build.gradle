@@ -133,7 +133,6 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-vector-icons')
     compile project(':react-native-i18n-complete')
     compile project(':react-native-i18n')
     compile fileTree(dir: "libs", include: ["*.jar"])

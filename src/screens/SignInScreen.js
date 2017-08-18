@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import form from 'tcomb-form-native';
 import { ScrollView } from 'react-native';
-import { Container, Header, Content, Form, Input, Label, Picker, Item,Button,Text} from 'native-base';
+import { Form, Input, Label, Picker, Item, Button, Text } from 'native-base';
 import AppString from '../strings';
-import { secondaryColor, secondaryColor2, styles } from '../style';
+import { styles } from '../style';
 
 export const SIGNIN_SCENE_NAME = 'SIGNIN_SCENE';
 export default class SignInScreen extends Component {
@@ -13,13 +12,12 @@ export default class SignInScreen extends Component {
 
   constructor(props) {
     super(props);
+    this.getProfile();
     this.state = {
-      selected: '',
+      selected: 0,
       data: [],
     };
     this.onValueChange = this.onValueChange.bind(this);
-    this.render = this.render.bind(this);
-    this.getProfile();
   }
   onValueChange(value) {
     this.setState({
@@ -60,15 +58,15 @@ export default class SignInScreen extends Component {
         <Form>
           <Item floatingLabel>
             <Label>{AppString.signIn_User}</Label>
-            <Input />
+            <Input maxLength={10} keyboardType="numeric" />
           </Item>
           <Item floatingLabel>
             <Label>{AppString.signIn_Pwd}</Label>
-            <Input />
+            <Input secureTextEntry />
           </Item>
           <Item floatingLabel>
             <Label>{AppString.signIn_PwdConfirm}</Label>
-            <Input />
+            <Input secureTextEntry />
           </Item>
           <Item floatingLabel>
             <Label>{AppString.signIn_LastName}</Label>
@@ -89,7 +87,6 @@ export default class SignInScreen extends Component {
             onValueChange={val => this.onValueChange(val)}
           >
             {profile}
-
           </Picker>
         </Form>
         <Button
