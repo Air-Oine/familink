@@ -20,6 +20,7 @@ I18n.translations = {
 
 const AppString = {
   test: I18n.t('test'),
+  
   loginPageName: I18n.t('loginPageName'),
   homePageName: I18n.t('homePageName'),
   signInPageName: I18n.t('signInPageName'),

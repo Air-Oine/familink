@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
   ScrollView,
   View,
@@ -29,3 +29,6 @@ export default class ForgottenPwdScreen extends Component {
   }
 }
 
+ForgottenPwdScreen.propTypes = {
+  navigation: PropTypes.any.isRequired,
+};

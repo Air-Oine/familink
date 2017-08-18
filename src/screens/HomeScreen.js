@@ -1,19 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
   View,
 } from 'react-native';
-import { Button, Text, Icon } from 'native-base';
+import { Text } from 'native-base';
 
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
 
 export const HOME_SCENE_NAME = 'HOME_SCENE';
 
-const styles = StyleSheet.create({
+/* const styles = StyleSheet.create({
   button: {
     position: 'absolute',
     top: 20,
@@ -40,11 +36,10 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
-});
+}); */
 
 
 export default class HomeScreen extends Component {
-
   static navigationOptions = {
     drawerLabel: AppString.homePageName,
   };
@@ -67,3 +62,7 @@ export default class HomeScreen extends Component {
     );
   }
 }
+
+HomeScreen.propTypes = {
+  navigation: PropTypes.any.isRequired,
+};

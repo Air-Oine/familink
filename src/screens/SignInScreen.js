@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
   ScrollView,
   View,
@@ -29,3 +29,7 @@ export default class SignInScreen extends Component {
     );
   }
 }
+
+SignInScreen.propTypes = {
+  navigation: PropTypes.any.isRequired,
+};

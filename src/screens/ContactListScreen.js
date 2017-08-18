@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
   ScrollView,
   View,
@@ -28,3 +28,7 @@ export default class ContactListScreen extends Component {
     );
   }
 }
+
+ContactListScreen.propTypes = {
+  navigation: PropTypes.any.isRequired,
+};

@@ -1,4 +1,4 @@
- import React from 'react';
+import React from 'react';
 import { applyMiddleware, createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { createLogger } from 'redux-logger';

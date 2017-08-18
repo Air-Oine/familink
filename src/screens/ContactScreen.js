@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
   ScrollView,
   View,
@@ -9,7 +9,7 @@ import AppString from '../strings';
 
 export const CONTACT_SCENE_NAME = 'CONTACT_SCENE';
 
-export default class ConstactScreen extends Component {
+export default class ContactScreen extends Component {
   static navigationOptions = {
     title: AppString.contactPageName,
   };
@@ -28,3 +28,7 @@ export default class ConstactScreen extends Component {
     );
   }
 }
+
+ContactScreen.propTypes = {
+  navigation: PropTypes.any.isRequired,
+};

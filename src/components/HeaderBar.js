@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react';
+import React, { PropTypes } from 'react';
 import {
   Text,
   Image,
@@ -21,21 +21,20 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
 });
+const image = require('../../assets/menu.png');
 
-export default class HeaderBar extends Component {
-  render() {
-    return (
-      <View style={styles.header_container} >
-        <TouchableHighlight onPress={() => { this.props.navigation.navigate('DrawerOpen'); }} >
-          <Image style={styles.icon} source={require('../../assets/menu.png')} />
-        </TouchableHighlight>
-        <Text style={styles.title}>{this.props.title}</Text>
-      </View>
-    );
-  }
+export default function HeaderBar(props) {
+  return (
+    <View style={styles.header_container} >
+      <TouchableHighlight onPress={() => { props.navigation.navigate('DrawerOpen'); }} >
+        <Image style={styles.icon} source={image} />
+      </TouchableHighlight>
+      <Text style={styles.title}>{props.title}</Text>
+    </View>
+  );
 }
 
-HeaderBar.propTypeq = {
+HeaderBar.propTypes = {
   navigation: PropTypes.any.isRequired,
   title: PropTypes.any.isRequired,
 };

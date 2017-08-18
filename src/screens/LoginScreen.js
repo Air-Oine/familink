@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
   ScrollView,
   View,
@@ -11,7 +11,7 @@ import AppString from '../strings';
 export const LOGIN_SCENE_NAME = 'LOGIN_SCENE';
 
 
-export default class HomeScreen extends Component {
+export default class LoginScreen extends Component {
   static navigationOptions = {
     drawerLabel: AppString.loginPageName,
   };
@@ -34,3 +34,7 @@ export default class HomeScreen extends Component {
     );
   }
 }
+
+LoginScreen.propTypes = {
+  navigation: PropTypes.any.isRequired,
+};
