@@ -5,10 +5,7 @@ import {
 } from 'react-native';
 import Menu from '../components/Menu';
 
-import Helper from '../helpers/Helper.js';
-
 export const HOME_SCENE_NAME = 'HOME_SCENE';
-
 
 const image = require('../../assets/menu.png');
 
@@ -20,7 +17,6 @@ export default class HomeScreen extends Component {
   };
   constructor(props) {
     super(props);
-    Helper.isConnected();
 
     this.toggle = this.toggle.bind(this);
 

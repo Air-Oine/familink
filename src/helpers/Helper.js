@@ -1,18 +1,16 @@
-import React from 'react';
-import { NetInfo, AppState } from 'react-native';
-
-class Helper {
-
 /*
-  state = {
-    appState: AppState.currentState;
-  }
+import React from 'react';
+//import { NetInfo, AppState } from 'react-native';
 */
 
-    static function isConnected() {
-        NetInfo.isConnected.fetch().then(isConnected => {
-            console.log('First, is ' + (isConnected ? 'online' : 'offline'));
-        });
-    }
+export default class Helper {
+  static isValidPhoneNumber(phoneNumber) {
+    const pattern = /^[0-9]{10}$/; // Check if number is 10 digits
+    return pattern.test(phoneNumber); // Return true if test pass / false if it doesn't
+  }
 
+  static isValidPassword(password) {
+    const pattern = /^[0-9]{4}$/; // Check if number is 4 digits
+    return pattern.test(password); // Return true if test pass / false if it doesn't
+  }
 }
