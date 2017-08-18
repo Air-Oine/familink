@@ -5,11 +5,13 @@ import {
   View,
   StyleSheet,
   TouchableHighlight,
+  Platform,
 } from 'react-native';
 
 const styles = StyleSheet.create({
-  header_container: {
+  container: {
     flexDirection: 'row',
+    marginTop: (Platform.OS === 'ios') ? 20 : 0,
     height: 36,
   },
   icon: {
@@ -25,7 +27,7 @@ const image = require('../../assets/menu.png');
 
 export default function HeaderBar(props) {
   return (
-    <View style={styles.header_container} >
+    <View style={styles.container} >
       <TouchableHighlight onPress={() => { props.navigation.navigate('DrawerOpen'); }} >
         <Image style={styles.icon} source={image} />
       </TouchableHighlight>
