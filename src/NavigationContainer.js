@@ -42,7 +42,7 @@ stackNavigatorConfig[LOGIN_SCENE_NAME] = {
 };
 
 const ApplicationNavigator = DrawerNavigator(stackNavigatorConfig, {
-  initialRouteName: HOME_SCENE_NAME,
+  initialRouteName: LOGIN_SCENE_NAME, // TODO : Change to HOME before merge
 });
 
 
