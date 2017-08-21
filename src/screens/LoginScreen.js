@@ -13,6 +13,7 @@ import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
 import { styles } from '../style';
 import Tools from '../Tools';
+import Storage from '../asyncStorage';
 
 import { HOME_SCENE_NAME } from './HomeScreen';
 
@@ -39,6 +40,7 @@ export default class LoginScreen extends Component {
       user: '',
       password: '',
       rememberMeStatus: true,
+      token: '',
     };
 
     this.login = this.login.bind(this);
@@ -53,13 +55,15 @@ export default class LoginScreen extends Component {
     }`;
     try {
       const response = await WebServices.login(userString);
-      console.log('response : ', response);
       if (response === false) {
-        console.log('JE SUIS LA');
         Tools.toastWarning(AppString.loginError);
         return;
       }
-      console.log('MOI AUSSI');
+      Storage.getItem('userToken').then(v => {
+        console.log('token : ', v);
+        const jsonToken = JSON.parse(v);
+        this.setState({token: jsonToken.token});
+      });
       this.goHome();
     } catch (error) {
       // return error;

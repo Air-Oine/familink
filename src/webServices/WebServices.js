@@ -69,9 +69,7 @@ export default class WebServices {
         body: value,
       });
       const status = response.status;
-      console.log(status);
       const responseJSON = await response.json();
-      console.log(responseJSON);
       Storage.setItem('userToken', JSON.stringify(responseJSON));
       if (status === 200) {
         return true;
