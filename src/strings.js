@@ -23,7 +23,7 @@ I18n.translations = {
     signIn_Error: 'Erreur lors de la création du compte',
     loginPageName: 'Connexion',
     homePageName: 'Accueil',
-    signInPageName: 'S\'identifier',
+    signInPageName: 'S\'enregistrer',
     forgottenPasswordPageName: 'Mot de passe oublié',
     contactPageName: 'Contact',
     contactListPageName: 'Contacts',

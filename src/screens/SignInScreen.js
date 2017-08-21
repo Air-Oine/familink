@@ -68,7 +68,7 @@ export default class SignInScreen extends Component {
   async createUser(userString) {
     try {
       const value = await WebServices.createUser(userString);
-      if (value === true) {
+      if (value) {
         this.goToLogin();
       } else {
         Tools.toastWarning(AppString.signin_Error);
@@ -112,7 +112,7 @@ export default class SignInScreen extends Component {
   signIn() {
     const result = this.validationRegex();
     this.resetInputError();
-    if (result === true) {
+    if (result) {
       const userString = `{
           "phone": "${this.state.username}",
           "password": "${this.state.password}",
@@ -227,7 +227,7 @@ export default class SignInScreen extends Component {
           rounded
           onPress={this.signIn}
         >
-          <Text>Enregistrer</Text>
+          <Text>{AppString.signInPageName}</Text>
         </Button>
       </ScrollView>
     );

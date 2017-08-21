@@ -49,7 +49,6 @@ export default class WebServices {
       });
       const status = response.status;
       if (status === 200) {
-        response.json();
         return true;
       }
       return false;
@@ -65,7 +64,7 @@ export default class WebServices {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(value),
+        body: value,
       });
       const status = response.status;
       const responseJSON = await response.json();
