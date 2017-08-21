@@ -1,30 +1,65 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
-  ScrollView,
   Text,
-  Image,
   TouchableOpacity,
 } from 'react-native';
 
-import { Container, Header, Content, Button, Icon, Grid, Col } from 'native-base';
+import { Container, Content, Icon, Grid, Col } from 'native-base';
 import { styles } from '../style';
-import Menu from '../components/Menu';
-
-import { CONTACTLIST_SCENE_NAME } from './ContactListScreen';
+import HeaderBar from '../components/HeaderBar';
+// import { CONTACTLIST_SCENE_NAME } from './ContactListScreen';
 import AppString from '../strings';
 
 export const HOME_SCENE_NAME = 'HOME_SCENE';
 
+/* const styles = StyleSheet.create({
+  button: {
+    position: 'absolute',
+    top: 20,
+    padding: 10,
+  },
+  caption: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    alignItems: 'center',
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
+}); */
 
-const image = require('../../assets/annuaire.jpg');
 
 export default class HomeScreen extends Component {
-  /* constructor(props) {
+  static navigationOptions = {
+    drawerLabel: AppString.homePageName,
+  };
+
+  constructor(props) {
     super(props);
-  } */
+
+    this.state = {
+      isOpen: false,
+    };
+  }
+
   render() {
+    const navigation = this.props.navigation;
     return (
       <Container>
+        <HeaderBar navigation={navigation} title={AppString.homePageName} />
         <Content>
           <Grid>
             <Col>
@@ -75,6 +110,11 @@ export default class HomeScreen extends Component {
 
         </Content>
       </Container>
+
     );
   }
 }
+
+HomeScreen.propTypes = {
+  navigation: PropTypes.any.isRequired,
+};

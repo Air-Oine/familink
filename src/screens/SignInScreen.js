@@ -1,14 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
   ScrollView,
+  View,
 } from 'react-native';
+
+import HeaderBar from '../components/HeaderBar';
+import AppString from '../strings';
 
 export const SIGNIN_SCENE_NAME = 'SIGNIN_SCENE';
 
 
 export default class SignInScreen extends Component {
   static navigationOptions = {
-    title: 'Home',
+    title: AppString.signInPageName,
   };
 
   /* constructor(props) {
@@ -16,8 +20,16 @@ export default class SignInScreen extends Component {
   } */
 
   render() {
+    const navigation = this.props.navigation;
     return (
-      <ScrollView />
+      <View>
+        <HeaderBar navigation={navigation} title={AppString.signInPageName} />
+        <ScrollView />
+      </View>
     );
   }
 }
+
+SignInScreen.propTypes = {
+  navigation: PropTypes.any.isRequired,
+};

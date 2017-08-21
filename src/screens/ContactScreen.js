@@ -1,14 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
   ScrollView,
+  View,
 } from 'react-native';
+
+import HeaderBar from '../components/HeaderBar';
+import AppString from '../strings';
 
 export const CONTACT_SCENE_NAME = 'CONTACT_SCENE';
 
-
-export default class ConstactScreen extends Component {
+export default class ContactScreen extends Component {
   static navigationOptions = {
-    title: 'Contact',
+    title: AppString.contactPageName,
   };
 
   /* constructor(props) {
@@ -16,8 +19,16 @@ export default class ConstactScreen extends Component {
   } */
 
   render() {
+    const navigation = this.props.navigation;
     return (
-      <ScrollView />
+      <View>
+        <HeaderBar navigation={navigation} title={AppString.contactPageName} />
+        <ScrollView />
+      </View>
     );
   }
 }
+
+ContactScreen.propTypes = {
+  navigation: PropTypes.any.isRequired,
+};

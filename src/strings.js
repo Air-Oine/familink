@@ -14,21 +14,36 @@ I18n.translations = {
     homescreenProfil: 'Profil',
     homescreenQuitter: 'Se déconnecter',
 
+
+    loginPageName: 'Connexion',
+    homePageName: 'Accueil',
+    signInPageName: 'S\'identifier',
+    forgottenPasswordPageName: 'Mot de passe oublié',
+    contactPageName: 'Contact',
+    contactListPageName: 'Contacts',
   },
 };
 
 const AppString = {
   test: I18n.t('test'),
+  // Home
   homescreenAnnuaire: I18n.t('homescreenAnnuaire'),
   homescreenHumeur: I18n.t('homescreenHumeur'),
   homescreenConfig: I18n.t('homescreenConfig'),
   homescreenProfil: I18n.t('homescreenProfil'),
   homescreenQuitter: I18n.t('homescreenQuitter'),
+  // PageName
+  loginPageName: I18n.t('loginPageName'),
+  homePageName: I18n.t('homePageName'),
+  signInPageName: I18n.t('signInPageName'),
+  forgottenPasswordPageName: I18n.t('forgottenPasswordPageName'),
+  contactPageName: I18n.t('contactPageName'),
+  contactListPageName: I18n.t('contactListPageName'),
 };
-console.log(AppString);
+
 /**
  * Usage :
- * import strings from './strings';
- * {strings.translatableText}
+ * import AppString from './strings';
+ * {AppString.translatableText}
  */
 export default AppString;
