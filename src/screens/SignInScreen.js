@@ -1,10 +1,12 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { ScrollView } from 'react-native';
 import { Form, Input, Label, Picker, Item, Button, Text } from 'native-base';
 import AppString from '../strings';
 import { styles } from '../style';
 
-import HeaderBar from '../components/HeaderBar';
+import WebServices from '../webServices/WebServices';
+import Helper from '../helpers/Helper';
+import { LOGIN_SCENE_NAME } from './LoginScreen';
 
 export const SIGNIN_SCENE_NAME = 'SIGNIN_SCENE';
 export default class SignInScreen extends Component {
@@ -14,78 +16,194 @@ export default class SignInScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.getProfile();
+    this.getProfil();
     this.state = {
-      selected: 0,
-      data: [],
+      selectedProfil: 0,
+      profil: [],
+      username: '',
+      password: '',
+      passwordConfirm: '',
+      lastname: '',
+      firstname: '',
+      email: '',
+      usernameInputError: false,
+      passwordInputError: false,
+      passwordConfirmInputError: false,
+      emailInputError: false,
     };
     this.onValueChange = this.onValueChange.bind(this);
+    this.validationRegex = this.validationRegex.bind(this);
+    this.signIn = this.signIn.bind(this);
   }
   onValueChange(value) {
     this.setState({
-      selected: value,
+      selectedProfil: value,
     });
   }
-
   setProfil() {
-    const profile = [];
-    if (this.state.data != null) {
+    const profilItems = [];
+    if (this.state.profil != null) {
       let key = 0;
-      this.state.data.forEach(((element) => {
-        profile.push(<Item label={element} value={key} key={key} />);
+      this.state.profil.forEach(((element) => {
+        profilItems.push(<Item label={element} value={key} key={key} />);
         key += 1;
       }));
-      return profile;
+      return profilItems;
     }
     return null;
   }
-  async getProfile() {
+  async getProfil() {
     try {
-      const response = await fetch('https://familink.cleverapps.io/public/profiles');
-      const responseJSON = await response.json();
+      const response = await WebServices.getProfil();
       this.setState({
-        data: responseJSON,
+        profil: response,
       });
+      return true;
     } catch (error) {
-      console.error(error);
+      return error;
     }
   }
-  signIt(){
+  goToLogin() {
+    const navigation = this.props.navigation;
+    navigation.navigate(LOGIN_SCENE_NAME);
+  }
+  validationRegex() {
+    if (!Helper.isValidPhoneNumber(this.state.username)) {
+      return -1;
+    }
+    if (!Helper.isValidPassword(this.state.password)) {
+      return -2;
+    }
+    if (!Helper.isValidPassword(this.state.passwordConfirm)) {
+      return -3;
+    }
+    if (this.state.password !== this.state.passwordConfirm) {
+      return -4;
+    }
+    if (!Helper.isValidEmail(this.state.email)) {
+      return -5;
+    }
+    return true;
+  }
 
+  resetInputError() {
+    this.setState({
+      usernameInputError: false,
+      passwordInputError: false,
+      passwordConfirmInputError: false,
+      emailInputError: false,
+    });
+  }
+  signIn() {
+    const result = this.validationRegex();
+    this.resetInputError();
+    if (result === true) {
+      const userString = `{
+          "phone": "${this.state.username}",
+          "password": "${this.state.password}",
+          "firstName": "${this.state.firstname}",
+          "lastName": "${this.state.lastname}",
+          "email": "${this.state.email}",
+          "profile": "${this.state.profil[this.state.selectedProfil]}"
+        }`;
+      if (WebServices.createUser(userString) === true) {
+        this.goToLogin();
+      }
+    } else {
+      if (result === -1) {
+        this.setState({
+          usernameInputError: true,
+        });
+      }
+      if (result === -2) {
+        this.setState({
+          passwordInputError: true,
+        });
+      }
+      if (result === -3) {
+        this.setState({
+          passwordConfirmInputError: true,
+        });
+      }
+      if (result === -4) {
+        this.setState({
+          passwordInputError: true,
+          passwordConfirmInputError: true,
+        });
+      }
+      if (result === -5) {
+        this.setState({
+          emailInputError: true,
+        });
+      }
+    }
   }
   render() {
     const profile = this.setProfil();
     return (
       <ScrollView style={styles.form}>
         <Form>
-          <Item floatingLabel>
+          <Item
+            floatingLabel
+            error={this.state.usernameInputError === true}
+          >
             <Label>{AppString.signIn_User}</Label>
-            <Input maxLength={10} keyboardType="numeric" />
+            <Input
+              maxLength={10}
+              keyboardType="numeric"
+              onChangeText={text => this.setState({ username: text })}
+            />
           </Item>
-          <Item floatingLabel>
+          <Item
+            floatingLabel
+            error={this.state.passwordInputError === true}
+          >
             <Label>{AppString.signIn_Pwd}</Label>
-            <Input secureTextEntry />
+            <Input
+              secureTextEntry
+              maxLength={4}
+              keyboardType="numeric"
+              onChangeText={text => this.setState({ password: text })}
+            />
           </Item>
-          <Item floatingLabel>
+          <Item
+            floatingLabel
+            error={this.state.passwordConfirmInputError === true}
+          >
             <Label>{AppString.signIn_PwdConfirm}</Label>
-            <Input secureTextEntry />
+            <Input
+              secureTextEntry
+              maxLength={4}
+              keyboardType="numeric"
+              onChangeText={text => this.setState({ passwordConfirm: text })}
+            />
           </Item>
           <Item floatingLabel>
             <Label>{AppString.signIn_LastName}</Label>
-            <Input />
+            <Input
+              onChangeText={text => this.setState({ lastname: text })}
+            />
           </Item>
           <Item floatingLabel>
             <Label>{AppString.signIn_FirstName}</Label>
-            <Input />
+            <Input
+              onChangeText={text => this.setState({ firstname: text })}
+            />
           </Item>
-          <Item floatingLabel >
+          <Item
+            floatingLabel
+            error={this.state.emailInputError === true}
+          >
             <Label>{AppString.signIn_Email}</Label>
-            <Input />
+            <Input
+              keyboardType="email-address"
+              onChangeText={text => this.setState({ email: text })}
+            />
           </Item>
           <Picker
             iosHeader="Profil"
             mode="dropdown"
-            selectedValue={this.state.selected}
+            selectedValue={this.state.selectedProfil}
             onValueChange={val => this.onValueChange(val)}
           >
             {profile}
@@ -94,7 +212,7 @@ export default class SignInScreen extends Component {
         <Button
           style={styles.defaultButtonAtBottom}
           rounded
-          onPress={this.signIt}
+          onPress={this.signIn}
         >
           <Text>Enregistrer</Text>
         </Button>
@@ -102,7 +220,3 @@ export default class SignInScreen extends Component {
     );
   }
 }
-
-SignInScreen.propTypes = {
-  navigation: PropTypes.any.isRequired,
-};
