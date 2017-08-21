@@ -20,10 +20,10 @@ I18n.translations = {
     signIn_LastName: 'Nom',
     signIn_FirstName: 'Prénom',
     signIn_Email: 'Email',
-
+    signIn_Error: 'Erreur lors de la création du compte',
     loginPageName: 'Connexion',
     homePageName: 'Accueil',
-    signInPageName: 'S\'identifier',
+    signInPageName: 'S\'enregistrer',
     forgottenPasswordPageName: 'Mot de passe oublié',
     contactPageName: 'Contact',
     contactListPageName: 'Contacts',
@@ -39,6 +39,7 @@ const AppString = {
   signIn_LastName: I18n.t('signIn_LastName'),
   signIn_FirstName: I18n.t('signIn_FirstName'),
   signIn_Email: I18n.t('signIn_Email'),
+  signin_Error: I18n.t('signIn_Error'),
   // Home
   homescreenAnnuaire: I18n.t('homescreenAnnuaire'),
   homescreenHumeur: I18n.t('homescreenHumeur'),
