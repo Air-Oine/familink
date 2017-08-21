@@ -61,4 +61,7 @@ export const styles = StyleSheet.create({
     fontSize: defaultfontSize,
     color: complementaryColor,
   },
+  flex1: {
+    flex: 1,
+  },
 });
