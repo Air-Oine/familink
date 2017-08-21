@@ -12,6 +12,7 @@ import WebServices from '../webServices/WebServices';
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
 import { styles } from '../style';
+import Tools from '../Tools';
 
 import { HOME_SCENE_NAME } from './HomeScreen';
 
@@ -52,10 +53,13 @@ export default class LoginScreen extends Component {
     }`;
     try {
       const response = await WebServices.login(userString);
+      console.log('response : ', response);
       if (response === false) {
-        // Toast error
+        console.log('JE SUIS LA');
+        Tools.toastWarning(AppString.loginError);
         return;
       }
+      console.log('MOI AUSSI');
       this.goHome();
     } catch (error) {
       // return error;

@@ -36,6 +36,7 @@ I18n.translations = {
     loginOK: 'OK',
     loginSignup: 'S\'inscrire',
     loginForgotPassword: 'Mot de pass oublié ?',
+    loginError: 'Erreur de connexion',
   },
 };
 
@@ -68,6 +69,7 @@ const AppString = {
   loginOK: I18n.t('loginOK'),
   loginSignup: I18n.t('loginSignup'),
   loginForgotPassword: I18n.t('loginForgotPassword'),
+  loginError: I18n.t('loginError'),
 };
 
 /**
