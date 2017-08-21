@@ -5,17 +5,25 @@ import {
   Text,
   StyleSheet,
 } from 'react-native';
-import { Form, Item, Label, Input, Button } from 'native-base';
 
+import { Form, Item, Label, Input, Button, Right, Radio } from 'native-base';
+
+import WebServices from '../webServices/WebServices';
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
 import { styles } from '../style';
+
+import { HOME_SCENE_NAME } from './HomeScreen';
 
 export const LOGIN_SCENE_NAME = 'LOGIN_SCENE';
 
 const loginStyle = StyleSheet.create({
   align: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  textright: {
+    alignSelf: 'flex-end',
   },
 });
 
@@ -24,9 +32,46 @@ export default class LoginScreen extends Component {
     drawerLabel: AppString.loginPageName,
   };
 
-  /* constructor(props) {
+  constructor(props) {
     super(props);
-  } */
+    this.state = {
+      user: '',
+      password: '',
+      rememberMeStatus: true,
+    };
+
+    this.login = this.login.bind(this);
+    this.pressedRemember = this.pressedRemember.bind(this);
+    this.goHome = this.goHome.bind(this);
+  }
+
+  async login() {
+    const userString = `{
+      "phone": "${this.state.user}",
+      "password": "${this.state.password}"
+    }`;
+    try {
+      const response = await WebServices.login(userString);
+      if (response === false) {
+        // Toast error
+        return;
+      }
+      this.goHome();
+    } catch (error) {
+      // return error;
+    }
+  }
+
+  pressedRemember() {
+    this.setState({
+      rememberMeStatus: !this.state.rememberMeStatus,
+    });
+  }
+
+  goHome() {
+    const navigation = this.props.navigation;
+    navigation.navigate(HOME_SCENE_NAME);
+  }
 
   render() {
     const navigation = this.props.navigation;
@@ -36,24 +81,43 @@ export default class LoginScreen extends Component {
         <ScrollView>
           <Form>
             <Item floatingLabel>
-              <Label> Login </Label>
-              <Input maxLength={10} keyboardType="numeric" />
+              <Label> {AppString.loginUser} </Label>
+              <Input
+                maxLength={10}
+                keyboardType="numeric"
+                onChangeText={text => this.setState({ user: text })}
+              />
+            </Item>
+            <Item>
+              <Label> {AppString.loginRememberMe}</Label>
+              <Right>
+                <Radio onPress={this.pressedRemember} selected={this.state.rememberMeStatus} />
+              </Right>
             </Item>
             <Item floatingLabel>
-              <Label> Password </Label>
-              <Input secureTextEntry maxLength={4} keyboardType="numeric" />
+              <Label> {AppString.loginPassword} </Label>
+              <Input
+                secureTextEntry
+                maxLength={4}
+                keyboardType="numeric"
+                onChangeText={text => this.setState({ password: text })}
+              />
             </Item>
             <Button
               style={styles.defaultButtonAtBottom}
               rounded
               onPress={this.login}
             >
-              <Text>Enregistrer</Text>
+              <Text>{AppString.loginOK}</Text>
             </Button>
           </Form>
           <View style={loginStyle.align}>
-            <Text> Sign In </Text>
-            <Text> Forgot password ? </Text>
+            <Button>
+              <Text> {AppString.loginSignup}</Text>
+            </Button>
+            <Button style={loginStyle.textright}>
+              <Text> {AppString.loginForgotPassword} </Text>
+            </Button>
           </View>
         </ScrollView>
       </View>
