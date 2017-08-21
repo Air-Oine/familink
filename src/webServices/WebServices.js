@@ -37,6 +37,24 @@ export default class WebServices {
       return error;
     }
   }
+ 
+  static async getContacts(value) {
+    try {
+      const response = await fetch(`${uri}/secured/users/contacts`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${value}`,
+        },
+      });
+      if (response.status === 200) {
+        return response.json();
+      }
+      return false;
+    } catch (error) {
+      return (error);
+    }
+  }
 
   static async createUser(value) {
     try {
@@ -80,6 +98,7 @@ export default class WebServices {
     }
   }
 
+
   static async forgetPassWord(value) {
     try {
       const response = await fetch(`${uri}/public/login`, {
@@ -91,7 +110,7 @@ export default class WebServices {
       });
       const status = response.status;
       const responseJSON = await response.json();
-  //    Storage.setItem('userToken', JSON.stringify(responseJSON));
+      //    Storage.setItem('userToken', JSON.stringify(responseJSON));
       if (status === 200) {
         return true;
       }
@@ -100,6 +119,4 @@ export default class WebServices {
       return error;
     }
   }
-
-  
 }
