@@ -43,22 +43,9 @@ export default class HomeScreen extends Component {
   static navigationOptions = {
     drawerLabel: AppString.homePageName,
   };
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isOpen: false,
-    };
-  }
   /* constructor(props) {
     super(props);
   } */
-  toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen,
-    });
-  }
 
   render() {
     const navigation = this.props.navigation;
