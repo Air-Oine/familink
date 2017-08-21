@@ -8,13 +8,24 @@ I18n.translations = {
   },
   fr: {
     test: 'Bienvenue sur React Native!',
+    homescreenAnnuaire: 'Annuaire',
+    homescreenHumeur: 'Humeur',
+    homescreenConfig: 'Configuration',
+    homescreenProfil: 'Profil',
+    homescreenQuitter: 'Se déconnecter',
+
   },
 };
 
 const AppString = {
   test: I18n.t('test'),
+  homescreenAnnuaire: I18n.t('homescreenAnnuaire'),
+  homescreenHumeur: I18n.t('homescreenHumeur'),
+  homescreenConfig: I18n.t('homescreenConfig'),
+  homescreenProfil: I18n.t('homescreenProfil'),
+  homescreenQuitter: I18n.t('homescreenQuitter'),
 };
-console.log(AppString)
+console.log(AppString);
 /**
  * Usage :
  * import strings from './strings';
