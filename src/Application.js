@@ -1,4 +1,5 @@
 import React from 'react';
+import { Root } from 'native-base';
 import { applyMiddleware, createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { createLogger } from 'redux-logger';
@@ -26,9 +27,11 @@ const store = createStoreWithMiddleware(
 // class 'Application' written as a Pure Function :
 export default function Application() {
   return (
-    <Provider store={store}>
-      <NavigationContainer />
-    </Provider>
+    <Root>
+      <Provider store={store}>
+        <NavigationContainer />
+      </Provider>
+    </Root>
   );
 }
 
