@@ -18,10 +18,7 @@
 		"tcomb-form-native": "^0.6.9",
 		"react-native-circular-action-menu": "^0.4.0",
 		"react-native-vector-icons": "^4.3.0",
-		"react-native-i18n": "^2.0.4",
-		"react-native-i18n-complete": "^0.1.8",
 		"react-native-side-menu": "^1.0.2",
-		"react-navigation": "^1.0.0-beta.11",
 		"react-redux": "^5.0.6",
 		"redux": "^3.7.2",
 		"redux-logger": "^3.0.6",
@@ -42,7 +39,7 @@
 	},
 	"jest": {
 		"preset": "react-native",
-		"transformIgnorePatterns": [            
+		"transformIgnorePatterns": [
 			"<rootDir>/node_modules/(?!(jest-)?react-native|native-base|react-navigation|react-clone-referenced-element)"
 		],
 		"setupFiles": [
