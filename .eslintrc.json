@@ -25,6 +25,8 @@
             "react-native/no-unused-styles": "error",
             "react-native/no-inline-styles": "error",
             "react-native/no-color-literals": "error",
+            "react/forbid-prop-types": 0,
+            "linebreak-style": 0,
             "import/no-extraneous-dependencies": ["error",{"devDependencies": true}]
         }
     }

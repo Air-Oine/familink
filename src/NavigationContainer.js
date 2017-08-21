@@ -1,5 +1,5 @@
 import React from 'react';
-import { StackNavigator } from 'react-navigation';
+import { DrawerNavigator } from 'react-navigation';
 
 import HomeScreen, { HOME_SCENE_NAME } from './screens/HomeScreen';
 import LoginScreen, { LOGIN_SCENE_NAME } from './screens/LoginScreen';
@@ -34,8 +34,8 @@ stackNavigatorConfig[FORGOTTENPWD_SCENE_NAME] = {
   screen: ForgottenPwdScreen,
 };
 
-const ApplicationNavigator = StackNavigator(stackNavigatorConfig, {
-  initialRouteName: SIGNIN_SCENE_NAME,
+const ApplicationNavigator = DrawerNavigator(stackNavigatorConfig, {
+  initialRouteName: HOME_SCENE_NAME,
 });
 
 

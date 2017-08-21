@@ -14,6 +14,13 @@ I18n.translations = {
     signIn_LastName: 'Nom',
     signIn_FirstName: 'Prénom',
     signIn_Email: 'Email',
+
+    loginPageName: 'Connexion',
+    homePageName: 'Accueil',
+    signInPageName: 'S\'identifier',
+    forgottenPasswordPageName: 'Mot de passe oublié',
+    contactPageName: 'Contact',
+    contactListPageName: 'Contacts',
   },
 };
 
@@ -29,5 +36,18 @@ const AppString = {
  * Usage :
  * import AppString from './strings';
  * strings.translatableText
+  test: I18n.t('test'),
+  loginPageName: I18n.t('loginPageName'),
+  homePageName: I18n.t('homePageName'),
+  signInPageName: I18n.t('signInPageName'),
+  forgottenPasswordPageName: I18n.t('forgottenPasswordPageName'),
+  contactPageName: I18n.t('contactPageName'),
+  contactListPageName: I18n.t('contactListPageName'),
+};
+
+/**
+ * Usage :
+ * import AppString from './strings';
+ * {AppString.translatableText}
  */
 export default AppString;

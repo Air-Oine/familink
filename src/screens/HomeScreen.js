@@ -1,47 +1,68 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
-  ScrollView,
-  Text,
+  View,
 } from 'react-native';
-import Menu from '../components/Menu';
+import { Text } from 'native-base';
+
+import HeaderBar from '../components/HeaderBar';
+import AppString from '../strings';
 
 export const HOME_SCENE_NAME = 'HOME_SCENE';
 
+/* const styles = StyleSheet.create({
+  button: {
+    position: 'absolute',
+    top: 20,
+    padding: 10,
+  },
+  caption: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    alignItems: 'center',
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
+}); */
 
-const image = require('../../assets/menu.png');
 
 export default class HomeScreen extends Component {
-  
-  
   static navigationOptions = {
-    title: 'Home',
+    drawerLabel: AppString.homePageName,
   };
+
   constructor(props) {
     super(props);
-
-    this.toggle = this.toggle.bind(this);
 
     this.state = {
       isOpen: false,
     };
   }
-  /* constructor(props) {
-    super(props);
-  } */
-  
-  toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen,
-    });
-  }
 
   render() {
+    const navigation = this.props.navigation;
     return (
-      <ScrollView>
-        <Text>
-          ceci est la page home
-        </Text>
-      </ScrollView>
+      <View>
+        <HeaderBar navigation={navigation} title={AppString.homePageName} />
+        <Text>ceci est la page home </Text>
+      </View>
     );
   }
 }
+
+HomeScreen.propTypes = {
+  navigation: PropTypes.any.isRequired,
+};

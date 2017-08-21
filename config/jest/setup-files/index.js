@@ -29,6 +29,16 @@ jest.mock('ScrollView', () => {
   return ScrollView;
 });
 
+// See https://github.com/AlexanderZaytsev/react-native-i18n/issues/99
+const I18nMock = jest.mock('react-native-i18n', () => {
+  return {
+    t: jest.fn(translation => translation), // you may have to change this function
+    currentLocale: jest.fn(() => 'en'), // I added this line
+  };
+});
+
+global.I18n = I18nMock;
+
 /**
  * Mocking the global.fetch included in React Native
  */

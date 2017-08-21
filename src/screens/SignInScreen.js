@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { ScrollView } from 'react-native';
 import { Form, Input, Label, Picker, Item, Button, Text } from 'native-base';
 import AppString from '../strings';
 import { styles } from '../style';
 
+import HeaderBar from '../components/HeaderBar';
+
 export const SIGNIN_SCENE_NAME = 'SIGNIN_SCENE';
 export default class SignInScreen extends Component {
   static navigationOptions = {
-    title: 'SignIn',
+    title: AppString.signInPageName,
   };
 
   constructor(props) {
@@ -100,3 +102,7 @@ export default class SignInScreen extends Component {
     );
   }
 }
+
+SignInScreen.propTypes = {
+  navigation: PropTypes.any.isRequired,
+};

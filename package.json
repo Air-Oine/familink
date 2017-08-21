@@ -8,15 +8,25 @@
 		"lint": "eslint ./src ./index.*.js --ext .js"
 	},
 	"dependencies": {
+		"expo": "^19.0.1",
 		"native-base": "^2.3.1",
 		"prop-types": "^15.5.10",
 		"react": "16.0.0-alpha.12",
-		"react-i18next": "^4.8.0",
 		"react-native": "0.47.1",
 		"react-native-i18n": "^2.0.4",
 		"react-native-i18n-complete": "^0.1.8",
 		"react-navigation": "^1.0.0-beta.11",
 		"tcomb-form-native": "^0.6.9"
+		"react-native-circular-action-menu": "^0.4.0",
+		"react-native-vector-icons": "^4.3.0",
+		"react-native-i18n": "^2.0.4",
+		"react-native-i18n-complete": "^0.1.8",
+		"react-native-side-menu": "^1.0.2",
+		"react-navigation": "^1.0.0-beta.11",
+		"react-redux": "^5.0.6",
+		"redux": "^3.7.2",
+		"redux-logger": "^3.0.6",
+		"redux-thunk": "^2.2.0"
 	},
 	"devDependencies": {
 		"babel-eslint": "^7.2.3",
@@ -33,8 +43,8 @@
 	},
 	"jest": {
 		"preset": "react-native",
-		"transformIgnorePatterns": [
-			"<rootDir>/node_modules/(?!(jest-)?react-native|react-navigation|react-clone-referenced-element)"
+		"transformIgnorePatterns": [            
+			"<rootDir>/node_modules/(?!(jest-)?react-native|native-base|react-navigation|react-clone-referenced-element)"
 		],
 		"setupFiles": [
 			"<rootDir>/node_modules/react-native/jest/setup.js",
