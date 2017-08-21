@@ -73,10 +73,10 @@ export default class SignInScreen extends Component {
       } else {
         Tools.toastWarning(AppString.signin_Error);
       }
-      return true;
     } catch (error) {
-      return error;
+      Tools.toastWarning(AppString.signin_Error);
     }
+    return false;
   }
   goToLogin() {
     const navigation = this.props.navigation;
