@@ -7,40 +7,10 @@ import {
 import { Container, Content, Icon, Grid, Col } from 'native-base';
 import { styles } from '../style';
 import HeaderBar from '../components/HeaderBar';
-// import { CONTACTLIST_SCENE_NAME } from './ContactListScreen';
+import { CONTACTLIST_SCENE_NAME } from './ContactListScreen';
 import AppString from '../strings';
 
 export const HOME_SCENE_NAME = 'HOME_SCENE';
-
-/* const styles = StyleSheet.create({
-  button: {
-    position: 'absolute',
-    top: 20,
-    padding: 10,
-  },
-  caption: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    alignItems: 'center',
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-}); */
-
 
 export default class HomeScreen extends Component {
   static navigationOptions = {
@@ -63,7 +33,7 @@ export default class HomeScreen extends Component {
         <Content>
           <Grid>
             <Col>
-              <TouchableOpacity onPress={this.navigateToContactList}>
+              <TouchableOpacity onPress={() => { navigation.navigate(CONTACTLIST_SCENE_NAME); }} >
                 <Icon name="book" style={styles.icon} />
                 <Text style={styles.MenuText}>
                   {AppString.homescreenAnnuaire}

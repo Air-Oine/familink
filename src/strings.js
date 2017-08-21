@@ -21,6 +21,7 @@ I18n.translations = {
     forgottenPasswordPageName: 'Mot de passe oublié',
     contactPageName: 'Contact',
     contactListPageName: 'Contacts',
+    profilePageName: 'Profil',
   },
 };
 
@@ -39,6 +40,7 @@ const AppString = {
   forgottenPasswordPageName: I18n.t('forgottenPasswordPageName'),
   contactPageName: I18n.t('contactPageName'),
   contactListPageName: I18n.t('contactListPageName'),
+  profilePageName: I18n.t('profilePageName'),
 };
 
 /**
