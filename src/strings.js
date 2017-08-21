@@ -14,6 +14,12 @@ I18n.translations = {
     homescreenProfil: 'Profil',
     homescreenQuitter: 'Se déconnecter',
 
+    signIn_User: 'Utilisateur',
+    signIn_Pwd: 'Mot de passe',
+    signIn_PwdConfirm: 'Confirmer mot de passe',
+    signIn_LastName: 'Nom',
+    signIn_FirstName: 'Prénom',
+    signIn_Email: 'Email',
 
     loginPageName: 'Connexion',
     homePageName: 'Accueil',
@@ -26,7 +32,13 @@ I18n.translations = {
 };
 
 const AppString = {
-  test: I18n.t('test'),
+  // Page signin
+  signIn_User: I18n.t('signIn_User'),
+  signIn_Pwd: I18n.t('signIn_Pwd'),
+  signIn_PwdConfirm: I18n.t('signIn_PwdConfirm'),
+  signIn_LastName: I18n.t('signIn_LastName'),
+  signIn_FirstName: I18n.t('signIn_FirstName'),
+  signIn_Email: I18n.t('signIn_Email'),
   // Home
   homescreenAnnuaire: I18n.t('homescreenAnnuaire'),
   homescreenHumeur: I18n.t('homescreenHumeur'),

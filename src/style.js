@@ -7,14 +7,17 @@ export const complementaryColor = '#519331';
 export const errorColor = '#F90606';
 export const textColor = secondaryColor;
 export const sizeIcon = 135;
-
+const defaultPadding = 20;
+const defaultfontSize = 20;
+const defaultHeightButton = 36;
+const defaultBorderRaduis = 15;
 
 export const buttonColor = primaryColor;
 
 export const styles = StyleSheet.create({
   text: {
     color: textColor,
-    fontSize: 20,
+    fontSize: defaultfontSize,
   },
   icon: {
     fontSize: sizeIcon,
@@ -38,5 +41,24 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: primaryColor,
   },
+  form: {
+    paddingLeft: defaultPadding,
+    paddingRight: defaultPadding,
+  },
+  defaultButtonAtBottom: {
+    height: defaultHeightButton,
+    backgroundColor: primaryColor,
+    borderWidth: 2,
+    borderColor: complementaryColor,
+    marginBottom: 20,
+    borderRadius: defaultBorderRaduis,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 
+  textTouchableHighlight: {
+    textAlign: 'center',
+    fontSize: defaultfontSize,
+    color: complementaryColor,
+  },
 });
