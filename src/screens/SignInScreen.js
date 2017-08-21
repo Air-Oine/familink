@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { ScrollView } from 'react-native';
 import { Form, Input, Label, Picker, Item, Button, Text } from 'native-base';
 import AppString from '../strings';
@@ -7,8 +7,10 @@ import { styles } from '../style';
 import WebServices from '../webServices/WebServices';
 import Helper from '../helpers/Helper';
 import { LOGIN_SCENE_NAME } from './LoginScreen';
+import Tools from '../Tools';
 
 export const SIGNIN_SCENE_NAME = 'SIGNIN_SCENE';
+
 export default class SignInScreen extends Component {
   static navigationOptions = {
     title: AppString.signInPageName,
@@ -63,6 +65,19 @@ export default class SignInScreen extends Component {
       return error;
     }
   }
+  async createUser(userString) {
+    try {
+      const value = await WebServices.createUser(userString);
+      if (value === true) {
+        this.goToLogin();
+      } else {
+        Tools.toastWarning(AppString.signin_Error);
+      }
+      return true;
+    } catch (error) {
+      return error;
+    }
+  }
   goToLogin() {
     const navigation = this.props.navigation;
     navigation.navigate(LOGIN_SCENE_NAME);
@@ -106,9 +121,7 @@ export default class SignInScreen extends Component {
           "email": "${this.state.email}",
           "profile": "${this.state.profil[this.state.selectedProfil]}"
         }`;
-      if (WebServices.createUser(userString) === true) {
-        this.goToLogin();
-      }
+      this.createUser(userString);
     } else {
       if (result === -1) {
         this.setState({
@@ -201,7 +214,7 @@ export default class SignInScreen extends Component {
             />
           </Item>
           <Picker
-            iosHeader="Profil"
+            iosHeader={AppString.profilePageName}
             mode="dropdown"
             selectedValue={this.state.selectedProfil}
             onValueChange={val => this.onValueChange(val)}
@@ -220,3 +233,7 @@ export default class SignInScreen extends Component {
     );
   }
 }
+
+SignInScreen.propTypes = {
+  navigation: PropTypes.any.isRequired,
+};

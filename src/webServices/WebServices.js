@@ -48,9 +48,8 @@ export default class WebServices {
         body: value,
       });
       const status = response.status;
-      const responseJSON = await response.json();
-      Storage.setItem('userProfil', JSON.stringify(responseJSON));
       if (status === 200) {
+        response.json();
         return true;
       }
       return false;
