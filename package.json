@@ -39,7 +39,7 @@
 	},
 	"jest": {
 		"preset": "react-native",
-		"transformIgnorePatterns": [            
+		"transformIgnorePatterns": [
 			"<rootDir>/node_modules/(?!(jest-)?react-native|native-base|react-navigation|react-clone-referenced-element)"
 		],
 		"setupFiles": [
