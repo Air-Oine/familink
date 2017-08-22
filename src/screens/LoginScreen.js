@@ -1,11 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import {
-  ScrollView,
-  View,
-  Text,
-  StyleSheet,
-} from 'react-native';
-
+import { ScrollView, View, Text, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 import { Form, Item, Label, Input, Button, Right, Radio } from 'native-base';
 
 import WebServices from '../webServices/WebServices';
@@ -14,6 +9,7 @@ import AppString from '../strings';
 import { styles } from '../style';
 import Tools from '../Tools';
 import Storage from '../asyncStorage';
+import { addToken } from '../actions/familink.actions';
 
 import { HOME_SCENE_NAME } from './HomeScreen';
 
@@ -29,7 +25,7 @@ const loginStyle = StyleSheet.create({
   },
 });
 
-export default class LoginScreen extends Component {
+export class LoginScreen extends Component {
   static navigationOptions = {
     drawerLabel: AppString.loginPageName,
   };
@@ -57,13 +53,15 @@ export default class LoginScreen extends Component {
       const response = await WebServices.login(userString);
       if (response === false) {
         Tools.toastWarning(AppString.loginError);
+        console.log('TOAST');
         return;
       }
-      Storage.getItem('userToken').then(v => {
-        console.log('token : ', v);
-        const jsonToken = JSON.parse(v);
-        this.setState({token: jsonToken.token});
-      });
+      Storage.getItem('userToken')
+        .then((v) => {
+          const jsonToken = JSON.parse(v);
+          console.log('Token : ', jsonToken.token);
+          this.props.addTokenAction(jsonToken.token);
+        });
       this.goHome();
     } catch (error) {
       // return error;
@@ -137,3 +135,16 @@ LoginScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
 };
 
+function mapDispatchToProps(dispatch) {
+  return {
+    addTokenAction: token => dispatch(addToken(token)),
+  };
+}
+
+function mapStateToProps(state) {
+  return {
+    token: state.familinkReducer.userToken,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

@@ -8,8 +8,8 @@ export default function familinkReducer(state = initialState, action) {
   switch (action.type) {
     case ADD_TOKEN:
       return {
-        ...state,
-        userToken: state.userToken,
+        // ...state,
+        userToken: action.token,
       };
     default:
       return state;
