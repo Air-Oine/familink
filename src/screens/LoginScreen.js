@@ -161,10 +161,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-function mapStateToProps(state) {
-  return {
-    token: state.familinkReducer.userToken,
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+export default connect(undefined, mapDispatchToProps)(LoginScreen);
