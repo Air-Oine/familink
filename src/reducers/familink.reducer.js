@@ -3,6 +3,7 @@ import { ADD_ISCONNECTED, ADD_CONTACTLINK, ADD_TOKEN } from '../actions/familink
 export const initialState = {
   userIsConnected: false,
   contactLink: '',
+  userToken: '',
 };
 
 export default function familinkReducer(state = initialState, action) {
