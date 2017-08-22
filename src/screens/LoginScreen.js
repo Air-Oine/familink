@@ -62,14 +62,12 @@ export class LoginScreen extends Component {
       const response = await WebServices.login(userString);
       if (response === false) { // If login / password does not exist, Toast a warning :
         Tools.toastWarning(AppString.loginError);
-        console.log('TOAST');
         return;
       }
       // If login / pwd exist, we store the session token in the redux state :
       Storage.getItem('userToken')
         .then((v) => {
           const jsonToken = JSON.parse(v);
-          console.log('Token : ', jsonToken.token);
           this.props.addTokenAction(jsonToken.token);
         });
 
