@@ -69,7 +69,7 @@ export default class SignInScreen extends Component {
   async createUser(userString) {
     try {
       const value = await WebServices.createUser(userString);
-      if (value != null) {
+      if (value !== null) {
         this.goToLogin();
       }
     } catch (error) {
