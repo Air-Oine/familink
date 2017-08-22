@@ -36,7 +36,7 @@ let isConnected = false;
 export default class WebServices {
   static alert() {
     Tools.alert(AppString.alertTitleConnection, AppString.alertMessageConnection);
-  }// if status === 401 WebServies.alert();
+  }
 
   static toast() {
     Tools.toastWarning(NO_CONNECTION);
@@ -75,6 +75,10 @@ export default class WebServices {
 
   static async getContacts(value) {
     try {
+      if (!isConnected) {
+        WebServices.toast();
+        return null;
+      }
       const response = await fetch(`${uri}/secured/users/contacts`, {
         method: 'GET',
         headers: {
@@ -82,12 +86,15 @@ export default class WebServices {
           Authorization: `Bearer ${value}`,
         },
       });
+      if (response.status === 401) {
+        return response.status;
+      }
       if (response.status === 200) {
         return response.json();
       }
       return false;
     } catch (error) {
-      return (error);
+      throw ERROR_REQUEST;
     }
   }
 
