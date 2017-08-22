@@ -15,12 +15,31 @@ import Tools from '../Tools';
 
 const lodash = require('lodash');
 
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA2MDAwMDAwMDIiLCJpYXQiOjE1MDM0MDg1OTYsImV4cCI6MTUwMzQwOTQ5Nn0.MknBjZz_67uJVWB7Eq6JK76Dn0cpE-CZdbrW5hixArs';
+
 export const CONTACT_SCENE_NAME = 'CONTACT_SCENE';
 
 export default class ContactScreen extends Component {
   static navigationOptions = {
     title: AppString.contactPageName,
   };
+
+  /**
+   * Call WS for saving contact
+   * Show toast if success
+   */
+  static async saveContact(contact) {
+    try {
+      const result = await WebServices.createContact(contact, token);
+      if (result) {
+        Tools.toastSuccess(AppString.addContactToastSuccess);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      return (error);
+    }
+  }
 
   constructor(props) {
     super(props);
@@ -68,17 +87,15 @@ export default class ContactScreen extends Component {
   save() {
     // Form is valid
     if (this.validationForm()) {
-      /* const userString = `{
-          "phone": "${this.state.username}",
-          "password": "${this.state.password}",
+      const contact = `{
+          "lastName": "${this.state.lastName}",
           "firstName": "${this.state.firstname}",
-          "lastName": "${this.state.lastname}",
+          "gravatar": "${this.state.avatarUrl}",
           "email": "${this.state.email}",
-          "profile": "${this.state.profil[this.state.selectedProfil]}"
+          "phone": "${this.state.tel}"
         }`;
-      this.createUser(userString); */
 
-      Tools.toastSuccess(AppString.addContactToastSuccess);
+      ContactScreen.saveContact(contact, this.token);
     }
   }
 

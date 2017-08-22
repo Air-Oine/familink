@@ -59,6 +59,28 @@ export default class WebServices {
     }
   }
 
+  static async createContact(value, token) {
+    try {
+      const response = await fetch(`${uri}/secured/users/contacts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: value,
+      });
+      console.log(value);
+      const status = response.status;
+      console.log(status);
+      if (status === 200) {
+        return true;
+      }
+      return false;
+    } catch (error) {
+      return error;
+    }
+  }
+
   static async login(value) {
     try {
       const response = await fetch(`${uri}/public/login`, {
