@@ -37,7 +37,7 @@ export default class WebServices {
       return error;
     }
   }
- 
+
   static async getContacts(value) {
     try {
       const response = await fetch(`${uri}/secured/users/contacts`, {

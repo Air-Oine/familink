@@ -28,6 +28,15 @@ I18n.translations = {
     contactPageName: 'Contact',
     contactListPageName: 'Contacts',
     profilePageName: 'Profil',
+
+    // Page Login
+    loginUser: 'Login',
+    loginRememberMe: 'Souvenez-vous de moi',
+    loginPassword: 'Mot de passe',
+    loginOK: 'OK',
+    loginSignup: 'S\'inscrire',
+    loginForgotPassword: 'Mot de pass oublié ?',
+    loginError: 'Erreur de connexion',
   },
 };
 
@@ -54,6 +63,14 @@ const AppString = {
   contactPageName: I18n.t('contactPageName'),
   contactListPageName: I18n.t('contactListPageName'),
   profilePageName: I18n.t('profilePageName'),
+  // Page Login
+  loginUser: I18n.t('loginUser'),
+  loginRememberMe: I18n.t('loginRememberMe'),
+  loginPassword: I18n.t('loginPassword'),
+  loginOK: I18n.t('loginOK'),
+  loginSignup: I18n.t('loginSignup'),
+  loginForgotPassword: I18n.t('loginForgotPassword'),
+  loginError: I18n.t('loginError'),
 };
 
 /**
