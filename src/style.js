@@ -63,6 +63,7 @@ export const styles = StyleSheet.create({
   },
   defaultButtonAtBottom: {
     height: defaultHeightButton,
+    width: '100%',
     backgroundColor: primaryColor,
     borderWidth: 2,
     borderColor: complementaryColor,
