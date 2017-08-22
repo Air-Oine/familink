@@ -13,28 +13,46 @@ const uri = 'https://familink.cleverapps.io';
 // Ou faire le traitement à la place du this.setState()
 
 //  Exemple de value pour createUser()
-//  {
-//           phone: '1234567893',
-//           password: '1234',
-//           firstName: 'Erggon',
-//           lastName: 'Le Conquérant',
-//           email: 'ErggonDu44.LeConquerant@aol.fr',
-//           profile: 'SENIOR',
-//  }
+//  const userString = `{
+//   "phone": "${this.state.username}",
+//   "password": "${this.state.password}",
+//   "firstName": "${this.state.firstname}",
+//   "lastName": "${this.state.lastname}",
+//   "email": "${this.state.email}",
+//   "profile": "${this.state.profil[this.state.selectedProfil]}"
+// }`;
 
 //   Exemple de value pour le login()
 //   {
-// phone: '1234567892',
-// password: '1234',
+// "phone": "1234567892",
+// "password": "1234",
 // }
 export default class WebServices {
-  static async getProfile() {
+  static async getProfil() {
     try {
       const response = await fetch(`${uri}/public/profiles`);
       const responseJSON = await response.json();
       return responseJSON;
     } catch (error) {
       return error;
+    }
+  }
+
+  static async getContacts(value) {
+    try {
+      const response = await fetch(`${uri}/secured/users/contacts`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${value}`,
+        },
+      });
+      if (response.status === 200) {
+        return response.json();
+      }
+      return false;
+    } catch (error) {
+      return (error);
     }
   }
 
@@ -45,11 +63,9 @@ export default class WebServices {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(value),
+        body: value,
       });
       const status = response.status;
-      const responseJSON = await response.json();
-      Storage.setItem('userProfil', JSON.stringify(responseJSON));
       if (status === 200) {
         return true;
       }
@@ -80,6 +96,7 @@ export default class WebServices {
     }
   }
 
+
   static async forgetPassWord(value) {
     try {
       const response = await fetch(`${uri}/public/login`, {
@@ -90,8 +107,7 @@ export default class WebServices {
         body: JSON.stringify(value),
       });
       const status = response.status;
-      const responseJSON = await response.json();
-  //    Storage.setItem('userToken', JSON.stringify(responseJSON));
+      //    Storage.setItem('userToken', JSON.stringify(responseJSON));
       if (status === 200) {
         return true;
       }
@@ -100,6 +116,4 @@ export default class WebServices {
       return error;
     }
   }
-
-
 }
