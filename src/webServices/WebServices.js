@@ -1,6 +1,13 @@
+import { NetInfo } from 'react-native';
 import Storage from '../asyncStorage';
+import AppString from '../strings';
+import { LOGIN_SCENE_NAME } from '../screens/LoginScreen';
+import Tools from '../Tools';
 
 const uri = 'https://familink.cleverapps.io';
+
+const NO_CONNECTION = AppString.errorNoConnection;
+export const ERROR_REQUEST = AppString.errorRequest;
 
 // Pour appeler une méthode :
 //
@@ -28,18 +35,41 @@ const uri = 'https://familink.cleverapps.io';
 // "password": "1234",
 // }
 export default class WebServices {
+  static alert() {
+    Tools.alert('Login', 'Jeton de connexion expiré');
+  }// if status === 401 WebServies.alert();
+
+  static toast() {
+    Tools.toastWarning(NO_CONNECTION);
+  }
+  static checkConnection() {
+    NetInfo.isConnected.fetch().then((isConnected) => {
+      if (isConnected === true) {
+        return true;
+      }
+      return false;
+    });
+  }
   static async getProfil() {
     try {
+      if (WebServices.checkConnection() === false) {
+        WebServices.toast();
+        return null;
+      }
       const response = await fetch(`${uri}/public/profiles`);
       const responseJSON = await response.json();
       return responseJSON;
     } catch (error) {
-      return error;
+      throw ERROR_REQUEST;
     }
   }
 
   static async createUser(value) {
     try {
+      if (WebServices.checkConnection() === false) {
+        WebServices.toast();
+        return null;
+      }
       const response = await fetch(`${uri}/public/sign-in`, {
         method: 'POST',
         headers: {
@@ -53,12 +83,16 @@ export default class WebServices {
       }
       return false;
     } catch (error) {
-      return error;
+      throw ERROR_REQUEST;
     }
   }
 
   static async login(value) {
     try {
+      if (WebServices.checkConnection() === false) {
+        WebServices.toast();
+        return null;
+      }
       const response = await fetch(`${uri}/public/login`, {
         method: 'POST',
         headers: {
@@ -74,12 +108,16 @@ export default class WebServices {
       }
       return false;
     } catch (error) {
-      return error;
+      throw ERROR_REQUEST;
     }
   }
 
   static async forgetPassWord(value) {
     try {
+      if (WebServices.checkConnection() === false) {
+        WebServices.toast();
+        return null;
+      }
       const response = await fetch(`${uri}/public/login`, {
         method: 'POST',
         headers: {
@@ -95,7 +133,7 @@ export default class WebServices {
       }
       return false;
     } catch (error) {
-      return error;
+      throw ERROR_REQUEST;
     }
   }
 }

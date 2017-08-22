@@ -4,7 +4,7 @@ import { Form, Input, Label, Picker, Item, Button, Text } from 'native-base';
 import AppString from '../strings';
 import { styles } from '../style';
 
-import WebServices from '../webServices/WebServices';
+import WebServices, { ERROR_REQUEST } from '../webServices/WebServices';
 import Helper from '../helpers/Helper';
 import { LOGIN_SCENE_NAME } from './LoginScreen';
 import Tools from '../Tools';
@@ -36,6 +36,10 @@ export default class SignInScreen extends Component {
     this.onValueChange = this.onValueChange.bind(this);
     this.validationRegex = this.validationRegex.bind(this);
     this.signIn = this.signIn.bind(this);
+    this.setProfil = this.setProfil.bind(this);
+  }
+  componentWillMount() {
+    
   }
   onValueChange(value) {
     this.setState({
@@ -57,24 +61,23 @@ export default class SignInScreen extends Component {
   async getProfil() {
     try {
       const response = await WebServices.getProfil();
-      this.setState({
-        profil: response,
-      });
-      return true;
+      if (response != null) {
+        this.setState({
+          profil: response,
+        });
+      }
     } catch (error) {
-      return error;
+      Tools.toastWarning(ERROR_REQUEST);
     }
   }
   async createUser(userString) {
     try {
       const value = await WebServices.createUser(userString);
-      if (value) {
+      if (value != null) {
         this.goToLogin();
-      } else {
-        Tools.toastWarning(AppString.signin_Error);
       }
     } catch (error) {
-      Tools.toastWarning(AppString.signin_Error);
+      Tools.toastWarning(ERROR_REQUEST);
     }
     return false;
   }
@@ -112,7 +115,7 @@ export default class SignInScreen extends Component {
   signIn() {
     const result = this.validationRegex();
     this.resetInputError();
-    if (result) {
+    if (result === true) {
       const userString = `{
           "phone": "${this.state.username}",
           "password": "${this.state.password}",
@@ -225,7 +228,7 @@ export default class SignInScreen extends Component {
         <Button
           style={styles.defaultButtonAtBottom}
           rounded
-          onPress={this.signIn}
+          onPress={() => this.signIn()}
         >
           <Text>{AppString.signInPageName}</Text>
         </Button>

@@ -28,6 +28,9 @@ I18n.translations = {
     contactPageName: 'Contact',
     contactListPageName: 'Contacts',
     profilePageName: 'Profil',
+
+    errorNoConnection: 'Pas de connexion réseaux',
+    errorRequest: 'Erreur lors de la requête',
   },
 };
 
@@ -54,6 +57,9 @@ const AppString = {
   contactPageName: I18n.t('contactPageName'),
   contactListPageName: I18n.t('contactListPageName'),
   profilePageName: I18n.t('profilePageName'),
+  // Error
+  errorNoConnection: I18n.t('errorNoConnection'),
+  errorRequest: I18n.t('errorRequest'),
 };
 
 /**
