@@ -20,6 +20,7 @@ I18n.translations = {
     signIn_LastName: 'Nom',
     signIn_FirstName: 'Prénom',
     signIn_Email: 'Email',
+    signIn_Error: 'Erreur lors de la création du compte',
 
     addContactSave: 'Enregistrer',
     addContactLastName: 'Nom *',
@@ -31,11 +32,25 @@ I18n.translations = {
 
     loginPageName: 'Connexion',
     homePageName: 'Accueil',
-    signInPageName: 'S\'identifier',
+    signInPageName: 'S\'enregistrer',
     forgottenPasswordPageName: 'Mot de passe oublié',
     contactPageName: 'Contact',
     contactListPageName: 'Contacts',
     profilePageName: 'Profil',
+
+    errorNoConnection: 'Pas de connexion réseaux',
+    errorRequest: 'Erreur lors de la requête',
+    alertTitleConnection: 'Connexion',
+    alertMessageConnection: 'Jeton de connexion expiré',
+
+    // Page Login
+    loginUser: 'Login',
+    loginRememberMe: 'Souvenez-vous de moi',
+    loginPassword: 'Mot de passe',
+    loginOK: 'OK',
+    loginSignup: 'S\'inscrire',
+    loginForgotPassword: 'Mot de pass oublié ?',
+    loginError: 'Erreur de connexion',
   },
 };
 
@@ -47,6 +62,7 @@ const AppString = {
   signIn_LastName: I18n.t('signIn_LastName'),
   signIn_FirstName: I18n.t('signIn_FirstName'),
   signIn_Email: I18n.t('signIn_Email'),
+  signin_Error: I18n.t('signIn_Error'),
 
   // Home
   homescreenAnnuaire: I18n.t('homescreenAnnuaire'),
@@ -72,6 +88,23 @@ const AppString = {
   contactPageName: I18n.t('contactPageName'),
   contactListPageName: I18n.t('contactListPageName'),
   profilePageName: I18n.t('profilePageName'),
+
+  // Error
+  errorNoConnection: I18n.t('errorNoConnection'),
+  errorRequest: I18n.t('errorRequest'),
+
+  // WebService
+  alertTitleConnection: I18n.t('alertTitleConnection'),
+  alertMessageConnection: I18n.t('alertMessageConnection'),
+
+  // Page Login
+  loginUser: I18n.t('loginUser'),
+  loginRememberMe: I18n.t('loginRememberMe'),
+  loginPassword: I18n.t('loginPassword'),
+  loginOK: I18n.t('loginOK'),
+  loginSignup: I18n.t('loginSignup'),
+  loginForgotPassword: I18n.t('loginForgotPassword'),
+  loginError: I18n.t('loginError'),
 };
 
 /**

@@ -5,7 +5,7 @@ import {
   Image,
 } from 'react-native';
 import { Form, Input, Label, Item, Button, Text, Grid, Col } from 'native-base';
-
+import { connect } from 'react-redux';
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
 import { styles } from '../style';
@@ -19,7 +19,7 @@ const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA2MDAwMDAwMDIi
 
 export const CONTACT_SCENE_NAME = 'CONTACT_SCENE';
 
-export default class ContactScreen extends Component {
+export class ContactScreen extends Component {
   static navigationOptions = {
     title: AppString.contactPageName,
   };
@@ -180,6 +180,7 @@ export default class ContactScreen extends Component {
             <Text>{AppString.addContactSave}</Text>
           </Button>
         </ScrollView>
+        <Text>{this.props.contactLink}</Text>
       </View>
     );
   }
@@ -187,4 +188,13 @@ export default class ContactScreen extends Component {
 
 ContactScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
+  contactLink: PropTypes.any.isRequired,
 };
+
+function mapStateToProps(state) {
+  return {
+    contactLink: state.familinkReducer.contactLink,
+  };
+}
+
+export default connect(mapStateToProps, undefined)(ContactScreen);
