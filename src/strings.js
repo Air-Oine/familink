@@ -28,7 +28,10 @@ I18n.translations = {
     contactPageName: 'Contact',
     contactListPageName: 'Contacts',
     profilePageName: 'Profil',
-
+    errorNoConnection: 'Pas de connexion réseaux',
+    errorRequest: 'Erreur lors de la requête',
+    alertTitleConnection: 'Connexion',
+    alertMessageConnection: 'Jeton de connexion expiré',
     // Page Login
     loginUser: 'Login',
     loginRememberMe: 'Souvenez-vous de moi',
@@ -63,6 +66,12 @@ const AppString = {
   contactPageName: I18n.t('contactPageName'),
   contactListPageName: I18n.t('contactListPageName'),
   profilePageName: I18n.t('profilePageName'),
+  // Error
+  errorNoConnection: I18n.t('errorNoConnection'),
+  errorRequest: I18n.t('errorRequest'),
+  // WebServie
+  alertTitleConnection: I18n.t('alertTitleConnection'),
+  alertMessageConnection: I18n.t('alertMessageConnection'),
   // Page Login
   loginUser: I18n.t('loginUser'),
   loginRememberMe: I18n.t('loginRememberMe'),

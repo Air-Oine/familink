@@ -1,4 +1,5 @@
 import { Toast } from 'native-base';
+import { Alert } from 'react-native';
 
 export default class Tools {
   // --------------------------------------------TOAST--------------------------------------------
@@ -46,6 +47,12 @@ export default class Tools {
       buttonText: confirmationText,
       duration,
       type,
+    });
+  }
+
+  // ----------------------------Alert----------------------------------
+  static alert(title, message) {
+    Alert.alert(title, message, null, { cancelable: false,
     });
   }
 }

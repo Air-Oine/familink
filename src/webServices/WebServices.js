@@ -1,7 +1,13 @@
+import { NetInfo } from 'react-native';
 import Storage from '../asyncStorage';
+import AppString from '../strings';
+import Tools from '../Tools';
 
 const uri = 'https://familink.cleverapps.io';
 
+const NO_CONNECTION = AppString.errorNoConnection;
+export const ERROR_REQUEST = AppString.errorRequest;
+let isConnected = false;
 // Pour appeler une méthode :
 //
 // async createUser(){
@@ -28,18 +34,51 @@ const uri = 'https://familink.cleverapps.io';
 // "password": "1234",
 // }
 export default class WebServices {
+  static alert() {
+    Tools.alert(AppString.alertTitleConnection, AppString.alertMessageConnection);
+  }
+
+  static toast() {
+    Tools.toastWarning(NO_CONNECTION);
+  }
+  static initializeCheckConnection() {
+    NetInfo.fetch().then((reach) => {
+      if (reach === 'NONE') {
+        isConnected = false;
+      } else {
+        isConnected = true;
+      }
+    });
+    NetInfo.addEventListener(
+      'change',
+      (reach) => {
+        if (reach === 'NONE') {
+          isConnected = false;
+        } else {
+          isConnected = true;
+        }
+      });
+  }
   static async getProfil() {
     try {
+      if (!isConnected) {
+        WebServices.toast();
+        return null;
+      }
       const response = await fetch(`${uri}/public/profiles`);
       const responseJSON = await response.json();
       return responseJSON;
     } catch (error) {
-      return error;
+      throw ERROR_REQUEST;
     }
   }
 
   static async getContacts(value) {
     try {
+      if (!isConnected) {
+        WebServices.toast();
+        return null;
+      }
       const response = await fetch(`${uri}/secured/users/contacts`, {
         method: 'GET',
         headers: {
@@ -47,17 +86,24 @@ export default class WebServices {
           Authorization: `Bearer ${value}`,
         },
       });
+      if (response.status === 401) {
+        return response.status;
+      }
       if (response.status === 200) {
         return response.json();
       }
       return false;
     } catch (error) {
-      return (error);
+      throw ERROR_REQUEST;
     }
   }
 
   static async createUser(value) {
     try {
+      if (!isConnected) {
+        WebServices.toast();
+        return null;
+      }
       const response = await fetch(`${uri}/public/sign-in`, {
         method: 'POST',
         headers: {
@@ -71,12 +117,16 @@ export default class WebServices {
       }
       return false;
     } catch (error) {
-      return error;
+      throw ERROR_REQUEST;
     }
   }
 
   static async login(value) {
     try {
+      if (!isConnected) {
+        WebServices.toast();
+        return null;
+      }
       const response = await fetch(`${uri}/public/login`, {
         method: 'POST',
         headers: {
@@ -92,13 +142,17 @@ export default class WebServices {
       }
       return false;
     } catch (error) {
-      return error;
+      throw ERROR_REQUEST;
     }
   }
 
 
   static async forgetPassWord(value) {
     try {
+      if (!isConnected) {
+        WebServices.toast();
+        return null;
+      }
       const response = await fetch(`${uri}/public/login`, {
         method: 'POST',
         headers: {
@@ -113,7 +167,7 @@ export default class WebServices {
       }
       return false;
     } catch (error) {
-      return error;
+      throw ERROR_REQUEST;
     }
   }
 }

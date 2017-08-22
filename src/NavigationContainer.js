@@ -1,11 +1,10 @@
 import React from 'react';
 import { DrawerNavigator } from 'react-navigation';
-import Storage from './asyncStorage'
 import HomeScreen, { HOME_SCENE_NAME } from './screens/HomeScreen';
-import LoginScreen, { LOGIN_SCENE_NAME } from './screens/LoginScreen';
+import { LoginScreen, LOGIN_SCENE_NAME } from './screens/LoginScreen';
 import SignInScreen, { SIGNIN_SCENE_NAME } from './screens/SignInScreen';
-import ContactScreen, { CONTACT_SCENE_NAME } from './screens/ContactScreen';
-import ContactListScreen, { CONTACTLIST_SCENE_NAME } from './screens/ContactListScreen';
+import { ContactScreen, CONTACT_SCENE_NAME } from './screens/ContactScreen';
+import { ContactListScreen, CONTACTLIST_SCENE_NAME } from './screens/ContactListScreen';
 import ForgottenPwdScreen, { FORGOTTENPWD_SCENE_NAME } from './screens/ForgottenPwdScreen';
 import ProfileScreen, { PROFILE_SCENE_NAME } from './screens/ProfileScreen';
 
@@ -15,6 +14,9 @@ stackNavigatorConfig[HOME_SCENE_NAME] = {
   screen: HomeScreen,
 };
 
+stackNavigatorConfig[SIGNIN_SCENE_NAME] = {
+  screen: SignInScreen,
+};
 
 stackNavigatorConfig[SIGNIN_SCENE_NAME] = {
   screen: SignInScreen,
@@ -22,6 +24,10 @@ stackNavigatorConfig[SIGNIN_SCENE_NAME] = {
 
 stackNavigatorConfig[CONTACT_SCENE_NAME] = {
   screen: ContactScreen,
+};
+
+stackNavigatorConfig[FORGOTTENPWD_SCENE_NAME] = {
+  screen: ForgottenPwdScreen,
 };
 
 stackNavigatorConfig[FORGOTTENPWD_SCENE_NAME] = {
