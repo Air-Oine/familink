@@ -21,6 +21,14 @@ I18n.translations = {
     signIn_FirstName: 'Prénom',
     signIn_Email: 'Email',
 
+    addContactSave: 'Enregistrer',
+    addContactLastName: 'Nom *',
+    addContactFirstName: 'Prénom',
+    addContactGravatar: 'Gravatar URL',
+    addContactPhone: 'Tél. *',
+    addContactEmail: 'Mail',
+    addContactToastSuccess: 'Contact ajouté avec succès',
+
     loginPageName: 'Connexion',
     homePageName: 'Accueil',
     signInPageName: 'S\'identifier',
@@ -39,12 +47,23 @@ const AppString = {
   signIn_LastName: I18n.t('signIn_LastName'),
   signIn_FirstName: I18n.t('signIn_FirstName'),
   signIn_Email: I18n.t('signIn_Email'),
+
   // Home
   homescreenAnnuaire: I18n.t('homescreenAnnuaire'),
   homescreenHumeur: I18n.t('homescreenHumeur'),
   homescreenConfig: I18n.t('homescreenConfig'),
   homescreenProfil: I18n.t('homescreenProfil'),
   homescreenQuitter: I18n.t('homescreenQuitter'),
+
+  // Page add contact
+  addContactSave: I18n.t('addContactSave'),
+  addContactLastName: I18n.t('addContactLastName'),
+  addContactFirstName: I18n.t('addContactFirstName'),
+  addContactGravatar: I18n.t('addContactGravatar'),
+  addContactPhone: I18n.t('addContactPhone'),
+  addContactEmail: I18n.t('addContactEmail'),
+  addContactToastSuccess: I18n.t('addContactToastSuccess'),
+
   // PageName
   loginPageName: I18n.t('loginPageName'),
   homePageName: I18n.t('homePageName'),

@@ -10,7 +10,7 @@ export const sizeIcon = 135;
 const defaultPadding = 20;
 const defaultfontSize = 20;
 const defaultHeightButton = 36;
-const defaultBorderRaduis = 15;
+const defaultBorderRadius = 15;
 
 export const buttonColor = primaryColor;
 
@@ -46,16 +46,17 @@ export const styles = StyleSheet.create({
     paddingRight: defaultPadding,
   },
   defaultButtonAtBottom: {
+    width: '100%',
     height: defaultHeightButton,
     backgroundColor: primaryColor,
     borderWidth: 2,
     borderColor: complementaryColor,
+    marginTop: 10,
     marginBottom: 20,
-    borderRadius: defaultBorderRaduis,
+    borderRadius: defaultBorderRadius,
     justifyContent: 'center',
     alignItems: 'center',
   },
-
   textTouchableHighlight: {
     textAlign: 'center',
     fontSize: defaultfontSize,
@@ -63,5 +64,11 @@ export const styles = StyleSheet.create({
   },
   flex1: {
     flex: 1,
+  },
+  // ContactScreen
+  gravatar: {
+    width: 60,
+    height: 60,
+    marginTop: 15,
   },
 });

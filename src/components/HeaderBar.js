@@ -29,9 +29,14 @@ export default function HeaderBar(props) {
   return (
     <View style={styles.container} >
       <TouchableHighlight onPress={() => { props.navigation.navigate('DrawerOpen'); }} >
-        <Image style={styles.icon} source={image} />
+        <Image
+          style={styles.icon}
+          source={image}
+        />
       </TouchableHighlight>
-      <Text style={styles.title}>{props.title}</Text>
+      <Text style={styles.title}>
+        {props.title}
+      </Text>
     </View>
   );
 }
