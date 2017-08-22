@@ -38,9 +38,6 @@ export default class SignInScreen extends Component {
     this.signIn = this.signIn.bind(this);
     this.setProfil = this.setProfil.bind(this);
   }
-  componentWillMount() {
-    
-  }
   onValueChange(value) {
     this.setState({
       selectedProfil: value,

@@ -1,7 +1,6 @@
 import { NetInfo } from 'react-native';
 import Storage from '../asyncStorage';
 import AppString from '../strings';
-import { LOGIN_SCENE_NAME } from '../screens/LoginScreen';
 import Tools from '../Tools';
 
 const uri = 'https://familink.cleverapps.io';

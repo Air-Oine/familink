@@ -52,13 +52,7 @@ export default class Tools {
 
   // ----------------------------Alert----------------------------------
   static alert(title, message) {
-    try{
-Alert.alert(title, message ,null, {
-   cancelable: false
- });
-    }
-    catch(error){
-      console.log(error);
-    }
+    Alert.alert(title, message, null, { cancelable: false,
+    });
   }
 }
