@@ -44,24 +44,42 @@ export class LoginScreen extends Component {
     this.goHome = this.goHome.bind(this);
   }
 
+  componentDidMount() {
+    Storage.getItem('phone')
+      .then((v) => {
+        this.setState({
+          user: v,
+        });
+      });
+  }
+
   async login() {
     const userString = `{
       "phone": "${this.state.user}",
       "password": "${this.state.password}"
     }`;
-    try {
+    try { // WEBSERVICE CALL
       const response = await WebServices.login(userString);
-      if (response === false) {
+      if (response === false) { // If login / password does not exist, Toast a warning :
         Tools.toastWarning(AppString.loginError);
         console.log('TOAST');
         return;
       }
+      // If login / pwd exist, we store the session token in the redux state :
       Storage.getItem('userToken')
         .then((v) => {
           const jsonToken = JSON.parse(v);
           console.log('Token : ', jsonToken.token);
           this.props.addTokenAction(jsonToken.token);
         });
+
+      Storage.setItem('phone', ''); // Value by default
+      // If remember me is activated :
+      if (this.state.rememberMeStatus) {
+        Storage.setItem('phone', this.state.user);
+      }
+
+      // User logged in, we switch to home screen
       this.goHome();
     } catch (error) {
       // return error;
@@ -92,6 +110,7 @@ export class LoginScreen extends Component {
                 maxLength={10}
                 keyboardType="numeric"
                 onChangeText={text => this.setState({ user: text })}
+                value={this.state.user}
               />
             </Item>
             <Item>
@@ -133,6 +152,7 @@ export class LoginScreen extends Component {
 
 LoginScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
+  addTokenAction: PropTypes.any.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
