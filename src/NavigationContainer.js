@@ -18,16 +18,8 @@ stackNavigatorConfig[SIGNIN_SCENE_NAME] = {
   screen: SignInScreen,
 };
 
-stackNavigatorConfig[SIGNIN_SCENE_NAME] = {
-  screen: SignInScreen,
-};
-
 stackNavigatorConfig[CONTACT_SCENE_NAME] = {
   screen: ContactScreen,
-};
-
-stackNavigatorConfig[FORGOTTENPWD_SCENE_NAME] = {
-  screen: ForgottenPwdScreen,
 };
 
 stackNavigatorConfig[FORGOTTENPWD_SCENE_NAME] = {
