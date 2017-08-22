@@ -9,8 +9,7 @@ export default function familinkReducer(state = initialState, action) {
   switch (action.type) {
     case ADD_ISCONNECTED:
       return {
-        ...state,
-        userIsConnected: state.userIsConnected,
+        userIsConnected: action.userIsConnected,
       };
     case ADD_CONTACTLINK:
       return {

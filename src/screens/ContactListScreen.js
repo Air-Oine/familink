@@ -13,17 +13,19 @@ import {
   Right,
 } from 'native-base';
 import { connect } from 'react-redux';
-import { AlphabetListView } from 'react-native-alphabetlistview';
 import { addContactLink } from '../actions/familink.actions';
+
 
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
 import WebServices from '../webServices/WebServices';
 import { CONTACT_SCENE_NAME } from './ContactScreen';
 
+const _ = require('lodash');
+
 export const CONTACTLIST_SCENE_NAME = 'CONTACTLIST_SCENE';
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA2MDAwMDAwMDEiLCJpYXQiOjE1MDMzOTM1NTAsImV4cCI6MTUwMzM5NDQ1MH0.BlnIEeiwRpjlTqX4FlrHmRutmYy89sk-3dTG0M82nnk';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA2MDAwMDAwMDIiLCJpYXQiOjE1MDMzOTg2OTIsImV4cCI6MTUwMzM5OTU5Mn0.yG7DD0TPccHm9jwrncC70jd2b3jl6NmjGA5RNCQ97YU';
 
 export class ContactListScreen extends Component {
   static navigationOptions = {
@@ -42,17 +44,15 @@ export class ContactListScreen extends Component {
 
   async getContact() {
     try {
-      const temp = await WebServices.getContacts(token);
+      let temp = await WebServices.getContacts(token);
+      temp = _.orderBy(temp, ['lastName'], ['asc']);
       this.setState({
         listOfContacts: temp,
       });
-      console.log('ici');
-      console.log(this.state.listOfContacts);
       return true;
     } catch (error) {
       return (error);
     }
-    // WebServices.getContacts(test).then(list => console.log(list));
   }
 
   goToDetail(phone) {
@@ -71,14 +71,13 @@ export class ContactListScreen extends Component {
           <List
             dataArray={items}
             renderRow={item =>
-              (<TouchableHighlight onPress>
+              (
                 <ListItem button onPress={() => { this.goToDetail(item.phone); }} >
                   <Text>{item.lastName} {item.firstName} </Text>
                   <Right>
                     <Icon name="brush" />
                   </Right>
                 </ListItem>
-              </TouchableHighlight>
               )
             }
           />
@@ -91,6 +90,7 @@ export class ContactListScreen extends Component {
 ContactListScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
   addContactLink: PropTypes.any.isRequired,
+
 };
 
 function mapDispatchToProps(dispatch) {
