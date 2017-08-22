@@ -31,6 +31,9 @@ I18n.translations = {
 
     errorNoConnection: 'Pas de connexion réseaux',
     errorRequest: 'Erreur lors de la requête',
+
+    alertTitleConnection: 'Connexion',
+    alertMessageConnection: 'Jeton de connexion expiré',
   },
 };
 
@@ -60,6 +63,9 @@ const AppString = {
   // Error
   errorNoConnection: I18n.t('errorNoConnection'),
   errorRequest: I18n.t('errorRequest'),
+  // WebServie
+  alertTitleConnection: I18n.t('alertTitleConnection'),
+  alertMessageConnection: I18n.t('alertMessageConnection'),
 };
 
 /**

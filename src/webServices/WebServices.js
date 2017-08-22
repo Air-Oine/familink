@@ -7,7 +7,7 @@ const uri = 'https://familink.cleverapps.io';
 
 const NO_CONNECTION = AppString.errorNoConnection;
 export const ERROR_REQUEST = AppString.errorRequest;
-
+let isConnected = false;
 // Pour appeler une méthode :
 //
 // async createUser(){
@@ -35,23 +35,33 @@ export const ERROR_REQUEST = AppString.errorRequest;
 // }
 export default class WebServices {
   static alert() {
-    Tools.alert('Login', 'Jeton de connexion expiré');
+    Tools.alert(AppString.alertTitleConnection, AppString.alertMessageConnection);
   }// if status === 401 WebServies.alert();
 
   static toast() {
     Tools.toastWarning(NO_CONNECTION);
   }
-  static checkConnection() {
-    NetInfo.isConnected.fetch().then((isConnected) => {
-      if (isConnected === true) {
-        return true;
+  static initializeCheckConnection() {
+    NetInfo.fetch().then((reach) => {
+      if (reach === 'NONE') {
+        isConnected = false;
+      } else {
+        isConnected = true;
       }
-      return false;
     });
+    NetInfo.addEventListener(
+      'change',
+      (reach) => {
+        if (reach === 'NONE') {
+          isConnected = false;
+        } else {
+          isConnected = true;
+        }
+      });
   }
   static async getProfil() {
     try {
-      if (WebServices.checkConnection() === false) {
+      if (!isConnected) {
         WebServices.toast();
         return null;
       }
@@ -65,7 +75,7 @@ export default class WebServices {
 
   static async createUser(value) {
     try {
-      if (WebServices.checkConnection() === false) {
+      if (!isConnected) {
         WebServices.toast();
         return null;
       }
@@ -88,7 +98,7 @@ export default class WebServices {
 
   static async login(value) {
     try {
-      if (WebServices.checkConnection() === false) {
+      if (!isConnected) {
         WebServices.toast();
         return null;
       }
@@ -113,7 +123,7 @@ export default class WebServices {
 
   static async forgetPassWord(value) {
     try {
-      if (WebServices.checkConnection() === false) {
+      if (!isConnected) {
         WebServices.toast();
         return null;
       }

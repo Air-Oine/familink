@@ -16,7 +16,7 @@ stackNavigatorConfig[HOME_SCENE_NAME] = {
   screen: HomeScreen,
 };
 
-if (!connect) {
+//if (!connect) {
   stackNavigatorConfig[SIGNIN_SCENE_NAME] = {
     screen: SignInScreen,
   };
@@ -28,7 +28,7 @@ if (!connect) {
   stackNavigatorConfig[FORGOTTENPWD_SCENE_NAME] = {
     screen: ForgottenPwdScreen,
   };
-}
+//}
 stackNavigatorConfig[CONTACTLIST_SCENE_NAME] = {
   screen: ContactListScreen,
 };

@@ -6,9 +6,10 @@ import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 
 import NavigationContainer from './NavigationContainer';
-
+import WebServices from './webServices/WebServices';
 import familinkReducer from './reducers/familink.reducer';
 
+WebServices.initializeCheckConnection();
 const middlewares = [thunk];
 const logger = createLogger({
   duration: true,

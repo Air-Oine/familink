@@ -36,7 +36,6 @@ export default class SignInScreen extends Component {
     this.onValueChange = this.onValueChange.bind(this);
     this.validationRegex = this.validationRegex.bind(this);
     this.signIn = this.signIn.bind(this);
-    this.setProfil = this.setProfil.bind(this);
   }
   onValueChange(value) {
     this.setState({
@@ -45,7 +44,7 @@ export default class SignInScreen extends Component {
   }
   setProfil() {
     const profilItems = [];
-    if (this.state.profil != null) {
+    if (this.state.profil.length > 0) {
       let key = 0;
       this.state.profil.forEach(((element) => {
         profilItems.push(<Item label={element} value={key} key={key} />);
@@ -58,7 +57,7 @@ export default class SignInScreen extends Component {
   async getProfil() {
     try {
       const response = await WebServices.getProfil();
-      if (response != null) {
+      if (response) {
         this.setState({
           profil: response,
         });
