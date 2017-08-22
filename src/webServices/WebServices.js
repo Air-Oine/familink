@@ -41,6 +41,7 @@ export default class WebServices {
   static toast() {
     Tools.toastWarning(NO_CONNECTION);
   }
+
   static initializeCheckConnection() {
     NetInfo.fetch().then((reach) => {
       if (reach === 'NONE') {
@@ -59,6 +60,7 @@ export default class WebServices {
         }
       });
   }
+
   static async getProfil() {
     try {
       if (!isConnected) {
@@ -118,6 +120,33 @@ export default class WebServices {
       return false;
     } catch (error) {
       throw ERROR_REQUEST;
+    }
+  }
+
+  static async createContact(value, token) {
+    try {
+      if (!isConnected) {
+        WebServices.toast();
+        return null;
+      }
+
+      const response = await fetch(`${uri}/secured/users/contacts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: value,
+      });
+      console.log(value);
+      const status = response.status;
+      console.log(status);
+      if (status === 200) {
+        return true;
+      }
+      return false;
+    } catch (error) {
+      return error;
     }
   }
 
