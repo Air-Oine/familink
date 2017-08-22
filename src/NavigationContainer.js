@@ -42,7 +42,7 @@ stackNavigatorConfig[LOGIN_SCENE_NAME] = {
 
 
 const ApplicationNavigator = DrawerNavigator(stackNavigatorConfig, {
-  initialRouteName: CONTACTLIST_SCENE_NAME,
+  initialRouteName: HOME_SCENE_NAME,
 });
 
 

@@ -16,11 +16,6 @@ export class ContactScreen extends Component {
     title: AppString.contactPageName,
   };
 
-  constructor(props) {
-    super(props);
-    console.log('fgfgfgd', this.props.contactLink);
-  }
-
   render() {
     const navigation = this.props.navigation;
     return (
@@ -45,3 +40,7 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, undefined)(ContactScreen);
+ContactScreen.propTypes = {
+  navigation: PropTypes.any.isRequired,
+  contactLink: PropTypes.any.isRequired,
+};
