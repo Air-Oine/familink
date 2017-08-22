@@ -12,15 +12,20 @@ import {
   Text,
   Right,
 } from 'native-base';
+import { connect } from 'react-redux';
+import { AlphabetListView } from 'react-native-alphabetlistview';
+import { addContactLink } from '../actions/familink.actions';
 
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
 import WebServices from '../webServices/WebServices';
+import { CONTACT_SCENE_NAME } from './ContactScreen';
 
 export const CONTACTLIST_SCENE_NAME = 'CONTACTLIST_SCENE';
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA2MDAwMDAwMDEiLCJpYXQiOjE1MDMzMjk4MDYsImV4cCI6MTUwMzMzMDcwNn0.Jt6AsLdDyWYNgBoThqRBk1KNUwJSrsnj-dQ_0qtO-1s';
 
-export default class ContactListScreen extends Component {
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA2MDAwMDAwMDEiLCJpYXQiOjE1MDMzOTM1NTAsImV4cCI6MTUwMzM5NDQ1MH0.BlnIEeiwRpjlTqX4FlrHmRutmYy89sk-3dTG0M82nnk';
+
+export class ContactListScreen extends Component {
   static navigationOptions = {
     title: AppString.contactListPageName,
   };
@@ -28,6 +33,7 @@ export default class ContactListScreen extends Component {
   constructor(props) {
     super(props);
     this.getContact = this.getContact.bind(this);
+    this.goToDetail = this.goToDetail.bind(this);
     this.state = {
       listOfContacts: [],
     };
@@ -49,30 +55,10 @@ export default class ContactListScreen extends Component {
     // WebServices.getContacts(test).then(list => console.log(list));
   }
 
-  setItem() {
-    const contacts = [];
-    if (this.state.listOfContacts != null) {
-      let key = 0;
-      console.log(this.state.listOfContacts);
-      this.state.listOfContacts.forEach(((element) => {
-        contacts.push(<ListItem key={key} >  <Text> bonjour </Text> </ListItem>);
-        key += 1;
-      }));
-      return contacts;
-    }
-    return null;
-  }
-
-  /* getItem() {
-    return (
-      <TouchableHighlight>
-        <Text />
-      </TouchableHighlight>
-    );
-  } */
   goToDetail(phone) {
-    
-    console.log(phone);
+    const navigation = this.props.navigation;
+    this.props.addContactLink(phone);
+    navigation.navigate(CONTACT_SCENE_NAME);
   }
 
   render() {
@@ -104,4 +90,13 @@ export default class ContactListScreen extends Component {
 
 ContactListScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
+  addContactLink: PropTypes.any.isRequired,
 };
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addContactLink: phone => dispatch(addContactLink(phone)),
+  };
+}
+
+export default connect(undefined, mapDispatchToProps)(ContactListScreen);
