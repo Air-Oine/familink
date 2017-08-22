@@ -73,6 +73,24 @@ export default class WebServices {
     }
   }
 
+  static async getContacts(value) {
+    try {
+      const response = await fetch(`${uri}/secured/users/contacts`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${value}`,
+        },
+      });
+      if (response.status === 200) {
+        return response.json();
+      }
+      return false;
+    } catch (error) {
+      return (error);
+    }
+  }
+
   static async createUser(value) {
     try {
       if (!isConnected) {
@@ -121,6 +139,7 @@ export default class WebServices {
     }
   }
 
+
   static async forgetPassWord(value) {
     try {
       if (!isConnected) {
@@ -135,7 +154,6 @@ export default class WebServices {
         body: JSON.stringify(value),
       });
       const status = response.status;
-      await response.json();
       //    Storage.setItem('userToken', JSON.stringify(responseJSON));
       if (status === 200) {
         return true;

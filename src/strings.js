@@ -28,12 +28,18 @@ I18n.translations = {
     contactPageName: 'Contact',
     contactListPageName: 'Contacts',
     profilePageName: 'Profil',
-
     errorNoConnection: 'Pas de connexion réseaux',
     errorRequest: 'Erreur lors de la requête',
-
     alertTitleConnection: 'Connexion',
     alertMessageConnection: 'Jeton de connexion expiré',
+    // Page Login
+    loginUser: 'Login',
+    loginRememberMe: 'Souvenez-vous de moi',
+    loginPassword: 'Mot de passe',
+    loginOK: 'OK',
+    loginSignup: 'S\'inscrire',
+    loginForgotPassword: 'Mot de pass oublié ?',
+    loginError: 'Erreur de connexion',
   },
 };
 
@@ -66,6 +72,14 @@ const AppString = {
   // WebServie
   alertTitleConnection: I18n.t('alertTitleConnection'),
   alertMessageConnection: I18n.t('alertMessageConnection'),
+  // Page Login
+  loginUser: I18n.t('loginUser'),
+  loginRememberMe: I18n.t('loginRememberMe'),
+  loginPassword: I18n.t('loginPassword'),
+  loginOK: I18n.t('loginOK'),
+  loginSignup: I18n.t('loginSignup'),
+  loginForgotPassword: I18n.t('loginForgotPassword'),
+  loginError: I18n.t('loginError'),
 };
 
 /**

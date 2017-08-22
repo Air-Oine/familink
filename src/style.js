@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 export const primaryColor = '#9E3549';
 export const secondaryColor = '#256F5B';
@@ -15,6 +15,22 @@ const defaultBorderRaduis = 15;
 export const buttonColor = primaryColor;
 
 export const styles = StyleSheet.create({
+  // HeaderBar
+  headerBarContainer: {
+    flexDirection: 'row',
+    marginTop: (Platform.OS === 'ios') ? 20 : 0,
+    height: 36,
+  },
+  headerBarIcon: {
+    width: 36,
+    height: 36,
+  },
+  headerBarTitle: {
+    color: secondaryColor,
+    fontSize: 25,
+    marginLeft: 10,
+  },
+
   text: {
     color: textColor,
     fontSize: defaultfontSize,

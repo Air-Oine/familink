@@ -20,6 +20,15 @@ export default class Storage {
       return -1;
     }
   }
+
+  static async removeItem(item) {
+    try {
+      const value = await AsyncStorage.removeItem(item);
+      return value;
+    } catch (error) {
+      return -1;
+    }
+  }
 }
 
 // Exemple pour l'application, il faut use le state 
