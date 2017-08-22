@@ -12,6 +12,8 @@ import Storage from '../asyncStorage';
 import { addToken } from '../actions/familink.actions';
 
 import { HOME_SCENE_NAME } from './HomeScreen';
+import { SIGNIN_SCENE_NAME } from './SignInScreen';
+import { FORGOTTENPWD_SCENE_NAME } from './ForgottenPwdScreen';
 
 export const LOGIN_SCENE_NAME = 'LOGIN_SCENE';
 
@@ -42,6 +44,8 @@ export class LoginScreen extends Component {
     this.login = this.login.bind(this);
     this.pressedRemember = this.pressedRemember.bind(this);
     this.goHome = this.goHome.bind(this);
+    this.toSignin = this.toSignin.bind(this);
+    this.toForgotPassword = this.toForgotPassword.bind(this);
   }
 
   componentDidMount() {
@@ -95,6 +99,16 @@ export class LoginScreen extends Component {
     navigation.navigate(HOME_SCENE_NAME);
   }
 
+  toSignin() {
+    const navigation = this.props.navigation;
+    navigation.navigate(SIGNIN_SCENE_NAME);
+  }
+
+  toForgotPassword() {
+    const navigation = this.props.navigation;
+    navigation.navigate(FORGOTTENPWD_SCENE_NAME);
+  }
+
   render() {
     const navigation = this.props.navigation;
     return (
@@ -135,10 +149,15 @@ export class LoginScreen extends Component {
             </Button>
           </Form>
           <View style={loginStyle.align}>
-            <Button>
+            <Button
+              onPress={this.toSignin}
+            >
               <Text> {AppString.loginSignup}</Text>
             </Button>
-            <Button style={loginStyle.textright}>
+            <Button
+              style={loginStyle.textright}
+              onPress={this.toForgotPassword}
+            >
               <Text> {AppString.loginForgotPassword} </Text>
             </Button>
           </View>
