@@ -14,7 +14,7 @@ import {
 } from 'native-base';
 import { connect } from 'react-redux';
 import { addContactLink } from '../actions/familink.actions';
-
+import Storage from '../asyncStorage';
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
 import WebServices from '../webServices/WebServices';
@@ -25,8 +25,7 @@ const _ = require('lodash');
 
 export const CONTACTLIST_SCENE_NAME = 'CONTACTLIST_SCENE';
 
-let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA2MDAwMDAwMDIiLCJpYXQiOjE1MDM0ODA2MzAsImV4cCI6MTUwMzQ4MTUzMH0.XAunkWin6b6H7ClZBYRGBQcLlmq20fhDYHOCQbQRg_c';
-
+let token;
 export class ContactListScreen extends Component {
   static navigationOptions = {
     title: AppString.contactListPageName,
@@ -36,10 +35,15 @@ export class ContactListScreen extends Component {
     super(props);
     this.getContact = this.getContact.bind(this);
     this.goToDetail = this.goToDetail.bind(this);
-    // console.log('tokan', this.props.userToken);
+    Storage.getItem('token').then((v) => {
+      token = v;
+    });
     this.state = {
       listOfContacts: [],
     };
+  }
+
+  componentDidMount() {
     this.getContact();
   }
 
