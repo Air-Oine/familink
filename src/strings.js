@@ -30,7 +30,7 @@ I18n.translations = {
     addContactEmail: 'Mail',
     addContactToastSuccess: 'Contact ajouté avec succès',
 
-    loginPageName: 'Connexion',
+    loginPageName: 'Déconnexion',
     homePageName: 'Accueil',
     signInPageName: 'S\'enregistrer',
     forgottenPasswordPageName: 'Mot de passe oublié',
