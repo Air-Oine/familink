@@ -34,7 +34,7 @@ let isConnected = false;
 // "password": "1234",
 // }
 export default class WebServices {
-  static alert() {
+  static alertUnauthorized() {
     Tools.alert(AppString.alertTitleConnection, AppString.alertMessageConnection);
   }
 
@@ -138,13 +138,13 @@ export default class WebServices {
         },
         body: value,
       });
-      console.log(value);
+console.log(value);
       const status = response.status;
       console.log(status);
       if (status === 200) {
         return true;
       }
-      return false;
+      return response.status;
     } catch (error) {
       return error;
     }
