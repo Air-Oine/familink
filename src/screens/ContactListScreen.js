@@ -7,15 +7,16 @@ import {
   ListItem,
   Text,
   Right,
+  Fab,
 } from 'native-base';
 import { connect } from 'react-redux';
 import { addContactLink } from '../actions/familink.actions';
-
 
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
 import WebServices from '../webServices/WebServices';
 import { CONTACT_SCENE_NAME } from './ContactScreen';
+import { styles, primaryColor } from '../style';
 
 const _ = require('lodash');
 
@@ -63,21 +64,31 @@ export class ContactListScreen extends Component {
     return (
       <Container>
         <HeaderBar navigation={navigation} title={AppString.contactListPageName} />
-        <Content>
-          <List
-            dataArray={items}
-            renderRow={item =>
-              (
-                <ListItem button onPress={() => { this.goToDetail(item.phone); }} >
-                  <Text>{item.lastName} {item.firstName} </Text>
-                  <Right>
-                    <Icon name="brush" />
-                  </Right>
-                </ListItem>
-              )
-            }
-          />
-        </Content>
+        <View style={styles.flex1}>
+          <Content>
+            <List
+              dataArray={items}
+              renderRow={item =>
+                (
+                  <ListItem button onPress={() => { this.goToDetail(item.phone); }} >
+                    <Text>{item.lastName} {item.firstName} </Text>
+                    <Right>
+                      <Icon name="brush" />
+                    </Right>
+                  </ListItem>
+                )
+              }
+            />
+          </Content>
+          <Fab
+            direction="up"
+            style={{ backgroundColor: primaryColor }}
+            position="bottomRight"
+            onPress={() => navigation.navigate(CONTACT_SCENE_NAME)}
+          >
+            <Icon name="add" />
+          </Fab>
+        </View>
       </Container>
     );
   }

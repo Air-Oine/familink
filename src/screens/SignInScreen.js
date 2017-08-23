@@ -83,13 +83,13 @@ export default class SignInScreen extends Component {
     navigation.navigate(LOGIN_SCENE_NAME);
   }
   validationRegex() {
-    if (!Helper.isValidPhoneNumber(this.state.username) && this.state.username === '') {
+    if (!Helper.isValidPhoneNumber(this.state.username) || this.state.username === '') {
       return -1;
     }
-    if (!Helper.isValidPassword(this.state.password) && this.state.password === '') {
+    if (!Helper.isValidPassword(this.state.password) || this.state.password === '') {
       return -2;
     }
-    if (!Helper.isValidPassword(this.state.passwordConfirm) && this.state.passwordConfirm === '') {
+    if (!Helper.isValidPassword(this.state.passwordConfirm) || this.state.passwordConfirm === '') {
       return -3;
     }
     if (this.state.password !== this.state.passwordConfirm) {
@@ -116,7 +116,17 @@ export default class SignInScreen extends Component {
     const result = this.validationRegex();
     this.resetInputError();
     if (result === true) {
-      const userString = `{
+      let userString;
+      if (this.state.email === '') {
+        userString = `{
+          "phone": "${this.state.username}",
+          "password": "${this.state.password}",
+          "firstName": "${this.state.firstname}",
+          "lastName": "${this.state.lastname}",
+          "profile": "${this.state.profil[this.state.selectedProfil]}"
+        }`;
+      } else {
+        userString = `{
           "phone": "${this.state.username}",
           "password": "${this.state.password}",
           "firstName": "${this.state.firstname}",
@@ -124,6 +134,7 @@ export default class SignInScreen extends Component {
           "email": "${this.state.email}",
           "profile": "${this.state.profil[this.state.selectedProfil]}"
         }`;
+      }
       this.createUser(userString);
     } else {
       if (result === -1) {

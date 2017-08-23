@@ -68,6 +68,11 @@ export class LoginScreen extends Component {
         Tools.toastWarning(AppString.loginError);
         return;
       }
+
+      if (response === null) {
+        return;
+      }
+
       // If login / pwd exist, we store the session token in the redux state :
       Storage.getItem('userToken')
         .then((v) => {
@@ -114,7 +119,7 @@ export class LoginScreen extends Component {
     return (
       <View>
         <HeaderBar navigation={navigation} title={AppString.loginPageName} />
-        <ScrollView>
+        <ScrollView style={styles.form}>
           <Form>
             <Item floatingLabel>
               <Label> {AppString.loginUser} </Label>

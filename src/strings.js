@@ -21,6 +21,15 @@ I18n.translations = {
     signIn_FirstName: 'Prénom *',
     signIn_Email: 'Email',
     signIn_Error: 'Erreur lors de la création du compte',
+
+    addContactSave: 'Enregistrer',
+    addContactLastName: 'Nom *',
+    addContactFirstName: 'Prénom',
+    addContactGravatar: 'Gravatar URL',
+    addContactPhone: 'Tél. *',
+    addContactEmail: 'Mail',
+    addContactToastSuccess: 'Contact ajouté avec succès',
+
     loginPageName: 'Connexion',
     homePageName: 'Accueil',
     signInPageName: 'S\'enregistrer',
@@ -28,10 +37,12 @@ I18n.translations = {
     contactPageName: 'Contact',
     contactListPageName: 'Contacts',
     profilePageName: 'Profil',
+
     errorNoConnection: 'Pas de connexion réseaux',
     errorRequest: 'Erreur lors de la requête',
     alertTitleConnection: 'Connexion',
     alertMessageConnection: 'Jeton de connexion expiré',
+
     // Page Login
     loginUser: 'Login',
     loginRememberMe: 'Souvenez-vous de moi',
@@ -52,12 +63,23 @@ const AppString = {
   signIn_FirstName: I18n.t('signIn_FirstName'),
   signIn_Email: I18n.t('signIn_Email'),
   signin_Error: I18n.t('signIn_Error'),
+
   // Home
   homescreenAnnuaire: I18n.t('homescreenAnnuaire'),
   homescreenHumeur: I18n.t('homescreenHumeur'),
   homescreenConfig: I18n.t('homescreenConfig'),
   homescreenProfil: I18n.t('homescreenProfil'),
   homescreenQuitter: I18n.t('homescreenQuitter'),
+
+  // Page add contact
+  addContactSave: I18n.t('addContactSave'),
+  addContactLastName: I18n.t('addContactLastName'),
+  addContactFirstName: I18n.t('addContactFirstName'),
+  addContactGravatar: I18n.t('addContactGravatar'),
+  addContactPhone: I18n.t('addContactPhone'),
+  addContactEmail: I18n.t('addContactEmail'),
+  addContactToastSuccess: I18n.t('addContactToastSuccess'),
+
   // PageName
   loginPageName: I18n.t('loginPageName'),
   homePageName: I18n.t('homePageName'),
@@ -66,12 +88,15 @@ const AppString = {
   contactPageName: I18n.t('contactPageName'),
   contactListPageName: I18n.t('contactListPageName'),
   profilePageName: I18n.t('profilePageName'),
+
   // Error
   errorNoConnection: I18n.t('errorNoConnection'),
   errorRequest: I18n.t('errorRequest'),
-  // WebServie
+
+  // WebService
   alertTitleConnection: I18n.t('alertTitleConnection'),
   alertMessageConnection: I18n.t('alertMessageConnection'),
+
   // Page Login
   loginUser: I18n.t('loginUser'),
   loginRememberMe: I18n.t('loginRememberMe'),

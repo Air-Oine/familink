@@ -1,5 +1,5 @@
 import React from 'react';
-import { DrawerNavigator } from 'react-navigation';
+import { DrawerNavigator, DrawerItems } from 'react-navigation';
 import HomeScreen, { HOME_SCENE_NAME } from './screens/HomeScreen';
 import { LoginScreen, LOGIN_SCENE_NAME } from './screens/LoginScreen';
 import SignInScreen, { SIGNIN_SCENE_NAME } from './screens/SignInScreen';
@@ -18,16 +18,8 @@ stackNavigatorConfig[SIGNIN_SCENE_NAME] = {
   screen: SignInScreen,
 };
 
-stackNavigatorConfig[SIGNIN_SCENE_NAME] = {
-  screen: SignInScreen,
-};
-
 stackNavigatorConfig[CONTACT_SCENE_NAME] = {
   screen: ContactScreen,
-};
-
-stackNavigatorConfig[FORGOTTENPWD_SCENE_NAME] = {
-  screen: ForgottenPwdScreen,
 };
 
 stackNavigatorConfig[FORGOTTENPWD_SCENE_NAME] = {
@@ -46,11 +38,26 @@ stackNavigatorConfig[LOGIN_SCENE_NAME] = {
   screen: LoginScreen,
 };
 
+/**
+ * Define items in menu
+ * @param {*} props 
+ */
+function renderMenu(props) {
+  const itemsArray = [
+    { key: HOME_SCENE_NAME, routeName: HOME_SCENE_NAME },
+    { key: CONTACTLIST_SCENE_NAME, routeName: CONTACTLIST_SCENE_NAME },
+    { key: PROFILE_SCENE_NAME, routeName: PROFILE_SCENE_NAME },
+    { key: LOGIN_SCENE_NAME, routeName: LOGIN_SCENE_NAME },
+  ];
 
-const ApplicationNavigator = DrawerNavigator(stackNavigatorConfig, {
-  initialRouteName: HOME_SCENE_NAME,
-});
+  return <DrawerItems {...props} items={itemsArray} />;
+}
+
+const drawerConfig = {
+  contentComponent: props => renderMenu(props),
+};
+
+const ApplicationNavigator = DrawerNavigator(stackNavigatorConfig, drawerConfig);
 
 
 export default () => <ApplicationNavigator />;
-
