@@ -1,5 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import {
+  View,
+} from 'react-native';
+import {
   Content,
   List,
   Icon,

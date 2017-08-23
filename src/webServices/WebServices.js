@@ -114,7 +114,6 @@ export default class WebServices {
         body: value,
       });
       const status = response.status;
-      console.log(status);
       if (status === 200) {
         return true;
       }
@@ -139,9 +138,7 @@ export default class WebServices {
         },
         body: value,
       });
-      console.log(value);
       const status = response.status;
-      console.log(status);
       if (status === 200) {
         return true;
       }
