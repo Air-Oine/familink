@@ -107,7 +107,9 @@ export class ContactScreen extends Component {
   async saveContact(contact) {
     try {
       const result = await WebServices.createContact(contact, this.state.token);
-
+      if (result === null) {
+        return null;
+      }
       if (result === true) {
         // Show success
         Tools.toastSuccess(AppString.addContactToastSuccess);

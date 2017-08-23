@@ -50,6 +50,9 @@ export class ContactListScreen extends Component {
   async getContact() {
     try {
       let temp = await WebServices.getContacts(this.state.token);
+      if (temp === null) {
+        return null;
+      }
       temp = _.orderBy(temp, ['lastName'], ['asc']);
       this.setState({
         listOfContacts: temp,
