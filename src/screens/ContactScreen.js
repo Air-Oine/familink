@@ -18,7 +18,7 @@ import { LOGIN_SCENE_NAME } from './LoginScreen';
 
 const lodash = require('lodash');
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA2MDAwMDAwMDIiLCJpYXQiOjE1MDM0NzgyNjIsImV4cCI6MTUwMzQ3OTE2Mn0.JArcdhh1jt0MADQXc0Ib7RGLgEGGEi5047NhFcfVoRw';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA2MDAwMDAwMDIiLCJpYXQiOjE1MDM0ODEyMzEsImV4cCI6MTUwMzQ4MjEzMX0.XZ5ToKHDLSniQP8C1i2Q4Xb-ZdwVi1-gaXmQ2Xubexw';
 
 export const CONTACT_SCENE_NAME = 'CONTACT_SCENE';
 
@@ -77,11 +77,13 @@ export class ContactScreen extends Component {
       // Creation of body for query
       let contact = '{';
       if (!lodash.isEmpty(this.state.lastName)) {
+        this.state.lastName = lodash.capitalize(lodash.trim(this.state.lastName));
         contact += `"lastName": "${this.state.lastName}",`;
       }
       if (!lodash.isEmpty(this.state.email)) {
         contact += `"email": "${this.state.email}",`;
       }
+      this.state.firstName = lodash.capitalize(lodash.trim(this.state.firstName));
       contact += `"firstName": "${this.state.firstName}",`;
       contact += `"gravatar": "${this.state.avatarUrl}",`;
       contact += `"phone": "${this.state.tel}"`;
