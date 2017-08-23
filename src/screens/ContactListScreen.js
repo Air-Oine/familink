@@ -1,9 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import {
-  View,
-  TouchableHighlight,
-} from 'react-native';
-import {
   Content,
   List,
   Icon,

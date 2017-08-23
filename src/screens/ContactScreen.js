@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import {
-  ScrollView,
   View,
   Text,
 } from 'react-native';
