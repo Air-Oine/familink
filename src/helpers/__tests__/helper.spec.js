@@ -1,4 +1,4 @@
-import Helper from '../src/helpers/Helper';
+import Helper from '../Helper';
 
 /* TEST OF THE PHONE NUMBER */
 
