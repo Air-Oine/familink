@@ -5,4 +5,4 @@ cd ..
 
 yarn run lint
 
-# yarn run test
+yarn run test
