@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import {
-  ScrollView,
   View,
   Image,
+  ScrollView,
 } from 'react-native';
 import { Form, Input, Label, Item, Button, Text, Grid, Col } from 'native-base';
 import { connect } from 'react-redux';
