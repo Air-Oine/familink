@@ -110,10 +110,8 @@ export class LoginScreen extends Component {
   }
 
   render() {
-    const navigation = this.props.navigation;
     return (
       <View>
-        <HeaderBar navigation={navigation} title={AppString.loginPageName} />
         <ScrollView style={styles.form}>
           <Form>
             <Item floatingLabel>
