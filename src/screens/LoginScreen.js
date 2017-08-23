@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Form, Item, Label, Input, Button, Right, Radio } from 'native-base';
 
 import WebServices from '../webServices/WebServices';
-import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
 import { styles } from '../style';
 import Tools from '../Tools';
@@ -110,10 +109,8 @@ export class LoginScreen extends Component {
   }
 
   render() {
-    const navigation = this.props.navigation;
     return (
       <View>
-        <HeaderBar navigation={navigation} title={AppString.loginPageName} />
         <ScrollView style={styles.form}>
           <Form>
             <Item floatingLabel>

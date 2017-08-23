@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import { Form, Input, Label, Item, Button, Text, Grid, Col } from 'native-base';
 import { connect } from 'react-redux';
+import Storage from '../asyncStorage';
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
 import { styles } from '../style';
@@ -17,8 +18,6 @@ import { CONTACTLIST_SCENE_NAME } from './ContactListScreen';
 import { LOGIN_SCENE_NAME } from './LoginScreen';
 
 const lodash = require('lodash');
-
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA2MDAwMDAwMDIiLCJpYXQiOjE1MDM0ODEyMzEsImV4cCI6MTUwMzQ4MjEzMX0.XZ5ToKHDLSniQP8C1i2Q4Xb-ZdwVi1-gaXmQ2Xubexw';
 
 export const CONTACT_SCENE_NAME = 'CONTACT_SCENE';
 
@@ -39,11 +38,19 @@ export class ContactScreen extends Component {
       telError: false,
       email: '',
       emailError: false,
+      token: '',
     };
 
     this.validationForm = this.validationForm.bind(this);
     this.save = this.save.bind(this);
     this.saveContact = this.saveContact.bind(this);
+  }
+
+  componentDidMount() {
+    Storage.getItem('token').then((v) => {
+      this.setState({ token: v });
+      this.getContact();
+    });
   }
 
   /**
@@ -89,7 +96,7 @@ export class ContactScreen extends Component {
       contact += `"phone": "${this.state.tel}"`;
       contact += '}';
 
-      this.saveContact(contact, this.token);
+      this.saveContact(contact, this.state.token);
     }
   }
 
@@ -99,8 +106,10 @@ export class ContactScreen extends Component {
    */
   async saveContact(contact) {
     try {
-      const result = await WebServices.createContact(contact, token);
-
+      const result = await WebServices.createContact(contact, this.state.token);
+      if (result === null) {
+        return null;
+      }
       if (result === true) {
         // Show success
         Tools.toastSuccess(AppString.addContactToastSuccess);
