@@ -1,5 +1,4 @@
 import { NetInfo } from 'react-native';
-import Storage from '../asyncStorage';
 import AppString from '../strings';
 import Tools from '../Tools';
 
@@ -164,9 +163,9 @@ export default class WebServices {
       });
       const status = response.status;
       const responseJSON = await response.json();
-      Storage.setItem('userToken', JSON.stringify(responseJSON));
+      // Storage.setItem('userToken', JSON.stringify(responseJSON));
       if (status === 200) {
-        return true;
+        return responseJSON;
       }
       return false;
     } catch (error) {

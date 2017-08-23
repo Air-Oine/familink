@@ -72,13 +72,8 @@ export class LoginScreen extends Component {
       if (response === null) {
         return;
       }
-
-      // If login / pwd exist, we store the session token in the redux state :
-      Storage.getItem('userToken')
-        .then((v) => {
-          const jsonToken = JSON.parse(v);
-          this.props.addTokenAction(jsonToken.token);
-        });
+      Storage.setItem('token', response.token);
+      // this.props.addTokenAction(response.token);
 
       Storage.setItem('phone', ''); // Value by default
       // If remember me is activated :
@@ -89,7 +84,7 @@ export class LoginScreen extends Component {
       // User logged in, we switch to home screen
       this.goHome();
     } catch (error) {
-      // return error;
+      throw error;
     }
   }
 
@@ -174,7 +169,6 @@ export class LoginScreen extends Component {
 
 LoginScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
-  addTokenAction: PropTypes.any.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
