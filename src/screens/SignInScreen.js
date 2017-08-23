@@ -31,6 +31,7 @@ export default class SignInScreen extends Component {
       usernameInputError: false,
       passwordInputError: false,
       passwordConfirmInputError: false,
+      firstNameInputError: false,
       emailInputError: false,
     };
     this.onValueChange = this.onValueChange.bind(this);
@@ -82,13 +83,13 @@ export default class SignInScreen extends Component {
     navigation.navigate(LOGIN_SCENE_NAME);
   }
   validationRegex() {
-    if (!Helper.isValidPhoneNumber(this.state.username)) {
+    if (!Helper.isValidPhoneNumber(this.state.username) || this.state.username === '') {
       return -1;
     }
-    if (!Helper.isValidPassword(this.state.password)) {
+    if (!Helper.isValidPassword(this.state.password) || this.state.password === '') {
       return -2;
     }
-    if (!Helper.isValidPassword(this.state.passwordConfirm)) {
+    if (!Helper.isValidPassword(this.state.passwordConfirm) || this.state.passwordConfirm === '') {
       return -3;
     }
     if (this.state.password !== this.state.passwordConfirm) {
@@ -96,6 +97,9 @@ export default class SignInScreen extends Component {
     }
     if (!Helper.isValidEmail(this.state.email)) {
       return -5;
+    }
+    if (this.state.firstname === '') {
+      return -6;
     }
     return true;
   }
@@ -112,7 +116,17 @@ export default class SignInScreen extends Component {
     const result = this.validationRegex();
     this.resetInputError();
     if (result === true) {
-      const userString = `{
+      let userString;
+      if (this.state.email === '') {
+        userString = `{
+          "phone": "${this.state.username}",
+          "password": "${this.state.password}",
+          "firstName": "${this.state.firstname}",
+          "lastName": "${this.state.lastname}",
+          "profile": "${this.state.profil[this.state.selectedProfil]}"
+        }`;
+      } else {
+        userString = `{
           "phone": "${this.state.username}",
           "password": "${this.state.password}",
           "firstName": "${this.state.firstname}",
@@ -120,6 +134,7 @@ export default class SignInScreen extends Component {
           "email": "${this.state.email}",
           "profile": "${this.state.profil[this.state.selectedProfil]}"
         }`;
+      }
       this.createUser(userString);
     } else {
       if (result === -1) {
@@ -146,6 +161,11 @@ export default class SignInScreen extends Component {
       if (result === -5) {
         this.setState({
           emailInputError: true,
+        });
+      }
+      if (result === -6) {
+        this.setState({
+          firstNameInputError: true,
         });
       }
     }
@@ -196,7 +216,10 @@ export default class SignInScreen extends Component {
               onChangeText={text => this.setState({ lastname: text })}
             />
           </Item>
-          <Item floatingLabel>
+          <Item
+            floatingLabel
+            error={this.state.firstNameInputError === true}
+          >
             <Label>{AppString.signIn_FirstName}</Label>
             <Input
               onChangeText={text => this.setState({ firstname: text })}

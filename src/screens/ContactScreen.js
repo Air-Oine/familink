@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import {
-  ScrollView,
   View,
   Image,
+  ScrollView,
 } from 'react-native';
 import { Form, Input, Label, Item, Button, Text, Grid, Col } from 'native-base';
 import { connect } from 'react-redux';
@@ -107,7 +107,7 @@ export class ContactScreen extends Component {
         this.props.navigation.navigate(CONTACTLIST_SCENE_NAME);
       } else if (result === 401) {
         WebServices.alertUnauthorized();
-        
+
         // Go to login
         this.props.navigation.navigate(LOGIN_SCENE_NAME);
       }
