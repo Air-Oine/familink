@@ -35,7 +35,7 @@ I18n.translations = {
     signInPageName: 'S\'enregistrer',
     forgottenPasswordPageName: 'Mot de passe oublié',
     contactPageName: 'Contact',
-    contactListPageName: 'Contacts',
+    contactListPageName: 'Annuaire',
     profilePageName: 'Profil',
 
     errorNoConnection: 'Pas de connexion réseaux',

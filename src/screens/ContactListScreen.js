@@ -25,7 +25,7 @@ const _ = require('lodash');
 
 export const CONTACTLIST_SCENE_NAME = 'CONTACTLIST_SCENE';
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA2MDAwMDAwMDIiLCJpYXQiOjE1MDMzOTg2OTIsImV4cCI6MTUwMzM5OTU5Mn0.yG7DD0TPccHm9jwrncC70jd2b3jl6NmjGA5RNCQ97YU';
+let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA2MDAwMDAwMDIiLCJpYXQiOjE1MDM0ODA2MzAsImV4cCI6MTUwMzQ4MTUzMH0.XAunkWin6b6H7ClZBYRGBQcLlmq20fhDYHOCQbQRg_c';
 
 export class ContactListScreen extends Component {
   static navigationOptions = {
@@ -36,6 +36,7 @@ export class ContactListScreen extends Component {
     super(props);
     this.getContact = this.getContact.bind(this);
     this.goToDetail = this.goToDetail.bind(this);
+    // console.log('tokan', this.props.userToken);
     this.state = {
       listOfContacts: [],
     };
@@ -97,10 +98,11 @@ export class ContactListScreen extends Component {
   }
 }
 
+
 ContactListScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
   addContactLink: PropTypes.any.isRequired,
-
+  // userToken: PropTypes.any.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -108,5 +110,10 @@ function mapDispatchToProps(dispatch) {
     addContactLink: phone => dispatch(addContactLink(phone)),
   };
 }
+function mapStateToProps(state) {
+  return {
+    userToken: state.familinkReducer.userToken,
+  };
+}
 
-export default connect(undefined, mapDispatchToProps)(ContactListScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(ContactListScreen);

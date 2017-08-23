@@ -55,6 +55,7 @@ function renderMenu(props) {
 
 const drawerConfig = {
   contentComponent: props => renderMenu(props),
+  initialRouteName: LOGIN_SCENE_NAME,
 };
 
 const ApplicationNavigator = DrawerNavigator(stackNavigatorConfig, drawerConfig);
