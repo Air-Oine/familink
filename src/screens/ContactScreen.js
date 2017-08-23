@@ -10,12 +10,15 @@ import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
 import { styles } from '../style';
 import Helper from '../helpers/Helper';
-import WebServices from '../webServices/WebServices';
+import WebServices, { ERROR_REQUEST } from '../webServices/WebServices';
 import Tools from '../Tools';
+
+import { CONTACTLIST_SCENE_NAME } from './ContactListScreen';
+import { LOGIN_SCENE_NAME } from './LoginScreen';
 
 const lodash = require('lodash');
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA2MDAwMDAwMDIiLCJpYXQiOjE1MDM0MDg1OTYsImV4cCI6MTUwMzQwOTQ5Nn0.MknBjZz_67uJVWB7Eq6JK76Dn0cpE-CZdbrW5hixArs';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA2MDAwMDAwMDIiLCJpYXQiOjE1MDM0ODEyMzEsImV4cCI6MTUwMzQ4MjEzMX0.XZ5ToKHDLSniQP8C1i2Q4Xb-ZdwVi1-gaXmQ2Xubexw';
 
 export const CONTACT_SCENE_NAME = 'CONTACT_SCENE';
 
@@ -24,30 +27,13 @@ export class ContactScreen extends Component {
     title: AppString.contactPageName,
   };
 
-  /**
-   * Call WS for saving contact
-   * Show toast if success
-   */
-  static async saveContact(contact) {
-    try {
-      const result = await WebServices.createContact(contact, token);
-      if (result) {
-        Tools.toastSuccess(AppString.addContactToastSuccess);
-        return true;
-      }
-      return false;
-    } catch (error) {
-      return (error);
-    }
-  }
-
   constructor(props) {
     super(props);
 
     this.state = {
       lastName: '',
-      lastNameError: false,
       firstName: '',
+      firstNameError: false,
       avatarUrl: '',
       tel: '',
       telError: false,
@@ -57,6 +43,7 @@ export class ContactScreen extends Component {
 
     this.validationForm = this.validationForm.bind(this);
     this.save = this.save.bind(this);
+    this.saveContact = this.saveContact.bind(this);
   }
 
   /**
@@ -65,7 +52,7 @@ export class ContactScreen extends Component {
    */
   validationForm() {
     // Validate
-    const lastNameError = lodash.isEmpty(this.state.lastName);
+    const firstNameError = lodash.isEmpty(this.state.firstName);
 
     const telError = lodash.isEmpty(this.state.tel) || !Helper.isValidPhoneNumber(this.state.tel);
 
@@ -73,12 +60,12 @@ export class ContactScreen extends Component {
 
     // Set error state
     this.setState({
-      lastNameError,
+      firstNameError,
       telError,
       emailError,
     });
 
-    return !(lastNameError || telError || emailError);
+    return !(firstNameError || telError || emailError);
   }
 
   /**
@@ -87,16 +74,49 @@ export class ContactScreen extends Component {
   save() {
     // Form is valid
     if (this.validationForm()) {
-      const contact = `{
-          "lastName": "${this.state.lastName}",
-          "firstName": "${this.state.firstname}",
-          "gravatar": "${this.state.avatarUrl}",
-          "email": "${this.state.email}",
-          "phone": "${this.state.tel}"
-        }`;
+      // Creation of body for query
+      let contact = '{';
+      if (!lodash.isEmpty(this.state.lastName)) {
+        this.state.lastName = lodash.capitalize(lodash.trim(this.state.lastName));
+        contact += `"lastName": "${this.state.lastName}",`;
+      }
+      if (!lodash.isEmpty(this.state.email)) {
+        contact += `"email": "${this.state.email}",`;
+      }
+      this.state.firstName = lodash.capitalize(lodash.trim(this.state.firstName));
+      contact += `"firstName": "${this.state.firstName}",`;
+      contact += `"gravatar": "${this.state.avatarUrl}",`;
+      contact += `"phone": "${this.state.tel}"`;
+      contact += '}';
 
-      ContactScreen.saveContact(contact, this.token);
+      this.saveContact(contact, this.token);
     }
+  }
+
+  /**
+   * Call WS for saving contact
+   * Show toast if success
+   */
+  async saveContact(contact) {
+    try {
+      const result = await WebServices.createContact(contact, token);
+
+      if (result === true) {
+        // Show success
+        Tools.toastSuccess(AppString.addContactToastSuccess);
+
+        // Go back to contact list
+        this.props.navigation.navigate(CONTACTLIST_SCENE_NAME);
+      } else if (result === 401) {
+        WebServices.alertUnauthorized();
+
+        // Go to login
+        this.props.navigation.navigate(LOGIN_SCENE_NAME);
+      }
+    } catch (error) {
+      Tools.toastWarning(ERROR_REQUEST);
+    }
+    return false;
   }
 
   render() {
