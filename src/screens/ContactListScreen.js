@@ -25,7 +25,6 @@ const _ = require('lodash');
 
 export const CONTACTLIST_SCENE_NAME = 'CONTACTLIST_SCENE';
 
-let token;
 export class ContactListScreen extends Component {
   static navigationOptions = {
     title: AppString.contactListPageName,
@@ -33,23 +32,24 @@ export class ContactListScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.getContact = this.getContact.bind(this);
-    this.goToDetail = this.goToDetail.bind(this);
-    Storage.getItem('token').then((v) => {
-      token = v;
-    });
     this.state = {
       listOfContacts: [],
+      token: '',
     };
+    this.getContact = this.getContact.bind(this);
+    this.goToDetail = this.goToDetail.bind(this);
   }
 
   componentDidMount() {
-    this.getContact();
+    Storage.getItem('token').then((v) => {
+      this.setState({ token: v });
+      this.getContact();
+    });
   }
 
   async getContact() {
     try {
-      let temp = await WebServices.getContacts(token);
+      let temp = await WebServices.getContacts(this.state.token);
       temp = _.orderBy(temp, ['lastName'], ['asc']);
       this.setState({
         listOfContacts: temp,
@@ -60,9 +60,9 @@ export class ContactListScreen extends Component {
     }
   }
 
-  goToDetail(phone) {
+  goToDetail() {
     const navigation = this.props.navigation;
-    this.props.addContactLink(phone);
+    // this.props.addContactLink(phone);
     navigation.navigate(CONTACT_SCENE_NAME);
   }
 
@@ -78,7 +78,7 @@ export class ContactListScreen extends Component {
               dataArray={items}
               renderRow={item =>
                 (
-                  <ListItem button onPress={() => { this.goToDetail(item.phone); }} >
+                  <ListItem button onPress={() => { this.goToDetail(); }} >
                     <Text>{item.lastName} {item.firstName} </Text>
                     <Right>
                       <Icon name="brush" />
@@ -105,7 +105,7 @@ export class ContactListScreen extends Component {
 
 ContactListScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
-  addContactLink: PropTypes.any.isRequired,
+  // addContactLink: PropTypes.any.isRequired,
   // userToken: PropTypes.any.isRequired,
 };
 
