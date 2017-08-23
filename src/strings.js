@@ -23,10 +23,10 @@ I18n.translations = {
     signIn_Error: 'Erreur lors de la création du compte',
 
     addContactSave: 'Enregistrer',
-    addContactLastName: 'Nom *',
-    addContactFirstName: 'Prénom',
+    addContactLastName: 'Nom',
+    addContactFirstName: 'Prénom *',
     addContactGravatar: 'Gravatar URL',
-    addContactPhone: 'Tél. *',
+    addContactPhone: 'Tél *',
     addContactEmail: 'Mail',
     addContactToastSuccess: 'Contact ajouté avec succès',
 
