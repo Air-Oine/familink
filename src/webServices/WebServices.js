@@ -1,5 +1,4 @@
 import { NetInfo } from 'react-native';
-import Storage from '../asyncStorage';
 import AppString from '../strings';
 import Tools from '../Tools';
 

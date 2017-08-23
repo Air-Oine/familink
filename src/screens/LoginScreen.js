@@ -72,22 +72,16 @@ export class LoginScreen extends Component {
       if (response === null) {
         return;
       }
-      console.log('TOKEN : ', response.token);
       Storage.setItem('token', response.token);
-      console.log('BEFORE');
       // this.props.addTokenAction(response.token);
-      console.log('AFTER');
 
       Storage.setItem('phone', ''); // Value by default
-      console.log('AAFTER');
       // If remember me is activated :
       if (this.state.rememberMeStatus) {
-        console.log('REMEMBER ME');
         Storage.setItem('phone', this.state.user);
       }
 
       // User logged in, we switch to home screen
-      console.log('HOME');
       this.goHome();
     } catch (error) {
       throw error;
@@ -175,11 +169,9 @@ export class LoginScreen extends Component {
 
 LoginScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
-  addTokenAction: PropTypes.any.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
-  console.log('mapDispatchToProps');
   return {
     addTokenAction: token => dispatch(addToken(token)),
   };
