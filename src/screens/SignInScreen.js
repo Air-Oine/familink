@@ -40,11 +40,13 @@ export default class SignInScreen extends Component {
     this.validationForm = this.validationForm.bind(this);
     this.signIn = this.signIn.bind(this);
   }
+
   onValueChange(value) {
     this.setState({
       selectedProfil: value,
     });
   }
+
   setProfil() {
     const profilItems = [];
     if (this.state.profil.length > 0) {
@@ -57,6 +59,7 @@ export default class SignInScreen extends Component {
     }
     return null;
   }
+
   async getProfil() {
     try {
       const response = await WebServices.getProfil();
@@ -69,6 +72,7 @@ export default class SignInScreen extends Component {
       Tools.toastWarning(ERROR_REQUEST);
     }
   }
+
   async createUser(userString) {
     try {
       const value = await WebServices.createUser(userString);
@@ -80,30 +84,10 @@ export default class SignInScreen extends Component {
     }
     return false;
   }
+
   goToLogin() {
     const navigation = this.props.navigation;
     navigation.navigate(LOGIN_SCENE_NAME);
-  }
-  validationRegex() {
-    if (!Helper.isValidPhoneNumber(this.state.username) || this.state.username === '') {
-      return -1;
-    }
-    if (!Helper.isValidPassword(this.state.password) || this.state.password === '') {
-      return -2;
-    }
-    if (!Helper.isValidPassword(this.state.passwordConfirm) || this.state.passwordConfirm === '') {
-      return -3;
-    }
-    if (this.state.password !== this.state.passwordConfirm) {
-      return -4;
-    }
-    if (!Helper.isValidEmail(this.state.email)) {
-      return -5;
-    }
-    if (this.state.firstname === '') {
-      return -6;
-    }
-    return true;
   }
 
   validationForm() {
