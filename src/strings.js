@@ -45,11 +45,11 @@ I18n.translations = {
 
     // Page Login
     loginUser: 'Login',
-    loginRememberMe: 'Souvenez-vous de moi',
+    loginRememberMe: 'Se souvenir de moi',
     loginPassword: 'Mot de passe',
-    loginOK: 'OK',
+    loginOK: 'Se connecter',
     loginSignup: 'S\'inscrire',
-    loginForgotPassword: 'Mot de pass oublié ?',
+    loginForgotPassword: 'Mot de passe oublié ?',
     loginError: 'Erreur de connexion',
   },
 };

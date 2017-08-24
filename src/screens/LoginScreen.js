@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import { ScrollView, View, Text, StyleSheet } from 'react-native';
+import { Image, View, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { Form, Item, Label, Input, Button, Right, Radio } from 'native-base';
+import { Form, Item, Label, Input, Button, Right, CheckBox, Icon, Body } from 'native-base';
 
 import WebServices from '../webServices/WebServices';
 import AppString from '../strings';
-import { styles } from '../style';
+import { styles, inputError } from '../style';
 import Tools from '../Tools';
 import Storage from '../asyncStorage';
 import { addToken } from '../actions/familink.actions';
@@ -15,6 +15,7 @@ import { SIGNIN_SCENE_NAME } from './SignInScreen';
 import { FORGOTTENPWD_SCENE_NAME } from './ForgottenPwdScreen';
 
 export const LOGIN_SCENE_NAME = 'LOGIN_SCENE';
+const logo = require('../../assets/iconFamilink.jpg');
 
 const loginStyle = StyleSheet.create({
   align: {
@@ -110,55 +111,72 @@ export class LoginScreen extends Component {
 
   render() {
     return (
-      <View>
-        <ScrollView style={styles.form}>
-          <Form>
-            <Item floatingLabel>
-              <Label> {AppString.loginUser} </Label>
-              <Input
-                maxLength={10}
-                keyboardType="numeric"
-                onChangeText={text => this.setState({ user: text })}
-                value={this.state.user}
-              />
-            </Item>
-            <Item>
-              <Label> {AppString.loginRememberMe}</Label>
-              <Right>
-                <Radio onPress={this.pressedRemember} selected={this.state.rememberMeStatus} />
-              </Right>
-            </Item>
-            <Item floatingLabel>
-              <Label> {AppString.loginPassword} </Label>
-              <Input
-                secureTextEntry
-                maxLength={4}
-                keyboardType="numeric"
-                onChangeText={text => this.setState({ password: text })}
-              />
-            </Item>
-            <Button
-              style={styles.defaultButtonAtBottom}
-              rounded
-              onPress={this.login}
+      <View style={styles.login_view}>
+        <Image source={logo} style={styles.login_logo} />
+        <Form style={styles.form}>
+          <Item style={[styles.input, inputError(false)]} rounded>
+            <Icon name="ios-happy-outline" />
+            <Input
+              maxLength={10}
+              keyboardType="numeric"
+              onChangeText={text => this.setState({ user: text })}
+              value={this.state.user}
+              placeholder={AppString.loginUser}
+            />
+          </Item>
+          <Item style={[styles.input, inputError(false)]} rounded>
+            <Icon name="ios-lock" />
+            <Input
+              secureTextEntry
+              maxLength={4}
+              keyboardType="numeric"
+              placeholder={AppString.loginPassword}
+              onChangeText={text => this.setState({ password: text })}
+            />
+          </Item>
+
+          <View style={styles.checkBox}>
+            <CheckBox
+              checked
+              onPress={this.pressedRemember}
+            />
+            <Text
+              style={styles.textCheckbox}
             >
-              <Text>{AppString.loginOK}</Text>
-            </Button>
-          </Form>
-          <View style={loginStyle.align}>
-            <Button
-              onPress={this.toSignin}
-            >
-              <Text> {AppString.loginSignup}</Text>
-            </Button>
-            <Button
-              style={loginStyle.textright}
-              onPress={this.toForgotPassword}
-            >
-              <Text> {AppString.loginForgotPassword} </Text>
-            </Button>
+              {AppString.loginRememberMe}
+            </Text>
           </View>
-        </ScrollView>
+          <Button
+            style={styles.button}
+            iconRight
+            full
+            light
+            onPress={this.login}
+          >
+            <Text style={styles.buttonText}>{AppString.loginOK}</Text>
+            <Icon name="ios-arrow-dropright-outline" style={styles.iconButton} />
+          </Button>
+          <View style={styles.login_viewSignInPwdForgot}>
+            <Text
+              onPress={this.toSignin}
+              style={styles.login_underlineTextLogin}
+            >
+              {AppString.loginSignup}
+            </Text>
+            <Text
+              onPress={this.toForgotPassword}
+              style={styles.login_underlineTextLogin}
+            >
+              {AppString.loginForgotPassword}
+            </Text>
+          </View>
+          {/*<Item>
+            <Label> {AppString.loginRememberMe}</Label>
+            <Right>
+              <Radio onPress={this.pressedRemember} selected={this.state.rememberMeStatus} />
+            </Right>
+          </Item>*/}
+        </Form>
       </View>
     );
   }

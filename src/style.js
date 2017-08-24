@@ -1,20 +1,106 @@
 import { StyleSheet, Platform } from 'react-native';
 
-export const primaryColor = '#9E3549';
 export const secondaryColor = '#256F5B';
 export const secondaryColor2 = '#89A236';
 export const complementaryColor = '#519331';
-export const errorColor = '#F90606';
-export const textColor = secondaryColor;
-export const sizeIcon = 135;
+
+const borderColorInput = '#000000';
+const sizeIcon = 135;
 const defaultPadding = 20;
-const defaultfontSize = 20;
+const defaultFontSizeButton = 20;
+const defaultFontSize = 20;
+const defaultFontSizeButtonIcon = defaultFontSizeButton + 10;
 const defaultHeightButton = 36;
-const defaultBorderRadius = 15;
+const defaultBorderRadius = 20;
+
+const primaryColor = '#0097A7'; // Blue
+const darkPrimaryColor = '#00BCD4'; // Dark Blue
+const lightPrimaryColor = '#B2EBF2'; // Light Blue
+const accentColor = '#FFC107'; // Yellow
+const textColor = '#212121'; // Black
+const errorColor = '#F90606'; // Red
+
+const textSecondaryColor = '#757575'; // Gray
+// dark-primary-color    { background: #0097A7 ; }
+// .default-primary-color { background: #00BCD4 ; }
+// .light-primary-color   { background: #B2EBF2 ; }
+// .text-primary-color    { color: #FFFFFF ; }
+// .accent-color          { background: #FFC107 ; }
+// .primary-text-color    { color: #212121 ; }
+// .secondary-text-color  { color: #757575 ; }
+// .divider-color         { border-color: #BDBDBD ; }
+
 
 export const buttonColor = primaryColor;
 
+export function inputError(error) {
+  return {
+    borderColor: error ? errorColor : borderColorInput,
+    borderWidth: error ? 2 : 1,
+  };
+}
 export const styles = StyleSheet.create({
+
+  // form
+  form: {
+    padding: 40,
+  },
+  // loginView
+  login_view: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  login_logo: {
+    width: 140,
+    height: 140,
+    alignSelf: 'center',
+  },
+
+  login_viewSignInPwdForgot: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
+  login_underlineTextLogin: {
+    color: primaryColor,
+    textDecorationLine: 'underline',
+    fontSize: 18,
+  },
+  // -------------------------------------  Universel  ---------------------------------------------
+  // --------------  CheckBox
+  checkBox: {
+    marginTop: 15,
+    flexDirection: 'row',
+  },
+  textCheckbox: {
+    paddingLeft: 20,
+    color: textSecondaryColor,
+  },
+  // --------------  Button
+  button: {
+    borderRadius: defaultBorderRadius,
+    backgroundColor: accentColor,
+    marginTop: 30,
+  },
+  iconButton: {
+    fontSize: defaultFontSizeButtonIcon,
+  },
+  buttonText: {
+    color: textColor,
+    fontSize: defaultFontSizeButton,
+  },
+
+  // --------------  Input
+  input: {
+    marginTop: 10,
+    backgroundColor: primaryColor,
+    paddingLeft: 20,
+    borderRadius: defaultBorderRadius,
+    borderColor: borderColorInput,
+    borderWidth: 1,
+  },
+  ////////////////////////////////////////////////////////////////////////////////
   // HeaderBar
   headerBarContainer: {
     flexDirection: 'row',
@@ -33,7 +119,7 @@ export const styles = StyleSheet.create({
 
   text: {
     color: textColor,
-    fontSize: defaultfontSize,
+    fontSize: 20,
   },
   icon: {
     fontSize: sizeIcon,
@@ -57,25 +143,14 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: primaryColor,
   },
-  form: {
-    paddingLeft: defaultPadding,
-    paddingRight: defaultPadding,
-  },
   defaultButtonAtBottom: {
-    width: '100%',
-    height: defaultHeightButton,
-    backgroundColor: primaryColor,
     borderWidth: 2,
-    borderColor: complementaryColor,
-    marginTop: 10,
-    marginBottom: 20,
+    borderColor: primaryColor,
     borderRadius: defaultBorderRadius,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   textTouchableHighlight: {
     textAlign: 'center',
-    fontSize: defaultfontSize,
+    fontSize: defaultFontSize,
     color: complementaryColor,
   },
   flex1: {
