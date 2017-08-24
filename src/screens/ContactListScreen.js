@@ -40,18 +40,27 @@ class ContactListScreen extends Component {
   }
 
   componentDidMount() {
+    // raz du link
     this.props.addContactLink(null);
-    Storage.getItem('token').then((v) => {
-      this.setState({ token: v });
-      this.getContact();
-    });
+    // récupération de liste de contacts
+    WebServices.initializeCheckConnection();
+    if (WebServices.isconnected === false) {
+      console.log('pas de reseau');
+    } else {
+      console.log('reseau');
+      this.getContact().then(
+        console.log('finish'),
+        this.storeContacts(),
+      );
+    }
   }
 
   async getContact() {
-    this.props.addContactsList();
-    return true;
+    await this.props.addContactsList();
   }
-
+  async storeContacts() {
+    console.log('afficchage des props', this.props.listOfContacts);
+  }
   goToDetail(user) {
     const navigation = this.props.navigation;
     this.props.addContactLink(user);
@@ -60,7 +69,8 @@ class ContactListScreen extends Component {
 
   render() {
     const navigation = this.props.navigation;
-    const items = this.props.listOfContacts;
+    const items = _.orderBy(this.props.listOfContacts, ['lastName'], ['asc']);
+    this.storeContacts();
     return (
       <Container>
         <HeaderBar navigation={navigation} title={AppString.contactListPageName} />
@@ -89,6 +99,9 @@ class ContactListScreen extends Component {
             <Icon name="add" />
           </Fab>
         </View>
+        <Text>
+          afficher ici
+        </Text>
       </Container>
     );
   }
@@ -98,14 +111,14 @@ class ContactListScreen extends Component {
 ContactListScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
   addContactLink: PropTypes.func.isRequired,
-  addContactsList: PropTypes.func.isRequired,
+  addContactsList: PropTypes.any.isRequired,
   listOfContacts: PropTypes.any.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
     addContactLink: user => dispatch(addContactLink(user)),
-    addContactsList: contacts => dispatch(addContactsList()),
+    addContactsList: dispatch(addContactsList()),
   };
 }
 function mapStateToProps(state) {

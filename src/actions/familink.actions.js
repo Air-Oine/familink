@@ -27,7 +27,6 @@ export function addContactLink(newContactlink) {
 }
 
 export function addContactsList() {
-  console.log('action :');
   return (dispatch, getState) => WebServices.getContacts(getState().familinkReducer.userToken)
     .then((contacts) => {
       dispatch({
