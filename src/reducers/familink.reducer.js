@@ -3,7 +3,7 @@ import { ADD_ISCONNECTED, ADD_CONTACTLINK, ADD_TOKEN, ADD_CONTACTSLIST } from '.
 export const initialState = {
   userIsConnected: false,
   contactLink: '',
-  userToken: '',
+  userToken: null,
   contactsList: {},
 };
 
