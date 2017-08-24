@@ -26,7 +26,7 @@ const loginStyle = StyleSheet.create({
   },
 });
 
-export class LoginScreen extends Component {
+class LoginScreen extends Component {
   static navigationOptions = {
     drawerLabel: AppString.loginPageName,
   };
@@ -37,7 +37,6 @@ export class LoginScreen extends Component {
       user: '',
       password: '',
       rememberMeStatus: true,
-      token: '',
     };
 
     this.login = this.login.bind(this);
@@ -71,10 +70,9 @@ export class LoginScreen extends Component {
       if (response === null) {
         return;
       }
-      Storage.setItem('token', response.token);
-      // this.props.addTokenAction(response.token);
+      this.props.addTokenAction(response.token);
 
-      Storage.setItem('phone', ''); // Value by default
+      Storage.removeItem('phone'); // Remove phone from database
       // If remember me is activated :
       if (this.state.rememberMeStatus) {
         Storage.setItem('phone', this.state.user);
@@ -166,6 +164,7 @@ export class LoginScreen extends Component {
 
 LoginScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
+  addTokenAction: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {

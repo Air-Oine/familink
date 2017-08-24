@@ -38,7 +38,6 @@ class ContactScreen extends Component {
       telError: false,
       email: '',
       emailError: false,
-      token: '',
     };
 
     this.validationForm = this.validationForm.bind(this);
@@ -103,7 +102,7 @@ class ContactScreen extends Component {
       contact += `"phone": "${this.state.tel}"`;
       contact += '}';
 
-      this.saveContact(contact, this.state.token);
+      this.saveContact(contact);
     }
   }
 
@@ -113,7 +112,7 @@ class ContactScreen extends Component {
    */
   async saveContact(contact) {
     try {
-      const result = await WebServices.createContact(contact, this.state.token);
+      const result = await WebServices.createContact(contact, this.props.userToken);
       if (result === null) {
         return null;
       }
@@ -125,7 +124,6 @@ class ContactScreen extends Component {
         this.props.navigation.navigate(CONTACTLIST_SCENE_NAME);
       } else if (result === 401) {
         WebServices.alertUnauthorized();
-
         // Go to login
         this.props.navigation.navigate(LOGIN_SCENE_NAME);
       }
@@ -226,11 +224,13 @@ class ContactScreen extends Component {
 ContactScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
   contactLink: PropTypes.any.isRequired,
+  userToken: PropTypes.any.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     contactLink: state.familinkReducer.contactLink,
+    userToken: state.familinkReducer.userToken,
   };
 }
 
