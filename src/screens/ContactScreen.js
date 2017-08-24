@@ -44,8 +44,15 @@ class ContactScreen extends Component {
     this.validationForm = this.validationForm.bind(this);
     this.save = this.save.bind(this);
     this.saveContact = this.saveContact.bind(this);
+    this.modif = false;
   }
-
+  componentWillMount() {
+    if (this.props.contactLink != null) {
+      this.modif = false;
+    } else {
+      this.modif = true;
+    }
+  }
   componentDidMount() {
     Storage.getItem('token').then((v) => {
       this.setState({ token: v });
@@ -155,7 +162,9 @@ class ContactScreen extends Component {
               error={this.state.lastNameError}
             >
               <Label>{AppString.addContactLastName}</Label>
-              <Input onChangeText={text => this.setState({ lastName: text })} />
+              <Input
+                onChangeText={text => this.setState({ lastName: text })}
+              />
             </Item>
 
             {/* FIRST NAME */}
@@ -209,7 +218,6 @@ class ContactScreen extends Component {
             <Text>{AppString.addContactSave}</Text>
           </Button>
         </ScrollView>
-        <Text>{this.props.contactLink}</Text>
       </View>
     );
   }
@@ -221,7 +229,6 @@ ContactScreen.propTypes = {
 };
 
 function mapStateToProps(state) {
-  console.log('contact state:', state);
   return {
     contactLink: state.familinkReducer.contactLink,
   };

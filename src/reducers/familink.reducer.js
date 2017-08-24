@@ -1,13 +1,13 @@
-import { ADD_ISCONNECTED, ADD_CONTACTLINK, ADD_TOKEN } from '../actions/familink.actions';
+import { ADD_ISCONNECTED, ADD_CONTACTLINK, ADD_TOKEN, ADD_CONTACTSLIST } from '../actions/familink.actions';
 
 export const initialState = {
   userIsConnected: false,
   contactLink: '',
   userToken: '',
+  contactsList: {},
 };
 
 export default function familinkReducer(state = initialState, action) {
-  console.log('reducer', state, action);
   switch (action.type) {
     case ADD_ISCONNECTED:
       return {
@@ -24,6 +24,11 @@ export default function familinkReducer(state = initialState, action) {
       return {
         ...state,
         userToken: action.token,
+      };
+    case ADD_CONTACTSLIST:
+      return {
+        ...state,
+        contactsList: action.contactsList,
       };
     default:
       return state;

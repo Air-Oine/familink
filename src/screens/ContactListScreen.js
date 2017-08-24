@@ -13,7 +13,7 @@ import {
   Fab,
 } from 'native-base';
 import { connect } from 'react-redux';
-import { addContactLink } from '../actions/familink.actions';
+import { addContactLink, addContactsList } from '../actions/familink.actions';
 import Storage from '../asyncStorage';
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
@@ -33,7 +33,6 @@ class ContactListScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listOfContacts: [],
       token: '',
     };
     this.getContact = this.getContact.bind(this);
@@ -41,6 +40,7 @@ class ContactListScreen extends Component {
   }
 
   componentDidMount() {
+    this.props.addContactLink(null);
     Storage.getItem('token').then((v) => {
       this.setState({ token: v });
       this.getContact();
@@ -48,30 +48,19 @@ class ContactListScreen extends Component {
   }
 
   async getContact() {
-    try {
-      let temp = await WebServices.getContacts(this.state.token);
-      if (temp === null) {
-        return null;
-      }
-      temp = _.orderBy(temp, ['lastName'], ['asc']);
-      this.setState({
-        listOfContacts: temp,
-      });
-      return true;
-    } catch (error) {
-      return (error);
-    }
+    this.props.addContactsList();
+    return true;
   }
 
-  goToDetail(phone) {
+  goToDetail(user) {
     const navigation = this.props.navigation;
-    this.props.addContactLink(phone);
+    this.props.addContactLink(user);
     navigation.navigate(CONTACT_SCENE_NAME);
   }
 
   render() {
     const navigation = this.props.navigation;
-    const items = this.state.listOfContacts;
+    const items = this.props.listOfContacts;
     return (
       <Container>
         <HeaderBar navigation={navigation} title={AppString.contactListPageName} />
@@ -81,7 +70,7 @@ class ContactListScreen extends Component {
               dataArray={items}
               renderRow={item =>
                 (
-                  <ListItem button onPress={() => { this.goToDetail(item.phone); }} >
+                  <ListItem button onPress={() => { this.goToDetail(item); }} >
                     <Text>{item.lastName} {item.firstName} </Text>
                     <Right>
                       <Icon name="brush" />
@@ -108,20 +97,21 @@ class ContactListScreen extends Component {
 
 ContactListScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
-  //addContactLink: PropTypes.func.isRequired,
-  // userToken: PropTypes.any.isRequired,
+  addContactLink: PropTypes.func.isRequired,
+  addContactsList: PropTypes.func.isRequired,
+  listOfContacts: PropTypes.any.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
-  console.log('dispatch: ', dispatch);
   return {
-    addContactLink: phone => dispatch(addContactLink(phone)),
+    addContactLink: user => dispatch(addContactLink(user)),
+    addContactsList: contacts => dispatch(addContactsList()),
   };
 }
 function mapStateToProps(state) {
-  console.log('etat : ', state);
   return {
     userToken: state.familinkReducer.userToken,
+    listOfContacts: state.familinkReducer.contactsList,
   };
 }
 

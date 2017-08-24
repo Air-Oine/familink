@@ -75,6 +75,7 @@ export default class WebServices {
   }
 
   static async getContacts(value) {
+    console.log('webservice : ', value);
     try {
       if (!isConnected) {
         WebServices.toast();
