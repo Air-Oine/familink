@@ -1,7 +1,7 @@
 import React from 'react';
 import { DrawerNavigator, DrawerItems } from 'react-navigation';
 import HomeScreen, { HOME_SCENE_NAME } from './screens/HomeScreen';
-import { LoginScreen, LOGIN_SCENE_NAME } from './screens/LoginScreen';
+import LoginScreen, { LOGIN_SCENE_NAME } from './screens/LoginScreen';
 import SignInScreen, { SIGNIN_SCENE_NAME } from './screens/SignInScreen';
 import ContactScreen, { CONTACT_SCENE_NAME } from './screens/ContactScreen';
 import ContactListScreen, { CONTACTLIST_SCENE_NAME } from './screens/ContactListScreen';
@@ -40,7 +40,7 @@ stackNavigatorConfig[LOGIN_SCENE_NAME] = {
 
 /**
  * Define items in menu
- * @param {*} props 
+ * @param {*} props
  */
 function renderMenu(props) {
   const itemsArray = [

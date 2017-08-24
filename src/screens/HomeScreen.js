@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import { connect } from 'react-redux';
 import { Container, Content, Icon, Grid, Col } from 'native-base';
 import { styles } from '../style';
 import HeaderBar from '../components/HeaderBar';
@@ -12,13 +13,14 @@ import AppString from '../strings';
 
 export const HOME_SCENE_NAME = 'HOME_SCENE';
 
-export default class HomeScreen extends Component {
+class HomeScreen extends Component {
   static navigationOptions = {
     drawerLabel: AppString.homePageName,
   };
-  /* constructor(props) {
+  constructor(props) {
     super(props);
-  } */
+    console.log('token HOME', this.props.userToken);
+  }
 
   render() {
     const navigation = this.props.navigation;
@@ -83,3 +85,11 @@ export default class HomeScreen extends Component {
 HomeScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
 };
+
+function mapStateToProps(state) {
+  return {
+    userToken: state.familinkReducer.userToken,
+  };
+}
+
+export default connect(mapStateToProps, undefined)(HomeScreen);

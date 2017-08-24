@@ -26,7 +26,7 @@ const loginStyle = StyleSheet.create({
   },
 });
 
-export class LoginScreen extends Component {
+class LoginScreen extends Component {
   static navigationOptions = {
     drawerLabel: AppString.loginPageName,
   };
@@ -72,7 +72,7 @@ export class LoginScreen extends Component {
         return;
       }
       Storage.setItem('token', response.token);
-      // this.props.addTokenAction(response.token);
+      this.props.addTokenAction(response.token);
 
       Storage.setItem('phone', ''); // Value by default
       // If remember me is activated :
@@ -166,6 +166,7 @@ export class LoginScreen extends Component {
 
 LoginScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
+  addTokenAction: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
