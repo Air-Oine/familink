@@ -9,6 +9,8 @@ import Helper from '../helpers/Helper';
 import { LOGIN_SCENE_NAME } from './LoginScreen';
 import Tools from '../Tools';
 
+const lodash = require('lodash');
+
 export const SIGNIN_SCENE_NAME = 'SIGNIN_SCENE';
 
 export default class SignInScreen extends Component {
@@ -35,7 +37,7 @@ export default class SignInScreen extends Component {
       emailInputError: false,
     };
     this.onValueChange = this.onValueChange.bind(this);
-    this.validationRegex = this.validationRegex.bind(this);
+    this.validationForm = this.validationForm.bind(this);
     this.signIn = this.signIn.bind(this);
   }
   onValueChange(value) {
@@ -104,18 +106,49 @@ export default class SignInScreen extends Component {
     return true;
   }
 
-  resetInputError() {
+  validationForm() {
+    const usernameInputError =
+      lodash.isEmpty(this.state.username) ||
+      !Helper.isValidPhoneNumber(this.state.username);
+
+    let passwordInputError =
+      lodash.isEmpty(this.state.password) ||
+      !Helper.isValidPassword(this.state.password);
+
+    let passwordConfirmInputError =
+      lodash.isEmpty(this.state.passwordConfirm) ||
+      !Helper.isValidPassword(this.state.passwordConfirm);
+
+    if (this.state.password !== this.state.passwordConfirm) {
+      passwordInputError = true;
+      passwordConfirmInputError = true;
+    }
+
+    const emailInputError = !Helper.isValidEmail(this.state.email);
+
+    const firstNameInputError = lodash.isEmpty(this.state.firstname);
+
+    // Set error state
     this.setState({
-      usernameInputError: false,
-      passwordInputError: false,
-      passwordConfirmInputError: false,
-      emailInputError: false,
+      usernameInputError,
+      passwordInputError,
+      passwordConfirmInputError,
+      emailInputError,
+      firstNameInputError,
     });
+
+    return !(
+      usernameInputError ||
+      passwordInputError ||
+      passwordConfirmInputError ||
+      emailInputError ||
+      firstNameInputError);
   }
+
   signIn() {
-    const result = this.validationRegex();
-    this.resetInputError();
-    if (result === true) {
+    const result = this.validationForm();
+
+    if (result) {
       let userString;
       if (this.state.email === '') {
         userString = `{
@@ -136,40 +169,9 @@ export default class SignInScreen extends Component {
         }`;
       }
       this.createUser(userString);
-    } else {
-      if (result === -1) {
-        this.setState({
-          usernameInputError: true,
-        });
-      }
-      if (result === -2) {
-        this.setState({
-          passwordInputError: true,
-        });
-      }
-      if (result === -3) {
-        this.setState({
-          passwordConfirmInputError: true,
-        });
-      }
-      if (result === -4) {
-        this.setState({
-          passwordInputError: true,
-          passwordConfirmInputError: true,
-        });
-      }
-      if (result === -5) {
-        this.setState({
-          emailInputError: true,
-        });
-      }
-      if (result === -6) {
-        this.setState({
-          firstNameInputError: true,
-        });
-      }
     }
   }
+
   render() {
     const profile = this.setProfil();
     return (
