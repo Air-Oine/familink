@@ -37,7 +37,6 @@ class LoginScreen extends Component {
       user: '',
       password: '',
       rememberMeStatus: true,
-      token: '',
     };
 
     this.login = this.login.bind(this);
@@ -71,10 +70,9 @@ class LoginScreen extends Component {
       if (response === null) {
         return;
       }
-      Storage.setItem('token', response.token);
       this.props.addTokenAction(response.token);
 
-      Storage.setItem('phone', ''); // Value by default
+      Storage.removeItem('phone'); // Remove phone from database
       // If remember me is activated :
       if (this.state.rememberMeStatus) {
         Storage.setItem('phone', this.state.user);

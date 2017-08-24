@@ -17,10 +17,12 @@ class HomeScreen extends Component {
   static navigationOptions = {
     drawerLabel: AppString.homePageName,
   };
+
+  /*
   constructor(props) {
     super(props);
-    console.log('token HOME', this.props.userToken);
   }
+  */
 
   render() {
     const navigation = this.props.navigation;
