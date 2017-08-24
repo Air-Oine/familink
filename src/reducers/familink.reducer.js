@@ -7,18 +7,22 @@ export const initialState = {
 };
 
 export default function familinkReducer(state = initialState, action) {
+  console.log('reducer', state, action);
   switch (action.type) {
     case ADD_ISCONNECTED:
       return {
+        ...state,
         userToken: action.token,
         userIsConnected: action.userIsConnected,
       };
     case ADD_CONTACTLINK:
       return {
+        ...state,
         contactLink: action.contactLink,
       };
     case ADD_TOKEN:
       return {
+        ...state,
         userToken: action.token,
       };
     default:

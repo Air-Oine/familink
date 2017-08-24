@@ -21,7 +21,7 @@ const lodash = require('lodash');
 
 export const CONTACT_SCENE_NAME = 'CONTACT_SCENE';
 
-export class ContactScreen extends Component {
+class ContactScreen extends Component {
   static navigationOptions = {
     title: AppString.contactPageName,
   };
@@ -221,6 +221,7 @@ ContactScreen.propTypes = {
 };
 
 function mapStateToProps(state) {
+  console.log('contact state:', state);
   return {
     contactLink: state.familinkReducer.contactLink,
   };

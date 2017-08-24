@@ -17,6 +17,7 @@ export function addIsConnected(newIsConnected) {
 }
 
 export function addContactLink(newContactlink) {
+  console.log('action', newContactlink);
   return {
     type: ADD_CONTACTLINK,
     contactLink: newContactlink,

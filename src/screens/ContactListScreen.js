@@ -25,7 +25,7 @@ const _ = require('lodash');
 
 export const CONTACTLIST_SCENE_NAME = 'CONTACTLIST_SCENE';
 
-export class ContactListScreen extends Component {
+class ContactListScreen extends Component {
   static navigationOptions = {
     title: AppString.contactListPageName,
   };
@@ -63,9 +63,9 @@ export class ContactListScreen extends Component {
     }
   }
 
-  goToDetail() {
+  goToDetail(phone) {
     const navigation = this.props.navigation;
-    // this.props.addContactLink(phone);
+    this.props.addContactLink(phone);
     navigation.navigate(CONTACT_SCENE_NAME);
   }
 
@@ -81,7 +81,7 @@ export class ContactListScreen extends Component {
               dataArray={items}
               renderRow={item =>
                 (
-                  <ListItem button onPress={() => { this.goToDetail(); }} >
+                  <ListItem button onPress={() => { this.goToDetail(item.phone); }} >
                     <Text>{item.lastName} {item.firstName} </Text>
                     <Right>
                       <Icon name="brush" />
@@ -108,16 +108,18 @@ export class ContactListScreen extends Component {
 
 ContactListScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
-  // addContactLink: PropTypes.any.isRequired,
+  //addContactLink: PropTypes.func.isRequired,
   // userToken: PropTypes.any.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
+  console.log('dispatch: ', dispatch);
   return {
     addContactLink: phone => dispatch(addContactLink(phone)),
   };
 }
 function mapStateToProps(state) {
+  console.log('etat : ', state);
   return {
     userToken: state.familinkReducer.userToken,
   };
