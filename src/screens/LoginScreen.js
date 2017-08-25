@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import { Image, View, Text, StyleSheet } from 'react-native';
+import { Image, View, Text } from 'react-native';
 import { connect } from 'react-redux';
-import { Form, Item, Label, Input, Button, Right, CheckBox, Icon, Body } from 'native-base';
+import { Form, Item, Input, Button, CheckBox, Icon } from 'native-base';
 
 import WebServices from '../webServices/WebServices';
 import AppString from '../strings';
-import { styles, inputError } from '../style';
+import { styles, inputError, inputPlaceHolderColor, inputSelectionColor } from '../style';
 import Tools from '../Tools';
 import Storage from '../asyncStorage';
 import { addToken } from '../actions/familink.actions';
@@ -16,16 +16,6 @@ import { FORGOTTENPWD_SCENE_NAME } from './ForgottenPwdScreen';
 
 export const LOGIN_SCENE_NAME = 'LOGIN_SCENE';
 const logo = require('../../assets/iconFamilink.jpg');
-
-const loginStyle = StyleSheet.create({
-  align: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  textright: {
-    alignSelf: 'flex-end',
-  },
-});
 
 export class LoginScreen extends Component {
   static navigationOptions = {
@@ -115,23 +105,29 @@ export class LoginScreen extends Component {
         <Image source={logo} style={styles.login_logo} />
         <Form style={styles.form}>
           <Item style={[styles.input, inputError(false)]} rounded>
-            <Icon name="ios-happy-outline" />
+            <Icon name="ios-happy-outline" style={styles.inputIcon} />
             <Input
               maxLength={10}
               keyboardType="numeric"
               onChangeText={text => this.setState({ user: text })}
               value={this.state.user}
               placeholder={AppString.loginUser}
+              placeholderTextColor={inputPlaceHolderColor}
+              selectionColor={inputSelectionColor}
+              style={styles.inputText}
             />
           </Item>
           <Item style={[styles.input, inputError(false)]} rounded>
-            <Icon name="ios-lock" />
+            <Icon name="ios-lock-outline" style={styles.inputIcon} />
             <Input
               secureTextEntry
               maxLength={4}
               keyboardType="numeric"
               placeholder={AppString.loginPassword}
               onChangeText={text => this.setState({ password: text })}
+              placeholderTextColor={inputPlaceHolderColor}
+              selectionColor={inputSelectionColor}
+              style={styles.inputText}
             />
           </Item>
 

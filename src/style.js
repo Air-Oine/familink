@@ -18,9 +18,13 @@ const darkPrimaryColor = '#00BCD4'; // Dark Blue
 const lightPrimaryColor = '#B2EBF2'; // Light Blue
 const accentColor = '#FFC107'; // Yellow
 const textColor = '#212121'; // Black
+const textColorInput = '#FFFFFF'; // White
+const textSecondaryLightColor = '#BDBDBD'; // Gray Light
+const textSecondaryDarkColor = '#757575'; // Gray
+
 const errorColor = '#F90606'; // Red
 
-const textSecondaryColor = '#757575'; // Gray
+
 // dark-primary-color    { background: #0097A7 ; }
 // .default-primary-color { background: #00BCD4 ; }
 // .light-primary-color   { background: #B2EBF2 ; }
@@ -32,6 +36,8 @@ const textSecondaryColor = '#757575'; // Gray
 
 
 export const buttonColor = primaryColor;
+export const inputPlaceHolderColor = textSecondaryLightColor;
+export const inputSelectionColor = textColorInput;
 
 export function inputError(error) {
   return {
@@ -75,7 +81,7 @@ export const styles = StyleSheet.create({
   },
   textCheckbox: {
     paddingLeft: 20,
-    color: textSecondaryColor,
+    color: textSecondaryDarkColor,
   },
   // --------------  Button
   button: {
@@ -100,7 +106,13 @@ export const styles = StyleSheet.create({
     borderColor: borderColorInput,
     borderWidth: 1,
   },
-  ////////////////////////////////////////////////////////////////////////////////
+  inputIcon: {
+    height: 25,
+    width: 40,
+  },
+  inputText: {
+    color: inputSelectionColor,
+  },
   // HeaderBar
   headerBarContainer: {
     flexDirection: 'row',
