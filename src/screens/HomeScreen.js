@@ -15,6 +15,7 @@ export const HOME_SCENE_NAME = 'HOME_SCENE';
 export default class HomeScreen extends Component {
   static navigationOptions = {
     drawerLabel: AppString.homePageName,
+    drawerIcon: () => (<Icon name="home" style={styles.menuDrawer_itemIcon} />),
   };
   /* constructor(props) {
     super(props);

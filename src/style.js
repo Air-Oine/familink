@@ -1,9 +1,5 @@
 import { StyleSheet, Platform } from 'react-native';
 
-export const secondaryColor = '#256F5B';
-export const secondaryColor2 = '#89A236';
-export const complementaryColor = '#519331';
-
 const borderColorInput = '#000000';
 const sizeIcon = 135;
 const defaultPadding = 20;
@@ -14,8 +10,8 @@ const defaultHeightButton = 36;
 const defaultBorderRadius = 20;
 
 const primaryColor = '#00BCD4'; // Blue
-const darkPrimaryColor = '#0097A7'; // Dark Blue
-const lightPrimaryColor = '#B2EBF2'; // Light Blue
+export const darkPrimaryColor = '#0097A7'; // Dark Blue
+export const lightPrimaryColor = '#B2EBF2'; // Light Blue
 const accentColor = '#FFC107'; // Yellow
 const textColor = '#212121'; // Black
 const textColorInput = '#FFFFFF'; // White
@@ -24,6 +20,7 @@ const textSecondaryDarkColor = '#757575'; // Gray
 
 const errorColor = '#F90606'; // Red
 
+const headerBarColor = '#FFFFFF';
 
 // dark-primary-color    { background: #0097A7 ; }
 // .default-primary-color { background: #00BCD4 ; }
@@ -133,20 +130,25 @@ export const styles = StyleSheet.create({
   inputText: {
     color: inputSelectionColor,
   },
-  // HeaderBar
-  headerBarContainer: {
-    flexDirection: 'row',
-    marginTop: (Platform.OS === 'ios') ? 20 : 0,
-    height: 36,
+  // -------------------------------------  HEADER BAR  -------------------------------------------
+  headerBarHeader: {
+    backgroundColor: darkPrimaryColor,
   },
   headerBarIcon: {
-    width: 36,
-    height: 36,
+    fontSize: 35,
+    color: headerBarColor,
   },
   headerBarTitle: {
-    color: secondaryColor,
-    fontSize: 25,
-    marginLeft: 10,
+    fontSize: Platform.OS === 'ios' ? 25 : 30,
+    color: headerBarColor,
+  },
+  // -------------------------------------  MENU  -------------------------------------------
+  menuDrawer_itemLabel: {
+    color: darkPrimaryColor,
+    fontSize: 18,
+  },
+  menuDrawer_itemIcon: {
+    color: darkPrimaryColor,
   },
 
   text: {
