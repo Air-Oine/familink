@@ -21,6 +21,7 @@ I18n.translations = {
     signIn_FirstName: 'Prénom *',
     signIn_Email: 'Email',
     signIn_Error: 'Erreur lors de la création du compte',
+    signIn_Success: 'Compte ajouté avec succès',
 
     addContactSave: 'Enregistrer',
     addContactLastName: 'Nom',
@@ -63,6 +64,7 @@ const AppString = {
   signIn_FirstName: I18n.t('signIn_FirstName'),
   signIn_Email: I18n.t('signIn_Email'),
   signin_Error: I18n.t('signIn_Error'),
+  signIn_Success: I18n.t('signIn_Success'),
 
   // Home
   homescreenAnnuaire: I18n.t('homescreenAnnuaire'),

@@ -13,8 +13,8 @@ const defaultFontSizeButtonIcon = defaultFontSizeButton + 10;
 const defaultHeightButton = 36;
 const defaultBorderRadius = 20;
 
-const primaryColor = '#0097A7'; // Blue
-const darkPrimaryColor = '#00BCD4'; // Dark Blue
+const primaryColor = '#00BCD4'; // Blue
+const darkPrimaryColor = '#0097A7'; // Dark Blue
 const lightPrimaryColor = '#B2EBF2'; // Light Blue
 const accentColor = '#FFC107'; // Yellow
 const textColor = '#212121'; // Black
@@ -45,8 +45,21 @@ export function inputError(error) {
     borderWidth: error ? 2 : 1,
   };
 }
-export const styles = StyleSheet.create({
 
+export const styles = StyleSheet.create({
+  // Radio
+  radioButtonView: {
+    marginTop: 10,
+    backgroundColor: primaryColor,
+    borderRadius: defaultBorderRadius,
+    borderColor: borderColorInput,
+    borderWidth: 1,
+    padding: 10,
+  },
+  radioButton: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   // form
   form: {
     padding: 40,
@@ -73,14 +86,21 @@ export const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     fontSize: 18,
   },
+  // signIn View
+  signIn_view: {
+
+  },
   // -------------------------------------  Universel  ---------------------------------------------
   // --------------  CheckBox
   checkBox: {
-    marginTop: 15,
+    marginTop: 5,
     flexDirection: 'row',
   },
+  checkBoxTouchable: {
+    padding: 10,
+  },
   textCheckbox: {
-    paddingLeft: 20,
+    paddingLeft: 10,
     color: textSecondaryDarkColor,
   },
   // --------------  Button

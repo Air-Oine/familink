@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Image, View, Text } from 'react-native';
+import { Image, View, Text, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
 import { Form, Item, Input, Button, CheckBox, Icon } from 'native-base';
 
@@ -105,7 +105,7 @@ export class LoginScreen extends Component {
         <Image source={logo} style={styles.login_logo} />
         <Form style={styles.form}>
           <Item style={[styles.input, inputError(false)]} rounded>
-            <Icon name="ios-happy-outline" style={styles.inputIcon} />
+            <Icon name="ios-call-outline" style={styles.inputIcon} />
             <Input
               maxLength={10}
               keyboardType="numeric"
@@ -131,16 +131,26 @@ export class LoginScreen extends Component {
             />
           </Item>
 
-          <View style={styles.checkBox}>
-            <CheckBox
-              checked
-              onPress={this.pressedRemember}
-            />
-            <Text
-              style={styles.textCheckbox}
+          <View style={styles.checkBox} >
+            <TouchableHighlight
+              style={styles.checkBoxTouchable}
+              onPress={() => this.pressedRemember()}
             >
-              {AppString.loginRememberMe}
-            </Text>
+              <CheckBox
+                checked={this.state.rememberMeStatus}
+                onPress={() => this.pressedRemember()}
+              />
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={styles.checkBoxTouchable}
+              onPress={() => this.pressedRemember()}
+            >
+              <Text
+                style={styles.textCheckbox}
+              >
+                {AppString.loginRememberMe}
+              </Text>
+            </TouchableHighlight>
           </View>
           <Button
             style={styles.button}
@@ -166,12 +176,6 @@ export class LoginScreen extends Component {
               {AppString.loginForgotPassword}
             </Text>
           </View>
-          {/*<Item>
-            <Label> {AppString.loginRememberMe}</Label>
-            <Right>
-              <Radio onPress={this.pressedRemember} selected={this.state.rememberMeStatus} />
-            </Right>
-          </Item>*/}
         </Form>
       </View>
     );
