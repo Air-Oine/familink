@@ -164,7 +164,6 @@ export default class WebServices {
       });
       const status = response.status;
       const responseJSON = await response.json();
-      // Storage.setItem('userToken', JSON.stringify(responseJSON));
       if (status === 200) {
         return responseJSON;
       }
@@ -189,7 +188,6 @@ export default class WebServices {
         body: JSON.stringify(value),
       });
       const status = response.status;
-      //    Storage.setItem('userToken', JSON.stringify(responseJSON));
       if (status === 200) {
         return true;
       }

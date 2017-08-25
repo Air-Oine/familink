@@ -28,7 +28,6 @@ export function addContactLink(newContactlink) {
 }
 
 export function addContactsList() {
-  console.log('action :');
   return (dispatch, getState) => WebServices.getContacts(getState().familinkReducer.userToken)
     .then((contacts) => {
       dispatch({
@@ -44,7 +43,7 @@ export function addContactsList() {
 }
 
 export function loginUser(loginString) {
-  return (dispatch, getState) => WebServices.login(loginString)
+  return dispatch => WebServices.login(loginString)
     .then((newToken) => {
       if (newToken === null || newToken === false) {
         dispatch({
@@ -55,7 +54,7 @@ export function loginUser(loginString) {
       }
       dispatch({
         type: ADD_TOKEN,
-        token: newToken,
+        token: newToken.token,
       });
     },
     )
@@ -64,3 +63,20 @@ export function loginUser(loginString) {
       console.log('catch');
     });
 }
+
+export function saveContact(contact) {
+  return (dispatch, getState) => WebServices.createContact(contact, getState().familinkReducer.userToken)
+    .then((result) => {
+      dispatch({
+        type: ADD_CREATECONTACTRESULT,
+        createContactResult: result,
+      });
+      throw Error('error');
+    },
+    )
+    .catch(() => {
+      // TODO
+      console.log('catch');
+    });
+}
+

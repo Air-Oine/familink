@@ -3,12 +3,10 @@ import { ScrollView, View, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { Form, Item, Label, Input, Button, Right, Radio } from 'native-base';
 
-import WebServices from '../webServices/WebServices';
 import AppString from '../strings';
 import { styles } from '../style';
-import Tools from '../Tools';
 import Storage from '../asyncStorage';
-import { addToken, addLoginString, loginUser } from '../actions/familink.actions';
+import { loginUser } from '../actions/familink.actions';
 
 import { HOME_SCENE_NAME } from './HomeScreen';
 import { SIGNIN_SCENE_NAME } from './SignInScreen';
