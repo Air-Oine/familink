@@ -21,6 +21,7 @@ I18n.translations = {
     signIn_FirstName: 'Prénom *',
     signIn_Email: 'Email',
     signIn_Error: 'Erreur lors de la création du compte',
+    signIn_Success: 'Compte ajouté avec succès',
 
     addContactSave: 'Enregistrer',
     addContactLastName: 'Nom',
@@ -45,11 +46,11 @@ I18n.translations = {
 
     // Page Login
     loginUser: 'Login',
-    loginRememberMe: 'Souvenez-vous de moi',
+    loginRememberMe: 'Se souvenir de moi',
     loginPassword: 'Mot de passe',
-    loginOK: 'OK',
+    loginOK: 'Se connecter',
     loginSignup: 'S\'inscrire',
-    loginForgotPassword: 'Mot de pass oublié ?',
+    loginForgotPassword: 'Mot de passe oublié ?',
     loginError: 'Erreur de connexion',
   },
 };
@@ -63,6 +64,7 @@ const AppString = {
   signIn_FirstName: I18n.t('signIn_FirstName'),
   signIn_Email: I18n.t('signIn_Email'),
   signin_Error: I18n.t('signIn_Error'),
+  signIn_Success: I18n.t('signIn_Success'),
 
   // Home
   homescreenAnnuaire: I18n.t('homescreenAnnuaire'),
