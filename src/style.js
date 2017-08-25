@@ -6,11 +6,9 @@ export const complementaryColor = '#519331';
 
 const borderColorInput = '#000000';
 const sizeIcon = 135;
-const defaultPadding = 20;
 const defaultFontSizeButton = 20;
 const defaultFontSize = 20;
 const defaultFontSizeButtonIcon = defaultFontSizeButton + 10;
-const defaultHeightButton = 36;
 const defaultBorderRadius = 20;
 
 const primaryColor = '#00BCD4'; // Blue

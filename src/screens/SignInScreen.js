@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { View, ScrollView } from 'react-native';
-import { Form, Input, Icon, Picker, Item, Button, Text, Right, ListItem, Radio } from 'native-base';
+import { Form, Input, Icon, Item, Button, Text, Radio } from 'native-base';
 import AppString from '../strings';
 import { styles, inputError, inputPlaceHolderColor, inputSelectionColor } from '../style';
 
@@ -8,6 +8,8 @@ import WebServices, { ERROR_REQUEST } from '../webServices/WebServices';
 import Helper from '../helpers/Helper';
 import { LOGIN_SCENE_NAME } from './LoginScreen';
 import Tools from '../Tools';
+
+const lodash = require('lodash');
 
 export const SIGNIN_SCENE_NAME = 'SIGNIN_SCENE';
 
@@ -34,14 +36,17 @@ export default class SignInScreen extends Component {
       firstNameInputError: false,
       emailInputError: false,
     };
-    this.validationRegex = this.validationRegex.bind(this);
+    this.onValueChange = this.onValueChange.bind(this);
+    this.validationForm = this.validationForm.bind(this);
     this.signIn = this.signIn.bind(this);
   }
+
   onValueChange(value) {
     this.setState({
       selectedProfil: value,
     });
   }
+
   setProfil() {
     const profilItems = [];
     if (this.state.profil.length > 0) {
@@ -62,6 +67,7 @@ export default class SignInScreen extends Component {
     }
     return null;
   }
+
   async getProfil() {
     try {
       const response = await WebServices.getProfil();
@@ -75,6 +81,7 @@ export default class SignInScreen extends Component {
       Tools.toastWarning(ERROR_REQUEST);
     }
   }
+
   async createUser(userString) {
     try {
       const value = await WebServices.createUser(userString);
@@ -87,45 +94,54 @@ export default class SignInScreen extends Component {
     }
     return false;
   }
+
   goToLogin() {
     const navigation = this.props.navigation;
     navigation.navigate(LOGIN_SCENE_NAME);
   }
-  validationRegex() {
-    if (!Helper.isValidPhoneNumber(this.state.username) || this.state.username === '') {
-      return -1;
-    }
-    if (!Helper.isValidPassword(this.state.password) || this.state.password === '') {
-      return -2;
-    }
-    if (!Helper.isValidPassword(this.state.passwordConfirm) || this.state.passwordConfirm === '') {
-      return -3;
-    }
+
+  validationForm() {
+    const usernameInputError =
+      lodash.isEmpty(this.state.username) ||
+      !Helper.isValidPhoneNumber(this.state.username);
+
+    let passwordInputError =
+      lodash.isEmpty(this.state.password) ||
+      !Helper.isValidPassword(this.state.password);
+
+    let passwordConfirmInputError =
+      lodash.isEmpty(this.state.passwordConfirm) ||
+      !Helper.isValidPassword(this.state.passwordConfirm);
+
     if (this.state.password !== this.state.passwordConfirm) {
-      return -4;
+      passwordInputError = true;
+      passwordConfirmInputError = true;
     }
-    if (!Helper.isValidEmail(this.state.email)) {
-      return -5;
-    }
-    if (this.state.firstname === '') {
-      return -6;
-    }
-    return true;
+
+    const emailInputError = !Helper.isValidEmail(this.state.email);
+
+    const firstNameInputError = lodash.isEmpty(this.state.firstname);
+
+    // Set error state
+    this.setState({
+      usernameInputError,
+      passwordInputError,
+      passwordConfirmInputError,
+      emailInputError,
+      firstNameInputError,
+    });
+
+    return !(
+      usernameInputError ||
+      passwordInputError ||
+      passwordConfirmInputError ||
+      emailInputError ||
+      firstNameInputError);
   }
 
-  resetInputError() {
-    this.setState({
-      usernameInputError: false,
-      passwordInputError: false,
-      passwordConfirmInputError: false,
-      emailInputError: false,
-    });
-  }
   signIn() {
-    console.log('value', this.state.selectedProfil);
-    const result = this.validationRegex();
-    this.resetInputError();
-    if (result === true) {
+    const result = this.validationForm();
+    if (result) {
       let userString;
       if (this.state.email === '') {
         userString = `{
@@ -146,40 +162,9 @@ export default class SignInScreen extends Component {
         }`;
       }
       this.createUser(userString);
-    } else {
-      if (result === -1) {
-        this.setState({
-          usernameInputError: true,
-        });
-      }
-      if (result === -2) {
-        this.setState({
-          passwordInputError: true,
-        });
-      }
-      if (result === -3) {
-        this.setState({
-          passwordConfirmInputError: true,
-        });
-      }
-      if (result === -4) {
-        this.setState({
-          passwordInputError: true,
-          passwordConfirmInputError: true,
-        });
-      }
-      if (result === -5) {
-        this.setState({
-          emailInputError: true,
-        });
-      }
-      if (result === -6) {
-        this.setState({
-          firstNameInputError: true,
-        });
-      }
     }
   }
+
   render() {
     const profile = this.setProfil();
     return (
