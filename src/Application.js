@@ -5,11 +5,10 @@ import { Provider } from 'react-redux';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 
-import ConnectionContainer from './ConnectionContainer';
+import NetworkContainer from './NetworkContainer';
 import WebServices from './webServices/WebServices';
 import familinkReducer from './reducers/familink.reducer';
 
-WebServices.initializeCheckConnection();
 
 const middlewares = [thunk];
 const logger = createLogger({
@@ -31,7 +30,7 @@ export default function Application() {
   return (
     <Root>
       <Provider store={store}>
-        <ConnectionContainer />
+        <NetworkContainer />
       </Provider>
     </Root>
   );

@@ -14,10 +14,10 @@ import {
 } from 'native-base';
 import { connect } from 'react-redux';
 import { addContactLink, addContactsList } from '../actions/familink.actions';
-import Storage from '../asyncStorage';
+// import Storage from '../asyncStorage';
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
-import WebServices from '../webServices/WebServices';
+// import WebServices from '../webServices/WebServices';
 import { CONTACT_SCENE_NAME } from './ContactScreen';
 import { styles, primaryColor } from '../style';
 
@@ -35,7 +35,6 @@ class ContactListScreen extends Component {
     this.state = {
       token: '',
     };
-    this.getContact = this.getContact.bind(this);
     this.goToDetail = this.goToDetail.bind(this);
   }
 
@@ -43,21 +42,9 @@ class ContactListScreen extends Component {
     // raz du link
     this.props.addContactLink(null);
     // récupération de liste de contacts
-    WebServices.initializeCheckConnection();
-    if (WebServices.isconnected === false) {
-      console.log('pas de reseau');
-    } else {
-      console.log('reseau');
-      this.getContact().then(
-        console.log('finish'),
-        this.storeContacts(),
-      );
-    }
+    this.props.addContactsList();
   }
 
-  async getContact() {
-    await this.props.addContactsList();
-  }
   async storeContacts() {
     console.log('afficchage des props', this.props.listOfContacts);
   }
@@ -118,7 +105,7 @@ ContactListScreen.propTypes = {
 function mapDispatchToProps(dispatch) {
   return {
     addContactLink: user => dispatch(addContactLink(user)),
-    addContactsList: dispatch(addContactsList()),
+    addContactsList: () => dispatch(addContactsList()),
   };
 }
 function mapStateToProps(state) {
