@@ -14,10 +14,10 @@ import {
 } from 'native-base';
 import { connect } from 'react-redux';
 import { addContactLink, addContactsList } from '../actions/familink.actions';
-import Storage from '../asyncStorage';
+// import Storage from '../asyncStorage';
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
-import WebServices from '../webServices/WebServices';
+// import WebServices from '../webServices/WebServices';
 import { CONTACT_SCENE_NAME } from './ContactScreen';
 import { styles, primaryColor } from '../style';
 
@@ -35,23 +35,19 @@ class ContactListScreen extends Component {
     this.state = {
       token: '',
     };
-    this.getContact = this.getContact.bind(this);
     this.goToDetail = this.goToDetail.bind(this);
   }
 
   componentDidMount() {
+    // raz du link
     this.props.addContactLink(null);
-    Storage.getItem('token').then((v) => {
-      this.setState({ token: v });
-      this.getContact();
-    });
-  }
-
-  async getContact() {
+    // récupération de liste de contacts
     this.props.addContactsList();
-    return true;
   }
 
+  async storeContacts() {
+    console.log('afficchage des props', this.props.listOfContacts);
+  }
   goToDetail(user) {
     const navigation = this.props.navigation;
     this.props.addContactLink(user);
@@ -60,7 +56,8 @@ class ContactListScreen extends Component {
 
   render() {
     const navigation = this.props.navigation;
-    const items = this.props.listOfContacts;
+    const items = _.orderBy(this.props.listOfContacts, ['lastName'], ['asc']);
+    this.storeContacts();
     return (
       <Container>
         <HeaderBar navigation={navigation} title={AppString.contactListPageName} />
@@ -89,6 +86,9 @@ class ContactListScreen extends Component {
             <Icon name="add" />
           </Fab>
         </View>
+        <Text>
+          afficher ici
+        </Text>
       </Container>
     );
   }
@@ -98,14 +98,14 @@ class ContactListScreen extends Component {
 ContactListScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
   addContactLink: PropTypes.func.isRequired,
-  addContactsList: PropTypes.func.isRequired,
+  addContactsList: PropTypes.any.isRequired,
   listOfContacts: PropTypes.any.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
     addContactLink: user => dispatch(addContactLink(user)),
-    addContactsList: contacts => dispatch(addContactsList()),
+    addContactsList: () => dispatch(addContactsList()),
   };
 }
 function mapStateToProps(state) {

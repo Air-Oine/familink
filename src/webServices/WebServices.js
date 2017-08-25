@@ -74,8 +74,7 @@ export default class WebServices {
     }
   }
 
-  static async getContacts(value) {
-    console.log('webservice : ', value);
+  static async getContacts(token) {
     try {
       if (!isConnected) {
         WebServices.toast();
@@ -85,7 +84,7 @@ export default class WebServices {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${value}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       if (response.status === 401) {

@@ -1,10 +1,11 @@
-import { ADD_ISCONNECTED, ADD_CONTACTLINK, ADD_TOKEN, ADD_CONTACTSLIST } from '../actions/familink.actions';
+import { ADD_ISCONNECTED, ADD_CONTACTLINK, ADD_TOKEN, ADD_CONTACTSLIST, SET_CONNECTED } from '../actions/familink.actions';
 
 export const initialState = {
   userIsConnected: false,
   contactLink: '',
   userToken: null,
   contactsList: {},
+  isConnected: false,
 };
 
 export default function familinkReducer(state = initialState, action) {
@@ -29,6 +30,11 @@ export default function familinkReducer(state = initialState, action) {
       return {
         ...state,
         contactsList: action.contactsList,
+      };
+    case SET_CONNECTED:
+      return {
+        ...state,
+        isConnected: action.isConnected,
       };
     default:
       return state;

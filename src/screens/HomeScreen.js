@@ -86,7 +86,6 @@ class HomeScreen extends Component {
 
 HomeScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
-  userToken: PropTypes.any.isRequired,
 };
 
 function mapStateToProps(state) {
