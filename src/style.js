@@ -1,5 +1,9 @@
 import { StyleSheet, Platform } from 'react-native';
 
+export const secondaryColor = '#256F5B';
+export const secondaryColor2 = '#89A236';
+export const complementaryColor = '#519331';
+
 const borderColorInput = '#000000';
 const sizeIcon = 135;
 const defaultPadding = 20;
