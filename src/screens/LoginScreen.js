@@ -7,6 +7,7 @@ import AppString from '../strings';
 import { styles } from '../style';
 import Storage from '../asyncStorage';
 import { loginUser } from '../actions/familink.actions';
+import Tools from '../Tools';
 
 import { HOME_SCENE_NAME } from './HomeScreen';
 import { SIGNIN_SCENE_NAME } from './SignInScreen';
@@ -69,6 +70,8 @@ class LoginScreen extends Component {
         if (this.props.userToken !== null && this.props.userToken !== false) {
           this.goHome();
         }
+        console.log('TOAST');
+        Tools.toastWarning(this.props.rejectedMessage);
       });
   }
 
@@ -153,6 +156,7 @@ LoginScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
   loginAction: PropTypes.func.isRequired,
   userToken: PropTypes.any.isRequired,
+  rejectedMessage: PropTypes.any.isRequired,
 };
 
 function mapStateToProps(state) {
