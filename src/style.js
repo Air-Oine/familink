@@ -14,7 +14,7 @@ const defaultHeightButton = 36;
 const defaultBorderRadius = 20;
 
 const primaryColor = '#0097A7'; // Blue
-const darkPrimaryColor = '#00BCD4'; // Dark Blue
+export const darkPrimaryColor = '#00BCD4'; // Dark Blue
 const lightPrimaryColor = '#B2EBF2'; // Light Blue
 const accentColor = '#FFC107'; // Yellow
 const textColor = '#212121'; // Black
@@ -100,21 +100,18 @@ export const styles = StyleSheet.create({
     borderColor: borderColorInput,
     borderWidth: 1,
   },
-  ////////////////////////////////////////////////////////////////////////////////
+  // -------------------------------------  HEADER BAR  -------------------------------------------
   // HeaderBar
-  headerBarContainer: {
-    flexDirection: 'row',
-    marginTop: (Platform.OS === 'ios') ? 20 : 0,
-    height: 36,
+  headerBarHeader: {
+    backgroundColor: darkPrimaryColor,
   },
   headerBarIcon: {
-    width: 36,
-    height: 36,
+    fontSize: 35,
+    color: '#FFFFFF',
   },
   headerBarTitle: {
-    color: secondaryColor,
-    fontSize: 25,
-    marginLeft: 10,
+    fontSize: Platform.OS === 'ios' ? 25 : 30,
+    color: '#FFFFFF',
   },
 
   text: {
