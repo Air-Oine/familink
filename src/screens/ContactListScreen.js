@@ -19,6 +19,7 @@ import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
 // import WebServices from '../webServices/WebServices';
 import { CONTACT_SCENE_NAME } from './ContactScreen';
+
 import { styles, primaryColor } from '../style';
 
 const _ = require('lodash');
@@ -27,7 +28,8 @@ export const CONTACTLIST_SCENE_NAME = 'CONTACTLIST_SCENE';
 
 class ContactListScreen extends Component {
   static navigationOptions = {
-    title: AppString.contactListPageName,
+    drawerLabel: AppString.contactListPageName,
+    drawerIcon: () => (<Icon name="contacts" style={styles.menuDrawer_itemIcon} />),
   };
 
   constructor(props) {

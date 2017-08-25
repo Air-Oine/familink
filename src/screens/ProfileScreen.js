@@ -4,9 +4,11 @@ import {
   View,
   Text,
 } from 'react-native';
+import { Icon } from 'native-base';
 
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
+import { styles } from '../style';
 
 export const PROFILE_SCENE_NAME = 'PROFILE_SCENE';
 
@@ -14,6 +16,7 @@ export const PROFILE_SCENE_NAME = 'PROFILE_SCENE';
 export default class ProfileScreen extends Component {
   static navigationOptions = {
     drawerLabel: AppString.profilePageName,
+    drawerIcon: () => (<Icon name="man" style={styles.menuDrawer_itemIcon} />),
   };
 
   /* constructor(props) {

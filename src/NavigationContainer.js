@@ -8,6 +8,8 @@ import ContactListScreen, { CONTACTLIST_SCENE_NAME } from './screens/ContactList
 import ForgottenPwdScreen, { FORGOTTENPWD_SCENE_NAME } from './screens/ForgottenPwdScreen';
 import ProfileScreen, { PROFILE_SCENE_NAME } from './screens/ProfileScreen';
 
+import { styles, lightPrimaryColor } from './style';
+
 const stackNavigatorConfig = {};
 
 stackNavigatorConfig[HOME_SCENE_NAME] = {
@@ -50,7 +52,13 @@ function renderMenu(props) {
     { key: LOGIN_SCENE_NAME, routeName: LOGIN_SCENE_NAME },
   ];
 
-  return <DrawerItems {...props} items={itemsArray} />;
+  return (
+    <DrawerItems
+      {...props}
+      items={itemsArray}
+      labelStyle={styles.menuDrawer_itemLabel}
+      activeBackgroundColor={lightPrimaryColor}
+    />);
 }
 
 const drawerConfig = {

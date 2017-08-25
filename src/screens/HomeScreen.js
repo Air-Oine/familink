@@ -21,6 +21,7 @@ const smile = require('../../assets/smile.png');
 class HomeScreen extends Component {
   static navigationOptions = {
     drawerLabel: AppString.homePageName,
+    drawerIcon: () => (<Icon name="home" style={styles.menuDrawer_itemIcon} />),
   };
 
   /*
