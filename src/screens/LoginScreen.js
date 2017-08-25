@@ -30,6 +30,7 @@ const loginStyle = StyleSheet.create({
 export class LoginScreen extends Component {
   static navigationOptions = {
     drawerLabel: AppString.loginPageName,
+    drawerIcon: () => (<Icon name="log-out" style={styles.menuDrawer_itemIcon} />),
   };
 
   constructor(props) {

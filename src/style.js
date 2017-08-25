@@ -15,7 +15,7 @@ const defaultBorderRadius = 20;
 
 const primaryColor = '#0097A7'; // Blue
 export const darkPrimaryColor = '#00BCD4'; // Dark Blue
-const lightPrimaryColor = '#B2EBF2'; // Light Blue
+export const lightPrimaryColor = '#B2EBF2'; // Light Blue
 const accentColor = '#FFC107'; // Yellow
 const textColor = '#212121'; // Black
 const errorColor = '#F90606'; // Red
@@ -101,7 +101,6 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
   },
   // -------------------------------------  HEADER BAR  -------------------------------------------
-  // HeaderBar
   headerBarHeader: {
     backgroundColor: darkPrimaryColor,
   },
@@ -112,6 +111,14 @@ export const styles = StyleSheet.create({
   headerBarTitle: {
     fontSize: Platform.OS === 'ios' ? 25 : 30,
     color: '#FFFFFF',
+  },
+  // -------------------------------------  MENU  -------------------------------------------
+  menuDrawer_itemLabel: {
+    color: darkPrimaryColor,
+    fontSize: 18,
+  },
+  menuDrawer_itemIcon: {
+    color: darkPrimaryColor,
   },
 
   text: {

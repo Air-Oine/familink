@@ -5,7 +5,7 @@ import { styles, darkPrimaryColor } from '../style';
 
 export default function HeaderBar(props) {
   return (
-    <Header androidStatusBarColor={darkPrimaryColor} style={{backgroundColor: '#00BCD4'}}>
+    <Header androidStatusBarColor={darkPrimaryColor} style={styles.headerBarHeader}>
       {/* BURGER MENU BUTTON */}
       <Left>
         <Button
