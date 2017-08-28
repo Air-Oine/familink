@@ -3,7 +3,7 @@ import {
   View,
 } from 'react-native';
 
-import { Form, Input, Icon, Item, Label } from 'native-base';
+import { Form, Input, Icon, Item, Label, Button, Text } from 'native-base';
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
 import { styles, inputSelectionColor } from '../style';
@@ -17,9 +17,19 @@ export default class ProfileScreen extends Component {
     drawerIcon: () => (<Icon name="man" style={styles.menuDrawer_itemIcon} />),
   };
 
-  /* constructor(props) {
+  constructor(props) {
     super(props);
-  } */
+    this.state = {
+      selectedProfil: '',
+      profil: [],
+      username: '',
+      lastname: '',
+      firstname: '',
+      email: '',
+      firstNameInputError: false,
+      emailInputError: false,
+    };
+  }
 
   render() {
     const navigation = this.props.navigation;
@@ -32,7 +42,7 @@ export default class ProfileScreen extends Component {
             style={[styles.input]}
           >
             <Icon name="ios-call-outline" style={styles.inputIcon} />
-            <Label>{AppString.profile_User} :</Label>
+            <Label>{AppString.profileUser} :</Label>
             <Input
               disabled
               selectionColor={inputSelectionColor}
@@ -44,7 +54,7 @@ export default class ProfileScreen extends Component {
             style={[styles.input]}
           >
             <Icon name="ios-man-outline" style={styles.inputIcon} />
-            <Label>{AppString.profile_LastName} :</Label>
+            <Label>{AppString.profileLastName} :</Label>
             <Input
               disabled
               selectionColor={inputSelectionColor}
@@ -56,9 +66,8 @@ export default class ProfileScreen extends Component {
             style={[styles.input]}
           >
             <Icon name="ios-man-outline" style={styles.inputIcon} />
-            <Label>{AppString.profile_FirstName} :</Label>
+            <Label>{AppString.profileFirstName} :</Label>
             <Input
-              disabled
               selectionColor={inputSelectionColor}
               style={styles.inputText}
             />
@@ -68,9 +77,8 @@ export default class ProfileScreen extends Component {
             style={[styles.input]}
           >
             <Icon name="ios-at-outline" style={styles.inputIcon} />
-            <Label>{AppString.profile_Email} :</Label>
+            <Label>{AppString.profileEmail} :</Label>
             <Input
-              disabled
               selectionColor={inputSelectionColor}
               style={styles.inputText}
             />
@@ -80,13 +88,22 @@ export default class ProfileScreen extends Component {
             style={[styles.input]}
           >
             <Icon name="ios-at-outline" style={styles.inputIcon} />
-            <Label>{AppString.profile_Profil} :</Label>
+            <Label>{AppString.profileProfil} :</Label>
             <Input
-              disabled
               selectionColor={inputSelectionColor}
               style={styles.inputText}
             />
           </Item>
+          <Button
+            style={styles.button}
+            iconRight
+            full
+            light
+            onPress={() => this.signIn()}
+          >
+            <Text style={styles.buttonText}>{AppString.profileSave}</Text>
+            <Icon name="ios-arrow-dropright-outline" style={styles.iconButton} />
+          </Button>
         </Form>
       </View>
     );

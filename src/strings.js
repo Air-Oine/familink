@@ -58,11 +58,12 @@ I18n.translations = {
     actionError500Message: 'Une erreur est survenue coté serveur',
 
     // Profile 
-    profile_User: 'Utilisateur',
-    profile_LastName: 'Nom',
-    profile_FirstName: 'Prénom',
-    profile_Email: 'Email',
-    profile_Profil: 'Profile',
+    profileUser: 'Utilisateur',
+    profileLastName: 'Nom',
+    profileFirstName: 'Prénom',
+    profileEmail: 'Email',
+    profileProfil: 'Profile',
+    profileSave: 'Sauvegarder',
   },
 };
 
@@ -124,11 +125,12 @@ const AppString = {
   actionError500Message: I18n.t('actionError500Message'),
 
   // Profile 
-  profile_User: I18n.t('profile_User'),
-  profile_LastName: I18n.t('profile_LastName'),
-  profile_FirstName: I18n.t('profile_FirstName'),
-  profile_Email: I18n.t('profile_Email'),
-  profile_Profil: I18n.t('profile_Profil'),
+  profileUser: I18n.t('profile_User'),
+  profileLastName: I18n.t('profile_LastName'),
+  profileFirstName: I18n.t('profile_FirstName'),
+  profileEmail: I18n.t('profile_Email'),
+  profileProfil: I18n.t('profile_Profil'),
+  profileSave: I18n.t('profile_save'),
 };
 
 /**
