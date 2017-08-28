@@ -1,15 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import {
-  View,
+  View, Image,
 } from 'react-native';
 import {
-  Content,
   List,
   Icon,
   Container,
   ListItem,
   Text,
-  Right,
   Fab,
 } from 'native-base';
 import { connect } from 'react-redux';
@@ -20,18 +18,18 @@ import AppString from '../strings';
 import WebServices from '../webServices/WebServices';
 import { CONTACT_SCENE_NAME } from './ContactScreen';
 
-import { styles, primaryColor } from '../style';
+import { styles, accentColor } from '../style';
 
 const _ = require('lodash');
 
 export const CONTACTLIST_SCENE_NAME = 'CONTACTLIST_SCENE';
+const noAvatar = require('../../assets/no_avatar.png');
 
 export class ContactListScreen extends Component {
   static navigationOptions = {
     drawerLabel: AppString.contactListPageName,
     drawerIcon: () => (<Icon name="contacts" style={styles.menuDrawer_itemIcon} />),
   };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -70,7 +68,25 @@ export class ContactListScreen extends Component {
     // this.props.addContactLink(phone);
     navigation.navigate(CONTACT_SCENE_NAME);
   }
-
+  renderItem(item) {
+    let image;
+    if (item.gravatar === '') {
+      image = (<Image style={styles.contactList_img} source={noAvatar} />);
+    } else {
+      image = (<Image style={styles.contactList_img} source={{ uri: item.gravatar }} />);
+    }
+    return (
+      <ListItem button onPress={() => { this.goToDetail(); }} >
+        <View style={styles.contactList_viewItem}>
+          {image}
+          <View style={styles.contactList_viewItem_name_phone}>
+            <Text style={styles.contactList_name}>{item.lastName} {item.firstName} </Text>
+            <Text style={styles.contactList_phone}>{item.phone} </Text>
+          </View>
+        </View>
+      </ListItem>
+    );
+  }
   render() {
     const navigation = this.props.navigation;
     const items = this.state.listOfContacts;
@@ -78,24 +94,13 @@ export class ContactListScreen extends Component {
       <Container>
         <HeaderBar navigation={navigation} title={AppString.contactListPageName} />
         <View style={styles.flex1}>
-          <Content>
-            <List
-              dataArray={items}
-              renderRow={item =>
-                (
-                  <ListItem button onPress={() => { this.goToDetail(); }} >
-                    <Text>{item.lastName} {item.firstName} </Text>
-                    <Right>
-                      <Icon name="brush" />
-                    </Right>
-                  </ListItem>
-                )
-              }
-            />
-          </Content>
+          <List
+            dataArray={items}
+            renderRow={item => this.renderItem(item)}
+          />
           <Fab
             direction="up"
-            style={{ backgroundColor: primaryColor }}
+            style={{ backgroundColor: accentColor }}
             position="bottomRight"
             onPress={() => navigation.navigate(CONTACT_SCENE_NAME)}
           >
