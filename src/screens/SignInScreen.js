@@ -1,13 +1,15 @@
 import React, { Component, PropTypes } from 'react';
-import { ScrollView } from 'react-native';
-import { Form, Input, Label, Picker, Item, Button, Text } from 'native-base';
+import { View, ScrollView } from 'react-native';
+import { Form, Input, Icon, Item, Button, Text, Radio } from 'native-base';
 import AppString from '../strings';
-import { styles } from '../style';
+import { styles, inputError, inputPlaceHolderColor, inputSelectionColor } from '../style';
 
 import WebServices, { ERROR_REQUEST } from '../webServices/WebServices';
 import Helper from '../helpers/Helper';
 import { LOGIN_SCENE_NAME } from './LoginScreen';
 import Tools from '../Tools';
+
+const lodash = require('lodash');
 
 export const SIGNIN_SCENE_NAME = 'SIGNIN_SCENE';
 
@@ -20,7 +22,7 @@ export default class SignInScreen extends Component {
     super(props);
     this.getProfil();
     this.state = {
-      selectedProfil: 0,
+      selectedProfil: '',
       profil: [],
       username: '',
       password: '',
@@ -35,42 +37,56 @@ export default class SignInScreen extends Component {
       emailInputError: false,
     };
     this.onValueChange = this.onValueChange.bind(this);
-    this.validationRegex = this.validationRegex.bind(this);
+    this.validationForm = this.validationForm.bind(this);
     this.signIn = this.signIn.bind(this);
   }
+
   onValueChange(value) {
     this.setState({
       selectedProfil: value,
     });
   }
+
   setProfil() {
     const profilItems = [];
     if (this.state.profil.length > 0) {
       let key = 0;
       this.state.profil.forEach(((element) => {
-        profilItems.push(<Item label={element} value={key} key={key} />);
+        let selected = false;
+        if (this.state.selectedProfil === element) {
+          selected = true;
+        }
+        profilItems.push(
+          <View key={key} style={styles.radioButton}>
+            <Text>{element}</Text>
+            <Radio selected={selected} onPress={() => this.onValueChange(element)} />
+          </View>);
         key += 1;
       }));
       return profilItems;
     }
     return null;
   }
+
   async getProfil() {
     try {
       const response = await WebServices.getProfil();
       if (response) {
         this.setState({
           profil: response,
+          selectedProfil: response[0],
         });
       }
     } catch (error) {
       Tools.toastWarning(ERROR_REQUEST);
     }
   }
+
   async createUser(userString) {
     try {
       const value = await WebServices.createUser(userString);
       if (value !== null) {
+        Tools.toastSuccess(AppString.signIn_Success);
         this.goToLogin();
       }
     } catch (error) {
@@ -78,44 +94,54 @@ export default class SignInScreen extends Component {
     }
     return false;
   }
+
   goToLogin() {
     const navigation = this.props.navigation;
     navigation.navigate(LOGIN_SCENE_NAME);
   }
-  validationRegex() {
-    if (!Helper.isValidPhoneNumber(this.state.username) || this.state.username === '') {
-      return -1;
-    }
-    if (!Helper.isValidPassword(this.state.password) || this.state.password === '') {
-      return -2;
-    }
-    if (!Helper.isValidPassword(this.state.passwordConfirm) || this.state.passwordConfirm === '') {
-      return -3;
-    }
+
+  validationForm() {
+    const usernameInputError =
+      lodash.isEmpty(this.state.username) ||
+      !Helper.isValidPhoneNumber(this.state.username);
+
+    let passwordInputError =
+      lodash.isEmpty(this.state.password) ||
+      !Helper.isValidPassword(this.state.password);
+
+    let passwordConfirmInputError =
+      lodash.isEmpty(this.state.passwordConfirm) ||
+      !Helper.isValidPassword(this.state.passwordConfirm);
+
     if (this.state.password !== this.state.passwordConfirm) {
-      return -4;
+      passwordInputError = true;
+      passwordConfirmInputError = true;
     }
-    if (!Helper.isValidEmail(this.state.email)) {
-      return -5;
-    }
-    if (this.state.firstname === '') {
-      return -6;
-    }
-    return true;
+
+    const emailInputError = !Helper.isValidEmail(this.state.email);
+
+    const firstNameInputError = lodash.isEmpty(this.state.firstname);
+
+    // Set error state
+    this.setState({
+      usernameInputError,
+      passwordInputError,
+      passwordConfirmInputError,
+      emailInputError,
+      firstNameInputError,
+    });
+
+    return !(
+      usernameInputError ||
+      passwordInputError ||
+      passwordConfirmInputError ||
+      emailInputError ||
+      firstNameInputError);
   }
 
-  resetInputError() {
-    this.setState({
-      usernameInputError: false,
-      passwordInputError: false,
-      passwordConfirmInputError: false,
-      emailInputError: false,
-    });
-  }
   signIn() {
-    const result = this.validationRegex();
-    this.resetInputError();
-    if (result === true) {
+    const result = this.validationForm();
+    if (result) {
       let userString;
       if (this.state.email === '') {
         userString = `{
@@ -123,7 +149,7 @@ export default class SignInScreen extends Component {
           "password": "${this.state.password}",
           "firstName": "${this.state.firstname}",
           "lastName": "${this.state.lastname}",
-          "profile": "${this.state.profil[this.state.selectedProfil]}"
+          "profile": "${this.state.selectedProfil}"
         }`;
       } else {
         userString = `{
@@ -132,126 +158,122 @@ export default class SignInScreen extends Component {
           "firstName": "${this.state.firstname}",
           "lastName": "${this.state.lastname}",
           "email": "${this.state.email}",
-          "profile": "${this.state.profil[this.state.selectedProfil]}"
+          "profile": "${this.state.selectedProfil}"
         }`;
       }
       this.createUser(userString);
-    } else {
-      if (result === -1) {
-        this.setState({
-          usernameInputError: true,
-        });
-      }
-      if (result === -2) {
-        this.setState({
-          passwordInputError: true,
-        });
-      }
-      if (result === -3) {
-        this.setState({
-          passwordConfirmInputError: true,
-        });
-      }
-      if (result === -4) {
-        this.setState({
-          passwordInputError: true,
-          passwordConfirmInputError: true,
-        });
-      }
-      if (result === -5) {
-        this.setState({
-          emailInputError: true,
-        });
-      }
-      if (result === -6) {
-        this.setState({
-          firstNameInputError: true,
-        });
-      }
     }
   }
+
   render() {
     const profile = this.setProfil();
     return (
-      <ScrollView style={styles.form}>
-        <Form>
-          <Item
-            floatingLabel
-            error={this.state.usernameInputError === true}
-          >
-            <Label>{AppString.signIn_User}</Label>
-            <Input
-              maxLength={10}
-              keyboardType="numeric"
-              onChangeText={text => this.setState({ username: text })}
-            />
-          </Item>
-          <Item
-            floatingLabel
-            error={this.state.passwordInputError === true}
-          >
-            <Label>{AppString.signIn_Pwd}</Label>
-            <Input
-              secureTextEntry
-              maxLength={4}
-              keyboardType="numeric"
-              onChangeText={text => this.setState({ password: text })}
-            />
-          </Item>
-          <Item
-            floatingLabel
-            error={this.state.passwordConfirmInputError === true}
-          >
-            <Label>{AppString.signIn_PwdConfirm}</Label>
-            <Input
-              secureTextEntry
-              maxLength={4}
-              keyboardType="numeric"
-              onChangeText={text => this.setState({ passwordConfirm: text })}
-            />
-          </Item>
-          <Item floatingLabel>
-            <Label>{AppString.signIn_LastName}</Label>
-            <Input
-              onChangeText={text => this.setState({ lastname: text })}
-            />
-          </Item>
-          <Item
-            floatingLabel
-            error={this.state.firstNameInputError === true}
-          >
-            <Label>{AppString.signIn_FirstName}</Label>
-            <Input
-              onChangeText={text => this.setState({ firstname: text })}
-            />
-          </Item>
-          <Item
-            floatingLabel
-            error={this.state.emailInputError === true}
-          >
-            <Label>{AppString.signIn_Email}</Label>
-            <Input
-              keyboardType="email-address"
-              onChangeText={text => this.setState({ email: text })}
-            />
-          </Item>
-          <Picker
-            iosHeader={AppString.profilePageName}
-            mode="dropdown"
-            selectedValue={this.state.selectedProfil}
-            onValueChange={val => this.onValueChange(val)}
-          >
-            {profile}
-          </Picker>
-        </Form>
-        <Button
-          style={styles.defaultButtonAtBottom}
-          rounded
-          onPress={() => this.signIn()}
-        >
-          <Text>{AppString.signInPageName}</Text>
-        </Button>
-      </ScrollView>
+      <View>
+        <ScrollView>
+          <Form style={styles.form}>
+            <Item
+              rounded
+              style={[styles.input, inputError(this.state.usernameInputError)]}
+            >
+              <Icon name="ios-call-outline" style={styles.inputIcon} />
+              <Input
+                maxLength={10}
+                keyboardType="numeric"
+                onChangeText={text => this.setState({ username: text })}
+                placeholder={AppString.signIn_User}
+                placeholderTextColor={inputPlaceHolderColor}
+                selectionColor={inputSelectionColor}
+                style={styles.inputText}
+              />
+            </Item>
+            <Item
+              rounded
+              style={[styles.input, inputError(this.state.passwordInputError)]}
+            >
+              <Icon name="ios-lock-outline" style={styles.inputIcon} />
+              <Input
+                secureTextEntry
+                maxLength={4}
+                keyboardType="numeric"
+                onChangeText={text => this.setState({ password: text })}
+                placeholder={AppString.signIn_Pwd}
+                placeholderTextColor={inputPlaceHolderColor}
+                selectionColor={inputSelectionColor}
+                style={styles.inputText}
+              />
+            </Item>
+            <Item
+              rounded
+              style={[styles.input, inputError(this.state.passwordConfirmInputError)]}
+            >
+              <Icon name="ios-lock-outline" style={styles.inputIcon} />
+              <Input
+                secureTextEntry
+                maxLength={4}
+                keyboardType="numeric"
+                onChangeText={text => this.setState({ passwordConfirm: text })}
+                placeholder={AppString.signIn_PwdConfirm}
+                placeholderTextColor={inputPlaceHolderColor}
+                selectionColor={inputSelectionColor}
+                style={styles.inputText}
+              />
+            </Item>
+            <Item
+              rounded
+              style={[styles.input]}
+            >
+              <Icon name="ios-man-outline" style={styles.inputIcon} />
+              <Input
+                onChangeText={text => this.setState({ lastname: text })}
+                placeholder={AppString.signIn_LastName}
+                placeholderTextColor={inputPlaceHolderColor}
+                selectionColor={inputSelectionColor}
+                style={styles.inputText}
+              />
+            </Item>
+            <Item
+              rounded
+              style={[styles.input, inputError(this.state.firstNameInputError)]}
+            >
+              <Icon name="ios-man-outline" style={styles.inputIcon} />
+              <Input
+                onChangeText={text => this.setState({ firstname: text })}
+                placeholder={AppString.signIn_FirstName}
+                placeholderTextColor={inputPlaceHolderColor}
+                selectionColor={inputSelectionColor}
+                style={styles.inputText}
+              />
+            </Item>
+            <Item
+              rounded
+              style={[styles.input, inputError(this.state.emailInputError)]}
+            >
+              <Icon name="ios-at-outline" style={styles.inputIcon} />
+              <Input
+                keyboardType="email-address"
+                onChangeText={text => this.setState({ email: text })}
+                placeholder={AppString.signIn_Email}
+                placeholderTextColor={inputPlaceHolderColor}
+                selectionColor={inputSelectionColor}
+                style={styles.inputText}
+              />
+            </Item>
+            <View style={styles.radioButtonView}>
+              {profile}
+            </View>
+            <Button
+              style={styles.button}
+              iconRight
+              full
+              light
+              onPress={() => this.signIn()}
+            >
+              <Text style={styles.buttonText}>{AppString.signInPageName}</Text>
+              <Icon name="ios-arrow-dropright-outline" style={styles.iconButton} />
+            </Button>
+          </Form>
+        </ScrollView>
+      </View>
     );
   }
 }

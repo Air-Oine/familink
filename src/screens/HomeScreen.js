@@ -1,21 +1,27 @@
 import React, { Component, PropTypes } from 'react';
 import {
   Text,
+  Image,
   TouchableOpacity,
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { Container, Content, Icon, Grid, Col } from 'native-base';
+import { Container, Content, Icon, Grid, Col, Row } from 'native-base';
 import { styles } from '../style';
 import HeaderBar from '../components/HeaderBar';
 import { CONTACTLIST_SCENE_NAME } from './ContactListScreen';
 import AppString from '../strings';
 
 export const HOME_SCENE_NAME = 'HOME_SCENE';
+const annuaire = require('../../assets/annuaire.png');
+const config = require('../../assets/config.png');
+const profil = require('../../assets/profil.png');
+const smile = require('../../assets/smile.png');
 
 class HomeScreen extends Component {
   static navigationOptions = {
     drawerLabel: AppString.homePageName,
+    drawerIcon: () => (<Icon name="home" style={styles.menuDrawer_itemIcon} />),
   };
 
   /*
@@ -29,54 +35,48 @@ class HomeScreen extends Component {
     return (
       <Container>
         <HeaderBar navigation={navigation} title={AppString.homePageName} />
-        <Content>
+        <Content style={styles.accueilMargin}>
           <Grid>
-            <Col>
-              <TouchableOpacity onPress={() => { navigation.navigate(CONTACTLIST_SCENE_NAME); }} >
-                <Icon name="book" style={styles.icon} />
-                <Text style={styles.MenuText}>
-                  {AppString.homescreenAnnuaire}
-                </Text>
-              </TouchableOpacity>
-            </Col>
-            <Col>
-              <TouchableOpacity onPress={this.navigateToContactList}>
-                <Icon name="pulse" style={styles.icon} />
-                <Text style={styles.MenuText}>
-                  {AppString.homescreenHumeur}
-                </Text>
-              </TouchableOpacity>
-            </Col>
-          </Grid>
-          <Grid>
-            <Col>
-              <TouchableOpacity onPress={this.navigateToContactList}>
-                <Icon name="settings" style={styles.icon} />
-                <Text style={styles.MenuText}>
-                  {AppString.homescreenConfig}
-                </Text>
-              </TouchableOpacity>
-            </Col>
-            <Col>
-              <TouchableOpacity onPress={this.navigateToContactList}>
-                <Icon name="person" style={styles.icon} />
-                <Text style={styles.MenuText}>
-                  {AppString.homescreenProfil}
-                </Text>
-              </TouchableOpacity>
-            </Col>
-          </Grid>
-          <Grid>
-            <Col>
-              <TouchableOpacity onPress={this.navigateToContactList}>
-                <Icon name="exit" style={styles.iconR} />
-                <Text style={styles.MenuTextR}>
-                  {AppString.homescreenQuitter}
-                </Text>
-              </TouchableOpacity>
-            </Col>
-          </Grid>
+            <Row size={1}>
+              <Col>
+                <TouchableOpacity onPress={() => { navigation.navigate(CONTACTLIST_SCENE_NAME); }} >
+                  <Text style={styles.MenuText}>
+                    {AppString.homescreenAnnuaire}
+                  </Text>
+                  <Image source={annuaire} />
+                </TouchableOpacity>
+              </Col>
+              <Col>
+                <TouchableOpacity onPress={this.navigateToContactList}>
 
+                  <Text style={styles.MenuText}>
+                    {AppString.homescreenHumeur}
+                  </Text>
+                  <Image source={smile} />
+                </TouchableOpacity>
+              </Col>
+            </Row>
+            <Row size={1}>
+              <Col>
+                <TouchableOpacity onPress={this.navigateToContactList}>
+
+                  <Text style={styles.MenuText}>
+                    {AppString.homescreenConfig}
+                  </Text>
+                  <Image source={config} />
+                </TouchableOpacity>
+              </Col>
+              <Col>
+                <TouchableOpacity onPress={this.navigateToContactList}>
+
+                  <Text style={styles.MenuText}>
+                    {AppString.homescreenProfil}
+                  </Text>
+                  <Image source={profil} />
+                </TouchableOpacity>
+              </Col>
+            </Row>
+          </Grid>
         </Content>
       </Container>
 
