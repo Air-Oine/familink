@@ -38,18 +38,69 @@ export function setConnected(newIsConnected) {
 }
 
 export function addContactsList() {
-  return (dispatch, getState) => WebServices.getContacts(getState().familinkReducer.userToken)
-    .then((contacts) => {
-      dispatch({
-        type: ADD_CONTACTSLIST,
-        contactsList: contacts,
-      });
-    },
-    )
-    .catch(() => {
-      // TODO
+  return (dispatch, getState) => {
+    try {
+      if (!getState().familinkReducer.isConnected) {
+        const toThrow = { code: 0, message: 'No network' };
+        throw toThrow;
+      }
+      return fetch(`${getState().familinkReducer.uri}/secured/users/contacts`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${getState().familinkReducer.userToken}`,
+        },
+      })
+        .then((response) => {
+          try {
+            const toThrow = { code: 0, message: null };
+            switch (response.status) {
+              case 200:
+                return response.json();
 
-    });
+              case 400:
+                toThrow.code = 400;
+                toThrow.message = AppString.actionError400Message;
+                throw toThrow;
+
+              case 500:
+                toThrow.code = 500;
+                toThrow.message = AppString.actionError500Message;
+                throw toThrow;
+
+              default:
+                return false;
+            }
+          } catch (error) {
+            dispatch({
+              type: ADD_TOKEN_REJECTED,
+              code: error.code,
+              message: error.message,
+            });
+
+            return false;
+          }
+        })
+        .then((response) => {
+          if (response === null || response === false) {
+            return dispatch({
+              type: ADD_TOKEN,
+              token: null,
+            });
+          }
+          return dispatch({
+            type: ADD_CONTACTSLIST,
+            contactsList: response,
+          });
+        });
+    } catch (error) {
+      return dispatch({
+        type: ADD_TOKEN_REJECTED,
+        code: error.code,
+        message: error.message,
+      });
+    }
+  };
 }
 
 export function loginUser(loginString) {
