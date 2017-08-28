@@ -13,11 +13,11 @@ import {
   Fab,
 } from 'native-base';
 import { connect } from 'react-redux';
-import { addContactLink } from '../actions/familink.actions';
-import Storage from '../asyncStorage';
+import { addContactLink, addContactsList } from '../actions/familink.actions';
+// import Storage from '../asyncStorage';
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
-import WebServices from '../webServices/WebServices';
+// import WebServices from '../webServices/WebServices';
 import { CONTACT_SCENE_NAME } from './ContactScreen';
 
 import { styles, primaryColor } from '../style';
@@ -26,7 +26,7 @@ const _ = require('lodash');
 
 export const CONTACTLIST_SCENE_NAME = 'CONTACTLIST_SCENE';
 
-export class ContactListScreen extends Component {
+class ContactListScreen extends Component {
   static navigationOptions = {
     drawerLabel: AppString.contactListPageName,
     drawerIcon: () => (<Icon name="contacts" style={styles.menuDrawer_itemIcon} />),
@@ -35,45 +35,31 @@ export class ContactListScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listOfContacts: [],
       token: '',
     };
-    this.getContact = this.getContact.bind(this);
     this.goToDetail = this.goToDetail.bind(this);
   }
 
   componentDidMount() {
-    Storage.getItem('token').then((v) => {
-      this.setState({ token: v });
-      this.getContact();
-    });
+    // raz du link
+    this.props.addContactLink(null);
+    // récupération de liste de contacts
+    this.props.addContactsList();
   }
 
-  async getContact() {
-    try {
-      let temp = await WebServices.getContacts(this.state.token);
-      if (temp === null) {
-        return null;
-      }
-      temp = _.orderBy(temp, ['lastName'], ['asc']);
-      this.setState({
-        listOfContacts: temp,
-      });
-      return true;
-    } catch (error) {
-      return (error);
-    }
+  async storeContacts() {
+    console.log('afficchage des props', this.props.listOfContacts);
   }
-
-  goToDetail() {
+  goToDetail(user) {
     const navigation = this.props.navigation;
-    // this.props.addContactLink(phone);
+    this.props.addContactLink(user);
     navigation.navigate(CONTACT_SCENE_NAME);
   }
 
   render() {
     const navigation = this.props.navigation;
-    const items = this.state.listOfContacts;
+    const items = _.orderBy(this.props.listOfContacts, ['lastName'], ['asc']);
+    this.storeContacts();
     return (
       <Container>
         <HeaderBar navigation={navigation} title={AppString.contactListPageName} />
@@ -83,7 +69,7 @@ export class ContactListScreen extends Component {
               dataArray={items}
               renderRow={item =>
                 (
-                  <ListItem button onPress={() => { this.goToDetail(); }} >
+                  <ListItem button onPress={() => { this.goToDetail(item); }} >
                     <Text>{item.lastName} {item.firstName} </Text>
                     <Right>
                       <Icon name="brush" />
@@ -102,6 +88,9 @@ export class ContactListScreen extends Component {
             <Icon name="add" />
           </Fab>
         </View>
+        <Text>
+          afficher ici
+        </Text>
       </Container>
     );
   }
@@ -110,18 +99,21 @@ export class ContactListScreen extends Component {
 
 ContactListScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
-  // addContactLink: PropTypes.any.isRequired,
-  // userToken: PropTypes.any.isRequired,
+  addContactLink: PropTypes.func.isRequired,
+  addContactsList: PropTypes.any.isRequired,
+  listOfContacts: PropTypes.any.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    addContactLink: phone => dispatch(addContactLink(phone)),
+    addContactLink: user => dispatch(addContactLink(user)),
+    addContactsList: () => dispatch(addContactsList()),
   };
 }
 function mapStateToProps(state) {
   return {
     userToken: state.familinkReducer.userToken,
+    listOfContacts: state.familinkReducer.contactsList,
   };
 }
 

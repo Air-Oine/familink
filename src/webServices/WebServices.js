@@ -6,7 +6,7 @@ const uri = 'https://familink.cleverapps.io';
 
 const NO_CONNECTION = AppString.errorNoConnection;
 export const ERROR_REQUEST = AppString.errorRequest;
-let isConnected = false;
+// let isConnected = false;
 // Pour appeler une méthode :
 //
 // async createUser(){
@@ -74,7 +74,7 @@ export default class WebServices {
     }
   }
 
-  static async getContacts(value) {
+  static async getContacts(token) {
     try {
       if (!isConnected) {
         WebServices.toast();
@@ -84,7 +84,7 @@ export default class WebServices {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${value}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       if (response.status === 401) {
@@ -122,7 +122,7 @@ export default class WebServices {
     }
   }
 
-  static async createContact(value, token) {
+  static async createContact(value, token, isConnected) {
     try {
       if (!isConnected) {
         WebServices.toast();
@@ -148,7 +148,7 @@ export default class WebServices {
     }
   }
 
-  static async login(value) {
+  static async login(value, isConnected) {
     try {
       if (!isConnected) {
         WebServices.toast();
