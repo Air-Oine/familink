@@ -61,7 +61,9 @@ class LoginScreen extends Component {
         }
         if (this.props.userToken !== null && this.props.userToken !== false) {
           this.goHome();
+          return;
         }
+        console.log('TOAST : ', this.props.rejectedMessage);
         Tools.toastWarning(this.props.rejectedMessage);
       });
   }
