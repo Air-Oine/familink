@@ -9,9 +9,9 @@ import { HOME_SCENE_NAME } from '../screens/HomeScreen';
 export default function HeaderBar(props) {
   // Handle android back button
   BackHandler.addEventListener('hardwareBackPress', () => {
-    if (props.goBack) {
+    if (props.goBackTo) {
       // Go back to page defined in props
-      props.navigation.navigate(props.goBack);
+      props.navigation.navigate(props.goBackTo);
     } else {
       // Go back to Home page by default
       props.navigation.navigate(HOME_SCENE_NAME);
@@ -21,12 +21,12 @@ export default function HeaderBar(props) {
 
   let menuButton = null;
 
-  if (props.goBack) {
+  if (props.goBackTo) {
     // Back button
     menuButton = (
       <Button
         transparent
-        onPress={() => { props.navigation.navigate(props.goBack); }}
+        onPress={() => { props.navigation.navigate(props.goBackTo); }}
       >
         <Icon
           style={styles.headerBarIcon}
@@ -69,9 +69,9 @@ export default function HeaderBar(props) {
 HeaderBar.propTypes = {
   navigation: PropTypes.any.isRequired,
   title: PropTypes.any.isRequired,
-  goBack: PropTypes.string,
+  goBackTo: PropTypes.string,
 };
 
 HeaderBar.defaultProps = {
-  goBack: null,
+  goBackTo: null,
 };
