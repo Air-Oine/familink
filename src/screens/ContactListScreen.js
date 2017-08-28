@@ -46,7 +46,7 @@ class ContactListScreen extends Component {
   }
 
   async storeContacts() {
-    console.log('afficchage des props', this.props.listOfContacts);
+    // console.log('afficchage des props', this.props.listOfContacts);
   }
   goToDetail(user) {
     const navigation = this.props.navigation;
