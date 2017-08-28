@@ -11,7 +11,6 @@ import ContactScreen, { CONTACT_SCENE_NAME } from './screens/ContactScreen';
 import ContactListScreen, { CONTACTLIST_SCENE_NAME } from './screens/ContactListScreen';
 import ForgottenPwdScreen, { FORGOTTENPWD_SCENE_NAME } from './screens/ForgottenPwdScreen';
 import ProfileScreen, { PROFILE_SCENE_NAME } from './screens/ProfileScreen';
-import Hidden from './Hidden';
 
 import { styles, lightPrimaryColor } from './style';
 
@@ -23,7 +22,6 @@ stackNavigatorConfig[HOME_SCENE_NAME] = {
 
 stackNavigatorConfig[SIGNIN_SCENE_NAME] = {
   screen: SignInScreen,
-  drawerLabel: <Hidden />,
 };
 
 stackNavigatorConfig[CONTACT_SCENE_NAME] = {
