@@ -186,7 +186,7 @@ export const styles = StyleSheet.create({
   MenuText: {
     fontSize: 24,
     textAlign: 'center',
-    color: secondaryColor,
+    color: primaryColor,
   },
   MenuTextR: {
     fontSize: 24,
@@ -212,4 +212,11 @@ export const styles = StyleSheet.create({
     height: 60,
     marginTop: 15,
   },
+
+  // margin top accueil
+  accueilMargin: {
+    marginTop: 20,
+    
+  },
+
 });

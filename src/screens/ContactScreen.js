@@ -21,7 +21,7 @@ const lodash = require('lodash');
 
 export const CONTACT_SCENE_NAME = 'CONTACT_SCENE';
 
-export class ContactScreen extends Component {
+class ContactScreen extends Component {
   static navigationOptions = {
     title: AppString.contactPageName,
   };
@@ -38,14 +38,20 @@ export class ContactScreen extends Component {
       telError: false,
       email: '',
       emailError: false,
-      token: '',
     };
 
     this.validationForm = this.validationForm.bind(this);
     this.save = this.save.bind(this);
     this.saveContact = this.saveContact.bind(this);
+    this.modif = false;
   }
-
+  componentWillMount() {
+    if (this.props.contactLink != null) {
+      this.modif = false;
+    } else {
+      this.modif = true;
+    }
+  }
   componentDidMount() {
     Storage.getItem('token').then((v) => {
       this.setState({ token: v });
@@ -96,7 +102,7 @@ export class ContactScreen extends Component {
       contact += `"phone": "${this.state.tel}"`;
       contact += '}';
 
-      this.saveContact(contact, this.state.token);
+      this.saveContact(contact);
     }
   }
 
@@ -106,7 +112,7 @@ export class ContactScreen extends Component {
    */
   async saveContact(contact) {
     try {
-      const result = await WebServices.createContact(contact, this.state.token);
+      const result = await WebServices.createContact(contact, this.props.userToken);
       if (result === null) {
         return null;
       }
@@ -118,7 +124,6 @@ export class ContactScreen extends Component {
         this.props.navigation.navigate(CONTACTLIST_SCENE_NAME);
       } else if (result === 401) {
         WebServices.alertUnauthorized();
-
         // Go to login
         this.props.navigation.navigate(LOGIN_SCENE_NAME);
       }
@@ -238,7 +243,6 @@ export class ContactScreen extends Component {
             <Text>{AppString.addContactSave}</Text>
           </Button>
         </ScrollView>
-        <Text>{this.props.contactLink}</Text>
       </View>
     );
   }
@@ -247,11 +251,13 @@ export class ContactScreen extends Component {
 ContactScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
   contactLink: PropTypes.any.isRequired,
+  userToken: PropTypes.any.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     contactLink: state.familinkReducer.contactLink,
+    userToken: state.familinkReducer.userToken,
   };
 }
 
