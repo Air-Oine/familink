@@ -1,4 +1,5 @@
 import WebServices from '../webServices/WebServices';
+import AppString from '../strings';
 
 export const ADD_ISCONNECTED = 'ADD_ISCONNECTED';
 export const ADD_CONTACTLINK = 'ADD_CONTACTLINK';
@@ -66,32 +67,36 @@ export function loginUser(loginString) {
         body: loginString,
       })
         .then((response) => {
-          const toThrow = { code: 0, message: null };
-          switch (response.status) {
-            case 200:
-              return response.json();
+          try {
+            const toThrow = { code: 0, message: null };
+            switch (response.status) {
+              case 200:
+                return response.json();
 
-            case 400:
-              // TODO
-              toThrow.code = 400;
-              toThrow.message = 'Error in the login/password';
-              throw toThrow;
+              case 400:
+                toThrow.code = 400;
+                toThrow.message = AppString.actionError400Message;
+                throw toThrow;
 
-            case 500:
-              // TODO
-              break;
+              case 500:
+                toThrow.code = 500;
+                toThrow.message = AppString.actionError500Message;
+                throw toThrow;
 
-            default:
-              return false;
+              default:
+                return false;
+            }
+          } catch (error) {
+            dispatch({
+              type: ADD_TOKEN_REJECTED,
+              code: error.code,
+              message: error.message,
+            });
+
+            return false;
           }
-          return false;
-        })
-        .catch((e) => {
-          console.log('CATCH 1 : ', e);
-          throw e;
         })
         .then((response) => {
-          console.log('res : ', response);
           if (response === null || response === false) {
             return dispatch({
               type: ADD_TOKEN,
@@ -102,13 +107,8 @@ export function loginUser(loginString) {
             type: ADD_TOKEN,
             token: response.token,
           });
-        })
-        .catch((e) => {
-          console.log('CATCH 2 : ', e);
-          throw e;
         });
     } catch (error) {
-      console.log('err : ', error);
       return dispatch({
         type: ADD_TOKEN_REJECTED,
         code: error.code,

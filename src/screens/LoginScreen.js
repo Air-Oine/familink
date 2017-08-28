@@ -70,7 +70,6 @@ class LoginScreen extends Component {
         if (this.props.userToken !== null && this.props.userToken !== false) {
           this.goHome();
         }
-        console.log('TOAST');
         Tools.toastWarning(this.props.rejectedMessage);
       });
   }
@@ -162,6 +161,7 @@ LoginScreen.propTypes = {
 function mapStateToProps(state) {
   return {
     userToken: state.familinkReducer.userToken,
+    rejectedMessage: state.familinkReducer.rejectedMessage,
   };
 }
 

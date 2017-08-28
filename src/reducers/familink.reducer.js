@@ -5,7 +5,7 @@ export const initialState = {
   contactLink: '',
   userToken: null,
   code: null,
-  rejectedMessage: '',
+  rejectedMessage: 'REJECT',
   contactsList: {},
   isConnected: false,
   uri: 'https://familink.cleverapps.io',
