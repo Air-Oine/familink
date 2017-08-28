@@ -61,14 +61,19 @@ export default function HeaderBar(props) {
     deleteButton = renderButton(props.deleteOnPress, 'trash');
   }
 
+  // Handle long title
+  const bodySize = {
+    flex: props.title.length > 10 ? 9 : 4,
+  };
+
   return (
     <Header androidStatusBarColor={darkPrimaryColor} style={styles.headerBarHeader}>
       {/* BURGER MENU BUTTON */}
-      <Left>
+      <Left style={styles.flex1}>
         {menuButton}
       </Left>
       {/* PAGE TITLE */}
-      <Body>
+      <Body style={bodySize}>
         <Title style={styles.headerBarTitle}>
           {props.title}
         </Title>
