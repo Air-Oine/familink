@@ -6,7 +6,6 @@ import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 
 import NetworkContainer from './NetworkContainer';
-import WebServices from './webServices/WebServices';
 import familinkReducer from './reducers/familink.reducer';
 
 

@@ -120,7 +120,8 @@ export function loginUser(loginString) {
 
 /*
 export function saveContact(contact) {
-  return (dispatch, getState) => WebServices.createContact(contact, getState().familinkReducer.userToken)
+  return (dispatch, getState) => WebServices.createContact(contact,
+    getState().familinkReducer.userToken)
     .then((result) => {
       dispatch({
         type: ADD_CREATECONTACTRESULT,

@@ -85,7 +85,7 @@ export const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     fontSize: 18,
   },
-  // Contact list 
+  // Contact list
   contactList_img: {
     width: 50,
     height: 50,
@@ -216,7 +216,6 @@ export const styles = StyleSheet.create({
   // margin top accueil
   accueilMargin: {
     marginTop: 20,
-    
   },
 
 });
