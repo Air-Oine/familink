@@ -14,7 +14,7 @@ const defaultBorderRadius = 20;
 const primaryColor = '#00BCD4'; // Blue
 export const darkPrimaryColor = '#0097A7'; // Dark Blue
 export const lightPrimaryColor = '#B2EBF2'; // Light Blue
-const accentColor = '#FFC107'; // Yellow
+export const accentColor = '#FFC107'; // Yellow
 const textColor = '#212121'; // Black
 const textColorInput = '#FFFFFF'; // White
 const textSecondaryLightColor = '#BDBDBD'; // Gray Light
@@ -85,9 +85,23 @@ export const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     fontSize: 18,
   },
-  // signIn View
-  signIn_view: {
-
+  // Contact list 
+  contactList_img: {
+    width: 50,
+    height: 50,
+  },
+  contactList_viewItem: {
+    flexDirection: 'row',
+  },
+  contactList_viewItem_name_phone: {
+    flexDirection: 'column',
+  },
+  contactList_name: {
+    marginLeft: 10,
+  },
+  contactList_phone: {
+    marginLeft: 10,
+    marginTop: 10,
   },
   // -------------------------------------  Universel  ---------------------------------------------
   // --------------  CheckBox

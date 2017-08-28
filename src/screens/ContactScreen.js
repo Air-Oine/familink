@@ -4,12 +4,12 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-import { Form, Input, Label, Item, Button, Text, Grid, Col } from 'native-base';
+import { Form, Input, Item, Button, Text, Grid, Col } from 'native-base';
 import { connect } from 'react-redux';
 import Storage from '../asyncStorage';
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
-import { styles } from '../style';
+import { styles, inputError, inputPlaceHolderColor, inputSelectionColor } from '../style';
 import Helper from '../helpers/Helper';
 import WebServices, { ERROR_REQUEST } from '../webServices/WebServices';
 import Tools from '../Tools';
@@ -156,28 +156,45 @@ class ContactScreen extends Component {
           <Form>
             {/* LAST NAME */}
             <Item
-              floatingLabel
-              error={this.state.lastNameError}
+              rounded
+              style={[styles.input]}
             >
-              <Label>{AppString.addContactLastName}</Label>
               <Input
                 onChangeText={text => this.setState({ lastName: text })}
+                placeholder={AppString.addContactLastName}
+                placeholderTextColor={inputPlaceHolderColor}
+                selectionColor={inputSelectionColor}
+                style={styles.inputText}
               />
             </Item>
 
             {/* FIRST NAME */}
-            <Item floatingLabel>
-              <Label>{AppString.addContactFirstName}</Label>
-              <Input onChangeText={text => this.setState({ firstName: text })} />
+            <Item
+              rounded
+              style={[styles.input, inputError(this.state.firstNameError)]}
+            >
+              <Input
+                onChangeText={text => this.setState({ firstName: text })}
+                placeholder={AppString.addContactFirstName}
+                placeholderTextColor={inputPlaceHolderColor}
+                selectionColor={inputSelectionColor}
+                style={styles.inputText}
+              />
             </Item>
 
             {/* AVATAR */}
             <Grid>
               <Col size={4}>
-                <Item floatingLabel>
-                  <Label>{AppString.addContactGravatar}</Label>
+                <Item
+                  rounded
+                  style={[styles.input]}
+                >
                   <Input
                     onChangeText={text => this.setState({ avatarUrl: text })}
+                    placeholder={AppString.addContactGravatar}
+                    placeholderTextColor={inputPlaceHolderColor}
+                    selectionColor={inputSelectionColor}
+                    style={styles.inputText}
                   />
                 </Item>
               </Col>
@@ -186,31 +203,41 @@ class ContactScreen extends Component {
 
             {/* TEL */}
             <Item
-              floatingLabel
-              error={this.state.telError}
+              rounded
+              style={[styles.input, inputError(this.state.telError)]}
             >
-              <Label>{AppString.addContactPhone}</Label>
               <Input
                 maxLength={10}
                 keyboardType="numeric"
                 onChangeText={text => this.setState({ tel: text })}
+                placeholder={AppString.addContactPhone}
+                placeholderTextColor={inputPlaceHolderColor}
+                selectionColor={inputSelectionColor}
+                style={styles.inputText}
               />
             </Item>
 
             {/* EMAIL */}
             <Item
-              floatingLabel
-              error={this.state.emailError}
+              rounded
+              style={[styles.input, inputError(this.state.emailError)]}
             >
-              <Label>{AppString.addContactEmail}</Label>
-              <Input onChangeText={text => this.setState({ email: text })} />
+              <Input
+                onChangeText={text => this.setState({ email: text })}
+                placeholder={AppString.addContactEmail}
+                placeholderTextColor={inputPlaceHolderColor}
+                selectionColor={inputSelectionColor}
+                style={styles.inputText}
+              />
             </Item>
           </Form>
 
           {/* SAVE BUTTON */}
           <Button
-            style={styles.defaultButtonAtBottom}
-            rounded
+            style={styles.button}
+            iconRight
+            full
+            light
             onPress={this.save}
           >
             <Text>{AppString.addContactSave}</Text>
