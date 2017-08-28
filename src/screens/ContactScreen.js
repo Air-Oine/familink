@@ -153,7 +153,11 @@ class ContactScreen extends Component {
 
     return (
       <View>
-        <HeaderBar navigation={navigation} title={AppString.contactPageName} />
+        <HeaderBar
+          navigation={navigation}
+          title={AppString.contactPageName}
+          goBackTo={CONTACTLIST_SCENE_NAME}
+        />
         <ScrollView style={styles.form}>
           <Form>
             {/* LAST NAME */}

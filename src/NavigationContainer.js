@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { DrawerNavigator, DrawerItems } from 'react-navigation';
+
+import Tools from './Tools';
+import AppString from './strings';
+
 import HomeScreen, { HOME_SCENE_NAME } from './screens/HomeScreen';
 import LoginScreen, { LOGIN_SCENE_NAME } from './screens/LoginScreen';
 import SignInScreen, { SIGNIN_SCENE_NAME } from './screens/SignInScreen';
@@ -60,8 +64,20 @@ function renderMenu(props) {
       items={itemsArray}
       labelStyle={styles.menuDrawer_itemLabel}
       activeBackgroundColor={lightPrimaryColor}
+      onItemPress={(item) => {
+        // Handle logout
+        if (item.route.routeName === LOGIN_SCENE_NAME) {
+          Tools.toastSuccess(AppString.logoutConfirm);
+        }
+        // Navigate
+        props.navigation.navigate(item.route.routeName);
+      }}
     />);
 }
+
+renderMenu.propTypes = {
+  navigation: PropTypes.any.isRequired,
+};
 
 const drawerConfig = {
   contentComponent: props => renderMenu(props),

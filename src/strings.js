@@ -33,7 +33,7 @@ I18n.translations = {
 
     loginPageName: 'Déconnexion',
     homePageName: 'Accueil',
-    signInPageName: 'S\'enregistrer',
+    signInPageName: 'S\'inscrire',
     forgottenPasswordPageName: 'Mot de passe oublié',
     contactPageName: 'Contact',
     contactListPageName: 'Annuaire',
@@ -52,6 +52,7 @@ I18n.translations = {
     loginSignup: 'S\'inscrire',
     loginForgotPassword: 'Mot de passe oublié ?',
     loginError: 'Erreur de connexion',
+    logoutConfirm: 'Vous avez été déconnecté',
 
     // Familink Action :
     actionError400Message: 'Erreur de login ou de mot de passe',
@@ -111,6 +112,7 @@ const AppString = {
   loginSignup: I18n.t('loginSignup'),
   loginForgotPassword: I18n.t('loginForgotPassword'),
   loginError: I18n.t('loginError'),
+  logoutConfirm: I18n.t('logoutConfirm'),
 
   // Page Familink.actions :
   actionError400Message: I18n.t('actionError400Message'),
