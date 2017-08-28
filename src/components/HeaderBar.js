@@ -1,22 +1,59 @@
 import React, { PropTypes } from 'react';
+import { BackHandler } from 'react-native';
 import { Header, Left, Right, Button, Body, Title, Icon } from 'native-base';
 
 import { styles, darkPrimaryColor } from '../style';
 
+import { HOME_SCENE_NAME } from '../screens/HomeScreen';
+
 export default function HeaderBar(props) {
+  // Handle android back button
+  BackHandler.addEventListener('hardwareBackPress', () => {
+    if (props.goBack) {
+      // Go back to page defined in props
+      props.navigation.navigate(props.goBack);
+    } else {
+      // Go back to Home page by default
+      props.navigation.navigate(HOME_SCENE_NAME);
+    }
+    return true;
+  });
+
+  let menuButton = null;
+
+  if (props.goBack) {
+    // Back button
+    menuButton = (
+      <Button
+        transparent
+        onPress={() => { props.navigation.navigate(props.goBack); }}
+      >
+        <Icon
+          style={styles.headerBarIcon}
+          name="arrow-round-back"
+        />
+      </Button>
+    );
+  } else {
+    // Menu button
+    menuButton = (
+      <Button
+        transparent
+        onPress={() => { props.navigation.navigate('DrawerOpen'); }}
+      >
+        <Icon
+          style={styles.headerBarIcon}
+          name="menu"
+        />
+      </Button>
+    );
+  }
+
   return (
     <Header androidStatusBarColor={darkPrimaryColor} style={styles.headerBarHeader}>
       {/* BURGER MENU BUTTON */}
       <Left>
-        <Button
-          transparent
-          onPress={() => { props.navigation.navigate('DrawerOpen'); }}
-        >
-          <Icon
-            style={styles.headerBarIcon}
-            name="menu"
-          />
-        </Button>
+        {menuButton}
       </Left>
       {/* PAGE TITLE */}
       <Body>
@@ -32,4 +69,9 @@ export default function HeaderBar(props) {
 HeaderBar.propTypes = {
   navigation: PropTypes.any.isRequired,
   title: PropTypes.any.isRequired,
+  goBack: PropTypes.string,
+};
+
+HeaderBar.defaultProps = {
+  goBack: null,
 };
