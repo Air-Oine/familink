@@ -6,6 +6,25 @@ import { styles, darkPrimaryColor } from '../style';
 
 import { HOME_SCENE_NAME } from '../screens/HomeScreen';
 
+/**
+ * Generate a button with icon
+ * @param {*} onPress function called when onPress button
+ * @param {*} iconName 
+ */
+function renderButton(onPress = {}, iconName) {
+  return (
+    <Button
+      transparent
+      onPress={onPress}
+    >
+      <Icon
+        style={styles.headerBarIcon}
+        name={iconName}
+      />
+    </Button>
+  );
+}
+
 export default function HeaderBar(props) {
   // Handle android back button
   BackHandler.addEventListener('hardwareBackPress', () => {
@@ -19,34 +38,27 @@ export default function HeaderBar(props) {
     return true;
   });
 
+  // Menu button
   let menuButton = null;
 
   if (props.goBackTo) {
     // Back button
-    menuButton = (
-      <Button
-        transparent
-        onPress={() => { props.navigation.navigate(props.goBackTo); }}
-      >
-        <Icon
-          style={styles.headerBarIcon}
-          name="arrow-round-back"
-        />
-      </Button>
-    );
+    menuButton = renderButton(() => { props.navigation.navigate(props.goBackTo); }, 'arrow-round-back');
   } else {
     // Menu button
-    menuButton = (
-      <Button
-        transparent
-        onPress={() => { props.navigation.navigate('DrawerOpen'); }}
-      >
-        <Icon
-          style={styles.headerBarIcon}
-          name="menu"
-        />
-      </Button>
-    );
+    menuButton = renderButton(() => { props.navigation.navigate('DrawerOpen'); }, 'menu');
+  }
+
+  // Alter button
+  let alterButton = null;
+  if (props.alterOnPress) {
+    alterButton = renderButton(props.alterOnPress, 'md-create');
+  }
+
+  // Delete button
+  let deleteButton = null;
+  if (props.deleteOnPress) {
+    deleteButton = renderButton(props.deleteOnPress, 'trash');
   }
 
   return (
@@ -61,7 +73,10 @@ export default function HeaderBar(props) {
           {props.title}
         </Title>
       </Body>
-      <Right />
+      <Right>
+        {alterButton}
+        {deleteButton}
+      </Right>
     </Header>
   );
 }
@@ -70,8 +85,12 @@ HeaderBar.propTypes = {
   navigation: PropTypes.any.isRequired,
   title: PropTypes.any.isRequired,
   goBackTo: PropTypes.string,
+  alterOnPress: PropTypes.func,
+  deleteOnPress: PropTypes.func,
 };
 
 HeaderBar.defaultProps = {
   goBackTo: null,
+  alterOnPress: null,
+  deleteOnPress: null,
 };
