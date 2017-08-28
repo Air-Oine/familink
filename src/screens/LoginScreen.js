@@ -52,20 +52,18 @@ class LoginScreen extends Component {
       "password": "${this.state.password}"
     }`;
 
-    this.props.loginAction(loginString)
-      .then(() => {
-        Storage.removeItem('phone'); // Remove phone from database
-        // If remember me is activated :
-        if (this.state.rememberMeStatus) {
-          Storage.setItem('phone', this.state.user);
-        }
-        if (this.props.userToken !== null && this.props.userToken !== false) {
-          this.goHome();
-          return;
-        }
-        console.log('TOAST : ', this.props.rejectedMessage);
-        Tools.toastWarning(this.props.rejectedMessage);
-      });
+    await this.props.loginAction(loginString);
+    Storage.removeItem('phone'); // Remove phone from database
+    // If remember me is activated :
+    if (this.state.rememberMeStatus) {
+      Storage.setItem('phone', this.state.user);
+    }
+    if (this.props.userToken !== null && this.props.userToken !== false) {
+      this.goHome();
+      return;
+    }
+    console.log('TOAST : ', this.props.rejectedMessage);
+    Tools.toastWarning(this.props.rejectedMessage);
   }
 
   pressedRemember() {
