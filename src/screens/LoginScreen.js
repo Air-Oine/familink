@@ -3,12 +3,11 @@ import { Image, View, Text, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
 import { Form, Item, Input, Button, CheckBox, Icon } from 'native-base';
 
-import WebServices from '../webServices/WebServices';
 import AppString from '../strings';
 import { styles, inputError, inputPlaceHolderColor, inputSelectionColor } from '../style';
 import Tools from '../Tools';
 import Storage from '../asyncStorage';
-import { addToken } from '../actions/familink.actions';
+import { loginUser } from '../actions/familink.actions';
 
 import { HOME_SCENE_NAME } from './HomeScreen';
 import { SIGNIN_SCENE_NAME } from './SignInScreen';
@@ -48,33 +47,23 @@ class LoginScreen extends Component {
   }
 
   async login() {
-    const userString = `{
+    const loginString = `{
       "phone": "${this.state.user}",
       "password": "${this.state.password}"
     }`;
-    try { // WEBSERVICE CALL
-      const response = await WebServices.login(userString);
-      if (response === false) { // If login / password does not exist, Toast a warning :
-        Tools.toastWarning(AppString.loginError);
-        return;
-      }
 
-      if (response === null) {
-        return;
-      }
-      this.props.addTokenAction(response.token);
-
-      Storage.removeItem('phone'); // Remove phone from database
-      // If remember me is activated :
-      if (this.state.rememberMeStatus) {
-        Storage.setItem('phone', this.state.user);
-      }
-
-      // User logged in, we switch to home screen
-      this.goHome();
-    } catch (error) {
-      throw error;
-    }
+    this.props.loginAction(loginString)
+      .then(() => {
+        Storage.removeItem('phone'); // Remove phone from database
+        // If remember me is activated :
+        if (this.state.rememberMeStatus) {
+          Storage.setItem('phone', this.state.user);
+        }
+        if (this.props.userToken !== null && this.props.userToken !== false) {
+          this.goHome();
+        }
+        Tools.toastWarning(this.props.rejectedMessage);
+      });
   }
 
   pressedRemember() {
@@ -183,13 +172,22 @@ class LoginScreen extends Component {
 
 LoginScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
-  addTokenAction: PropTypes.func.isRequired,
+  loginAction: PropTypes.func.isRequired,
+  userToken: PropTypes.any.isRequired,
+  rejectedMessage: PropTypes.any.isRequired,
 };
 
-function mapDispatchToProps(dispatch) {
+function mapStateToProps(state) {
   return {
-    addTokenAction: token => dispatch(addToken(token)),
+    userToken: state.familinkReducer.userToken,
+    rejectedMessage: state.familinkReducer.rejectedMessage,
   };
 }
 
-export default connect(undefined, mapDispatchToProps)(LoginScreen);
+function mapDispatchToProps(dispatch) {
+  return {
+    loginAction: loginString => dispatch(loginUser(loginString)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

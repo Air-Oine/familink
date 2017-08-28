@@ -52,6 +52,10 @@ I18n.translations = {
     loginSignup: 'S\'inscrire',
     loginForgotPassword: 'Mot de passe oublié ?',
     loginError: 'Erreur de connexion',
+
+    // Familink Action :
+    actionError400Message: 'Erreur de login ou de mot de passe',
+    actionError500Message: 'Une erreur est survenue coté serveur',
   },
 };
 
@@ -107,6 +111,10 @@ const AppString = {
   loginSignup: I18n.t('loginSignup'),
   loginForgotPassword: I18n.t('loginForgotPassword'),
   loginError: I18n.t('loginError'),
+
+  // Page Familink.actions :
+  actionError400Message: I18n.t('actionError400Message'),
+  actionError500Message: I18n.t('actionError500Message'),
 };
 
 /**

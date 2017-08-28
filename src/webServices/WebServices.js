@@ -148,32 +148,6 @@ export default class WebServices {
     }
   }
 
-  static async login(value, isConnected) {
-    try {
-      if (!isConnected) {
-        WebServices.toast();
-        return null;
-      }
-      const response = await fetch(`${uri}/public/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: value,
-      });
-      const status = response.status;
-      const responseJSON = await response.json();
-      // Storage.setItem('userToken', JSON.stringify(responseJSON));
-      if (status === 200) {
-        return responseJSON;
-      }
-      return false;
-    } catch (error) {
-      throw ERROR_REQUEST;
-    }
-  }
-
-
   static async forgetPassWord(value) {
     try {
       if (!isConnected) {
@@ -188,7 +162,6 @@ export default class WebServices {
         body: JSON.stringify(value),
       });
       const status = response.status;
-      //    Storage.setItem('userToken', JSON.stringify(responseJSON));
       if (status === 200) {
         return true;
       }
