@@ -33,7 +33,7 @@ I18n.translations = {
 
     loginPageName: 'Déconnexion',
     homePageName: 'Accueil',
-    signInPageName: 'S\'enregistrer',
+    signInPageName: 'S\'inscrire',
     forgottenPasswordPageName: 'Mot de passe oublié',
     contactPageName: 'Contact',
     contactListPageName: 'Annuaire',
