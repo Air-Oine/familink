@@ -56,6 +56,13 @@ I18n.translations = {
     // Familink Action :
     actionError400Message: 'Erreur de login ou de mot de passe',
     actionError500Message: 'Une erreur est survenue coté serveur',
+
+    // Profile 
+    profile_User: 'Utilisateur',
+    profile_LastName: 'Nom',
+    profile_FirstName: 'Prénom',
+    profile_Email: 'Email',
+    profile_Profil: 'Profile',
   },
 };
 
@@ -115,6 +122,13 @@ const AppString = {
   // Page Familink.actions :
   actionError400Message: I18n.t('actionError400Message'),
   actionError500Message: I18n.t('actionError500Message'),
+
+  // Profile 
+  profile_User: I18n.t('profile_User'),
+  profile_LastName: I18n.t('profile_LastName'),
+  profile_FirstName: I18n.t('profile_FirstName'),
+  profile_Email: I18n.t('profile_Email'),
+  profile_Profil: I18n.t('profile_Profil'),
 };
 
 /**
