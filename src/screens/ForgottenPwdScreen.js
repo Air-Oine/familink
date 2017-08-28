@@ -6,12 +6,14 @@ import {
 
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
+import Hidden from '../Hidden';
 
 export const FORGOTTENPWD_SCENE_NAME = 'FORGETTENPWD_SCENE';
 
 export default class ForgottenPwdScreen extends Component {
   static navigationOptions = {
     title: AppString.forgottenPasswordPageName,
+    drawerLabel: <Hidden />,
   };
 
   /* constructor(props) {

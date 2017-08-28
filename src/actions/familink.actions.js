@@ -46,9 +46,9 @@ export function addContactsList() {
       });
     },
     )
-    .catch(() => {
+    .catch((error) => {
       // TODO
-
+      throw (error);
     });
 }
 
