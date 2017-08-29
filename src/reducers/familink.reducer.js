@@ -1,4 +1,17 @@
-import { ADD_ISCONNECTED, ADD_CONTACTLINK, ADD_TOKEN, ADD_API_REJECTED, ADD_CONTACTSLIST, SET_CONNECTED, ADD_USER_PROFILE, ADD_PROFILE, UPDATE_USER_PROFILE } from '../actions/familink.actions';
+import {
+  ADD_ISCONNECTED,
+  ADD_CONTACTLINK,
+  ADD_TOKEN,
+  ADD_API_REJECTED,
+  ADD_CONTACTSLIST,
+  SET_CONNECTED,
+  ADD_USER_PROFILE,
+  ADD_PROFILE,
+  UPDATE_USER_PROFILE,
+  FORGOT_PASSWORD,
+} from '../actions/familink.actions';
+
+const _ = require('lodash');
 
 export const initialState = {
   userIsConnected: false,
@@ -47,7 +60,7 @@ export default function familinkReducer(state = initialState, action) {
     case ADD_CONTACTSLIST:
       return {
         ...state,
-        contactsList: action.contactsList,
+        contactsList: _.orderBy(action.contactsList, ['lastName'], ['asc']),
       };
     case SET_CONNECTED:
       return {
@@ -69,7 +82,12 @@ export default function familinkReducer(state = initialState, action) {
       return {
         ...state,
         updateProfileStatus: action.updateProfileStatus,
-      };
+        };
+    case FORGOT_PASSWORD:
+      return {
+        ...state,
+        phoneString: action.phoneString,
+      }
     default:
       return state;
   }

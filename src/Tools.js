@@ -51,8 +51,27 @@ export default class Tools {
   }
 
   // ----------------------------Alert----------------------------------
-  static alert(title, message) {
-    Alert.alert(title, message, null, { cancelable: false,
-    });
+  /**
+   * Show an alert message
+   * @param {*} title of the popin
+   * @param {*} message 
+   * @param {*} okText optional : text for the OK button
+   * @param {*} okOnPress optional : function called when OK button pressed
+   * @param {*} cancelText optional : text for the cancel button
+   * @param {*} cancelOnPress optional : function called when cancel button pressed
+   */
+  static alert(title, message,
+    okText = null, okOnPress = null, cancelText = null, cancelOnPress = null) {
+    // Custom buttons
+    const buttons = [];
+
+    if (okText) {
+      buttons.push({ text: okText, onPress: okOnPress });
+    }
+    if (cancelText) {
+      buttons.push({ text: cancelText, onPress: cancelOnPress });
+    }
+
+    Alert.alert(title, message, buttons.length > 0 ? buttons : null, { cancelable: false });
   }
 }
