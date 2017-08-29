@@ -10,6 +10,8 @@ export const LOGIN_USER = 'LOGIN_USER';
 export const SET_CONNECTED = 'SET_CONNECTED';
 export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
 export const FORGOT_PASSWORD_REJECTED = 'FORGOT_PASSWORD_REJECTED';
+export const DELETE_CONTACT = 'DELETE_CONTACT';
+export const SETDELETED = 'SETDELETED';
 
 export function addToken(newToken) {
   return {
@@ -36,6 +38,12 @@ export function setConnected(newIsConnected) {
   return {
     type: SET_CONNECTED,
     isConnected: newIsConnected,
+  };
+}
+
+export function setDeleted() {
+  return {
+    type: SETDELETED,
   };
 }
 
@@ -201,6 +209,46 @@ export function forgotPassword(phoneString) {
         message: error.message,
       });
     }
+  };
+}
+
+export function deleteContact(contact) {
+  return (dispatch, getState) => {
+    networkOrNotNetwork(getState().familinkReducer.isConnected,
+      `${getState().familinkReducer.uri}/secured/users/contacts/${contact._id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${getState().familinkReducer.userToken}`,
+        },
+      })
+      .then((response) => {
+        const toThrow = { code: 0, message: null };
+        switch (response.status) {
+          case 204:
+            return dispatch({
+              type: DELETE_CONTACT,
+              isDeleted: true,
+            });
+
+          case 400:
+            toThrow.code = 400;
+            toThrow.message = AppString.actionError400Message;
+            throw toThrow;
+
+          case 500:
+            toThrow.code = 500;
+            toThrow.message = AppString.actionError500Message;
+            throw toThrow;
+
+          default:
+            return false;
+        }
+      })
+      .catch((error) => {
+        Tools.toastWarning(error.message);
+      });
   };
 }
 

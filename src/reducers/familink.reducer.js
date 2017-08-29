@@ -1,4 +1,4 @@
-import { ADD_ISCONNECTED, ADD_CONTACTLINK, ADD_TOKEN, ADD_API_REJECTED, ADD_CONTACTSLIST, SET_CONNECTED, FORGOT_PASSWORD } from '../actions/familink.actions';
+import { ADD_ISCONNECTED, ADD_CONTACTLINK, ADD_TOKEN, ADD_API_REJECTED, ADD_CONTACTSLIST, SET_CONNECTED, FORGOT_PASSWORD, DELETE_CONTACT, SETDELETED } from '../actions/familink.actions';
 
 const _ = require('lodash');
 
@@ -11,6 +11,7 @@ export const initialState = {
   contactsList: {},
   isConnected: false,
   uri: 'https://familink.cleverapps.io',
+  deleted: false,
 };
 
 export default function familinkReducer(state = initialState, action) {
@@ -52,6 +53,18 @@ export default function familinkReducer(state = initialState, action) {
         ...state,
         phoneString: action.phoneString,
       };
+    case DELETE_CONTACT:
+      return {
+        ...state,
+        deleted: action.isDeleted,
+      };
+    case SETDELETED:
+      return {
+        ...state,
+        deleted: false,
+      };
+
+
     default:
       return state;
   }

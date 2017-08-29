@@ -6,7 +6,6 @@ import {
 } from 'react-native';
 import { Form, Input, Item, Button, Text, Grid, Col } from 'native-base';
 import { connect } from 'react-redux';
-import Storage from '../asyncStorage';
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
 import { styles, inputError, inputPlaceHolderColor, inputSelectionColor } from '../style';
@@ -14,6 +13,7 @@ import Helper from '../helpers/Helper';
 import WebServices, { ERROR_REQUEST } from '../webServices/WebServices';
 import Tools from '../Tools';
 import Hidden from '../Hidden';
+import { deleteContact } from '../actions/familink.actions';
 
 import { CONTACTLIST_SCENE_NAME } from './ContactListScreen';
 import { LOGIN_SCENE_NAME } from './LoginScreen';
@@ -45,14 +45,21 @@ class ContactScreen extends Component {
     this.validationForm = this.validationForm.bind(this);
     this.save = this.save.bind(this);
     this.saveContact = this.saveContact.bind(this);
+    this.delete = this.delete.bind(this);
     this.modif = false;
   }
   componentWillMount() {
     if (this.props.contactLink == null) {
       this.modif = false;
     } else {
-      console.log(this.props.contactLink);
       this.modif = true;
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('changement d etat: ', nextProps);
+    if (nextProps.deleted) {
+      this.props.navigation.navigate(CONTACTLIST_SCENE_NAME);
     }
   }
 
@@ -135,7 +142,7 @@ class ContactScreen extends Component {
   }
 
   delete() {
-
+    this.props.deleteContact(this.props.contactLink);
   }
 
   render() {
@@ -262,14 +269,20 @@ class ContactScreen extends Component {
 ContactScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
   contactLink: PropTypes.any.isRequired,
-  userToken: PropTypes.any.isRequired,
+  deleteContact: PropTypes.func.isRequired,
+  deleted: PropTypes.any.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     contactLink: state.familinkReducer.contactLink,
-    userToken: state.familinkReducer.userToken,
+    deleted: state.familinkReducer.deleted,
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    deleteContact: contact => dispatch(deleteContact(contact)),
   };
 }
 
-export default connect(mapStateToProps, undefined)(ContactScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(ContactScreen);

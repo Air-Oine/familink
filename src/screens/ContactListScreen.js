@@ -14,7 +14,7 @@ import {
   Input,
 } from 'native-base';
 import { connect } from 'react-redux';
-import { addContactLink, addContactsList } from '../actions/familink.actions';
+import { addContactLink, addContactsList, setDeleted } from '../actions/familink.actions';
 // import Storage from '../asyncStorage';
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
@@ -48,6 +48,7 @@ class ContactListScreen extends Component {
     // raz du link
     this.props.addContactLink(null);
     // récupération de liste de contacts
+    this.props.setDeleted();
     this.props.addContactsList();
   }
 
@@ -131,12 +132,14 @@ ContactListScreen.propTypes = {
   addContactLink: PropTypes.func.isRequired,
   addContactsList: PropTypes.any.isRequired,
   listOfContacts: PropTypes.any.isRequired,
+  setDeleted: PropTypes.any.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
     addContactLink: user => dispatch(addContactLink(user)),
     addContactsList: () => dispatch(addContactsList()),
+    setDeleted: () => dispatch(setDeleted()),
   };
 }
 function mapStateToProps(state) {
