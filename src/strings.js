@@ -54,6 +54,15 @@ I18n.translations = {
     loginError: 'Erreur de connexion',
     logoutConfirm: 'Vous avez été déconnecté',
 
+    // Page Forgotten password
+    forgottenPasswordPhone: 'Numéro *',
+    forgottenPasswordSave: 'Générer',
+    forgottenPasswordPopInMessage: 'Voici votre nouveau mot de passe : 0000',
+    forgottenPasswordPopInTitle: 'Information',
+    forgottenPasswordPopInOk: 'J\'ai noté',
+    forgottenPasswordPopInNotFoundMessage: 'Le numéro que vous avez saisi ne correspond a aucun utilisateur',
+    forgottenPasswordPopInNotFoundTitle: 'Avertissement',
+
     // Familink Action :
     actionError400Message: 'Erreur de login ou de mot de passe',
     actionError500Message: 'Une erreur est survenue coté serveur',
@@ -113,6 +122,15 @@ const AppString = {
   loginForgotPassword: I18n.t('loginForgotPassword'),
   loginError: I18n.t('loginError'),
   logoutConfirm: I18n.t('logoutConfirm'),
+
+  // Page Forgotten password
+  forgottenPasswordPhone: I18n.t('forgottenPasswordPhone'),
+  forgottenPasswordSave: I18n.t('forgottenPasswordSave'),
+  forgottenPasswordPopInTitle: I18n.t('forgottenPasswordPopInTitle'),
+  forgottenPasswordPopInMessage: I18n.t('forgottenPasswordPopInMessage'),
+  forgottenPasswordPopInOk: I18n.t('forgottenPasswordPopInOk'),
+  forgottenPasswordPopInNotFoundTitle: I18n.t('forgottenPasswordPopInNotFoundTitle'),
+  forgottenPasswordPopInNotFoundMessage: I18n.t('forgottenPasswordPopInNotFoundMessage'),
 
   // Page Familink.actions :
   actionError400Message: I18n.t('actionError400Message'),

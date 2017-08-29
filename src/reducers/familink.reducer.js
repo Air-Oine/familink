@@ -1,4 +1,4 @@
-import { ADD_ISCONNECTED, ADD_CONTACTLINK, ADD_TOKEN, ADD_API_REJECTED, ADD_CONTACTSLIST, SET_CONNECTED } from '../actions/familink.actions';
+import { ADD_ISCONNECTED, ADD_CONTACTLINK, ADD_TOKEN, ADD_API_REJECTED, ADD_CONTACTSLIST, SET_CONNECTED, FORGOT_PASSWORD } from '../actions/familink.actions';
 
 const _ = require('lodash');
 
@@ -46,6 +46,11 @@ export default function familinkReducer(state = initialState, action) {
       return {
         ...state,
         isConnected: action.isConnected,
+      };
+    case FORGOT_PASSWORD:
+      return {
+        ...state,
+        phoneString: action.phoneString,
       };
     default:
       return state;
