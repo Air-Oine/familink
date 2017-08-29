@@ -218,4 +218,9 @@ export const styles = StyleSheet.create({
     marginTop: 20,
   },
 
+  // searchBar
+  searchBar: {
+    backgroundColor: darkPrimaryColor,
+  },
+
 });

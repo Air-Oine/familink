@@ -9,6 +9,7 @@ import Helper from '../helpers/Helper';
 import HeaderBar from '../components/HeaderBar';
 import { LOGIN_SCENE_NAME } from './LoginScreen';
 import Tools from '../Tools';
+import Hidden from '../Hidden';
 
 const lodash = require('lodash');
 
@@ -17,6 +18,7 @@ export const SIGNIN_SCENE_NAME = 'SIGNIN_SCENE';
 export default class SignInScreen extends Component {
   static navigationOptions = {
     title: AppString.signInPageName,
+    drawerLabel: <Hidden />,
   };
 
   constructor(props) {

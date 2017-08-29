@@ -13,6 +13,7 @@ import { styles, inputError, inputPlaceHolderColor, inputSelectionColor } from '
 import Helper from '../helpers/Helper';
 import WebServices, { ERROR_REQUEST } from '../webServices/WebServices';
 import Tools from '../Tools';
+import Hidden from '../Hidden';
 
 import { CONTACTLIST_SCENE_NAME } from './ContactListScreen';
 import { LOGIN_SCENE_NAME } from './LoginScreen';
@@ -24,6 +25,7 @@ export const CONTACT_SCENE_NAME = 'CONTACT_SCENE';
 class ContactScreen extends Component {
   static navigationOptions = {
     title: AppString.contactPageName,
+    drawerLabel: <Hidden />,
   };
 
   constructor(props) {

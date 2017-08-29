@@ -15,6 +15,7 @@ import Tools from '../Tools';
 import { forgotPassword } from '../actions/familink.actions';
 
 import { LOGIN_SCENE_NAME } from './LoginScreen';
+import Hidden from '../Hidden';
 
 const lodash = require('lodash');
 
@@ -23,6 +24,7 @@ export const FORGOTTENPWD_SCENE_NAME = 'FORGETTENPWD_SCENE';
 class ForgottenPwdScreen extends Component {
   static navigationOptions = {
     title: AppString.forgottenPasswordPageName,
+    drawerLabel: <Hidden />,
   };
 
   constructor(props) {
