@@ -45,9 +45,6 @@ class ContactListScreen extends Component {
     this.props.addContactsList();
   }
 
-  async storeContacts() {
-    // console.log('afficchage des props', this.props.listOfContacts);
-  }
   goToDetail(user) {
     const navigation = this.props.navigation;
     this.props.addContactLink(user);
@@ -75,7 +72,6 @@ class ContactListScreen extends Component {
   render() {
     const navigation = this.props.navigation;
     const items = _.orderBy(this.props.listOfContacts, ['lastName'], ['asc']);
-    this.storeContacts();
     return (
       <Container>
         <HeaderBar navigation={navigation} title={AppString.contactListPageName} />
