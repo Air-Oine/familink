@@ -30,6 +30,7 @@ I18n.translations = {
     addContactPhone: 'Tél *',
     addContactEmail: 'Mail',
     addContactToastSuccess: 'Contact ajouté avec succès',
+    addContactToastUpdateSuccess: 'Contact mis à jour avec succès',
 
     loginPageName: 'Déconnexion',
     homePageName: 'Accueil',
@@ -95,6 +96,7 @@ const AppString = {
   addContactPhone: I18n.t('addContactPhone'),
   addContactEmail: I18n.t('addContactEmail'),
   addContactToastSuccess: I18n.t('addContactToastSuccess'),
+  addContactToastUpdateSuccess: I18n.t('addContactToastUpdateSuccess'),
 
   // PageName
   loginPageName: I18n.t('loginPageName'),
