@@ -93,9 +93,6 @@ class ContactListScreen extends Component {
             <Icon name="add" />
           </Fab>
         </View>
-        <Text>
-          afficher ici
-        </Text>
       </Container>
     );
   }
