@@ -25,8 +25,8 @@ export default class SignInScreen extends Component {
     super(props);
     this.getProfil();
     this.state = {
-      selectedProfil: '',
-      profil: [],
+      selectedProfile: '',
+      profiles: [],
       username: '',
       password: '',
       passwordConfirm: '',
@@ -52,11 +52,11 @@ export default class SignInScreen extends Component {
 
   setProfil() {
     const profilItems = [];
-    if (this.state.profil.length > 0) {
+    if (this.state.profiles.length > 0) {
       let key = 0;
-      this.state.profil.forEach(((element) => {
+      this.state.profiles.forEach(((element) => {
         let selected = false;
-        if (this.state.selectedProfil === element) {
+        if (this.state.selectedProfile === element) {
           selected = true;
         }
         profilItems.push(
@@ -152,7 +152,7 @@ export default class SignInScreen extends Component {
           "password": "${this.state.password}",
           "firstName": "${this.state.firstname}",
           "lastName": "${this.state.lastname}",
-          "profile": "${this.state.selectedProfil}"
+          "profile": "${this.state.selectedProfile}"
         }`;
       } else {
         userString = `{
@@ -161,7 +161,7 @@ export default class SignInScreen extends Component {
           "firstName": "${this.state.firstname}",
           "lastName": "${this.state.lastname}",
           "email": "${this.state.email}",
-          "profile": "${this.state.selectedProfil}"
+          "profile": "${this.state.selectedProfile}"
         }`;
       }
       this.createUser(userString);
