@@ -5,7 +5,6 @@ import { Form, Item, Input, Button, CheckBox, Icon } from 'native-base';
 
 import AppString from '../strings';
 import { styles, inputError, inputPlaceHolderColor, inputSelectionColor } from '../style';
-import Tools from '../Tools';
 import Storage from '../asyncStorage';
 import { loginUser } from '../actions/familink.actions';
 
@@ -172,7 +171,6 @@ LoginScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
   loginAction: PropTypes.func.isRequired,
   userToken: PropTypes.any.isRequired,
-  rejectedMessage: PropTypes.any.isRequired,
 };
 
 function mapStateToProps(state) {

@@ -1,4 +1,4 @@
-import { ADD_ISCONNECTED, ADD_CONTACTLINK, ADD_TOKEN, ADD_TOKEN_REJECTED, ADD_CONTACTSLIST, SET_CONNECTED } from '../actions/familink.actions';
+import { ADD_ISCONNECTED, ADD_CONTACTLINK, ADD_TOKEN, ADD_API_REJECTED, ADD_CONTACTSLIST, SET_CONNECTED } from '../actions/familink.actions';
 
 export const initialState = {
   userIsConnected: false,
@@ -29,7 +29,7 @@ export default function familinkReducer(state = initialState, action) {
         ...state,
         userToken: action.token,
       };
-    case ADD_TOKEN_REJECTED:
+    case ADD_API_REJECTED:
       return {
         ...state,
         code: action.code,

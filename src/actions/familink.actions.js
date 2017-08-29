@@ -4,7 +4,7 @@ import Tools from '../Tools';
 export const ADD_ISCONNECTED = 'ADD_ISCONNECTED';
 export const ADD_CONTACTLINK = 'ADD_CONTACTLINK';
 export const ADD_TOKEN = 'ADD_TOKEN';
-export const ADD_TOKEN_REJECTED = 'ADD_TOKEN_REJECTED';
+export const ADD_API_REJECTED = 'ADD_API_REJECTED';
 export const ADD_CONTACTSLIST = 'ADD_CONTACTSLIST';
 export const LOGIN_USER = 'LOGIN_USER';
 export const SET_CONNECTED = 'SET_CONNECTED';
@@ -81,8 +81,8 @@ export function addContactsList() {
       .then((response) => {
         if (response === null || response === false) {
           return dispatch({
-            type: ADD_TOKEN,
-            token: null,
+            type: ADD_CONTACTSLIST,
+            contactsList: null,
           });
         }
         return dispatch({
@@ -91,11 +91,7 @@ export function addContactsList() {
         });
       })
       .catch((error) => {
-        dispatch({
-          type: ADD_TOKEN_REJECTED,
-          code: error.code,
-          message: error.message,
-        });
+        Tools.toastWarning(error.message);
       });
   };
 }
@@ -143,7 +139,6 @@ export function loginUser(loginString) {
           token: response.token,
         });
       }).catch((error) => {
-        console.log('TOAST33 : ', error.message);
         Tools.toastWarning(error.message);
       });
   };
