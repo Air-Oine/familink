@@ -57,7 +57,6 @@ class ContactScreen extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('changement d etat: ', nextProps);
     if (nextProps.deleted) {
       this.props.navigation.navigate(CONTACTLIST_SCENE_NAME);
     }
