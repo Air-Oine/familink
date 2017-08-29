@@ -60,6 +60,8 @@ I18n.translations = {
     forgottenPasswordPopInMessage: 'Voici votre nouveau mot de passe : 0000',
     forgottenPasswordPopInTitle: 'Information',
     forgottenPasswordPopInOk: 'J\'ai noté',
+    forgottenPasswordPopInNotFoundMessage: 'Le numéro que vous avez saisi ne correspond a aucun utilisateur',
+    forgottenPasswordPopInNotFoundTitle: 'Avertissement',
 
     // Familink Action :
     actionError400Message: 'Erreur de login ou de mot de passe',
@@ -127,6 +129,8 @@ const AppString = {
   forgottenPasswordPopInTitle: I18n.t('forgottenPasswordPopInTitle'),
   forgottenPasswordPopInMessage: I18n.t('forgottenPasswordPopInMessage'),
   forgottenPasswordPopInOk: I18n.t('forgottenPasswordPopInOk'),
+  forgottenPasswordPopInNotFoundTitle: I18n.t('forgottenPasswordPopInNotFoundTitle'),
+  forgottenPasswordPopInNotFoundMessage: I18n.t('forgottenPasswordPopInNotFoundMessage'),
 
   // Page Familink.actions :
   actionError400Message: I18n.t('actionError400Message'),

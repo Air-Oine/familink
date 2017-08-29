@@ -9,6 +9,7 @@ export const ADD_CONTACTSLIST = 'ADD_CONTACTSLIST';
 export const LOGIN_USER = 'LOGIN_USER';
 export const SET_CONNECTED = 'SET_CONNECTED';
 export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
+export const FORGOT_PASSWORD_REJECTED = 'FORGOT_PASSWORD_REJECTED';
 
 export function addToken(newToken) {
   return {
@@ -155,7 +156,7 @@ export function forgotPassword(phoneString) {
             }
           } catch (error) {
             dispatch({
-              type: ADD_TOKEN_REJECTED,
+              type: FORGOT_PASSWORD_REJECTED,
               code: error.code,
               message: error.message,
             });
@@ -163,21 +164,13 @@ export function forgotPassword(phoneString) {
             return false;
           }
         })
-        .then((response) => {
-          if (response === null || response === false) {
-            return dispatch({
-              type: ADD_TOKEN,
-              token: null,
-            });
-          }
-          return dispatch({
-            type: ADD_TOKEN,
-            token: response.token,
-          });
-        });
+        .then(response => dispatch({
+          type: FORGOT_PASSWORD,
+          result: response,
+        }));
     } catch (error) {
       return dispatch({
-        type: ADD_TOKEN_REJECTED,
+        type: FORGOT_PASSWORD_REJECTED,
         code: error.code,
         message: error.message,
       });

@@ -4,12 +4,15 @@ import {
   View,
 } from 'react-native';
 import { Form, Input, Icon, Item, Text, Button } from 'native-base';
+import { connect } from 'react-redux';
 
 import HeaderBar from '../components/HeaderBar';
 import { styles, inputError, inputPlaceHolderColor, inputSelectionColor } from '../style';
 import Helper from '../helpers/Helper';
 import AppString from '../strings';
 import Tools from '../Tools';
+
+import { forgotPassword } from '../actions/familink.actions';
 
 import { LOGIN_SCENE_NAME } from './LoginScreen';
 
@@ -29,6 +32,8 @@ class ForgottenPwdScreen extends Component {
       username: '',
       usernameInputError: false,
     };
+
+    this.generate = this.generate.bind(this);
   }
 
   generate() {
@@ -43,12 +48,32 @@ class ForgottenPwdScreen extends Component {
 
     // Input valid
     if (!usernameInputError) {
-      // Show alert message
-      Tools.alert(
-        AppString.forgottenPasswordPopInTitle,
-        AppString.forgottenPasswordPopInMessage,
-        AppString.forgottenPasswordPopInOk,
-        () => { this.props.navigation.navigate(LOGIN_SCENE_NAME); });
+      const phoneString = JSON.stringify({ phone: this.state.username });
+
+      this.props.forgotPassword(phoneString)
+        .then((value) => {
+          const result = value.result;
+
+          // User found => pasword reinit (mock)
+          if (result) {
+            // Show alert message
+            Tools.alert(
+              AppString.forgottenPasswordPopInTitle,
+              AppString.forgottenPasswordPopInMessage,
+              AppString.forgottenPasswordPopInOk,
+              () => { this.props.navigation.navigate(LOGIN_SCENE_NAME); });
+          } else {
+            // Show wrong phone number
+            this.setState({
+              usernameInputError: true,
+            });
+
+            // Show alert message
+            Tools.alert(
+              AppString.forgottenPasswordPopInNotFoundTitle,
+              AppString.forgottenPasswordPopInNotFoundMessage);
+          }
+        });
     }
   }
 
@@ -100,19 +125,13 @@ class ForgottenPwdScreen extends Component {
 
 ForgottenPwdScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
+  forgotPassword: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    addContactLink: user => dispatch(addContactLink(user)),
-    addContactsList: () => dispatch(addContactsList()),
-  };
-}
-function mapStateToProps(state) {
-  return {
-    userToken: state.familinkReducer.userToken,
-    listOfContacts: state.familinkReducer.contactsList,
+    forgotPassword: phone => dispatch(forgotPassword(phone)),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ForgottenPwdScreen);
+export default connect(undefined, mapDispatchToProps)(ForgottenPwdScreen);
