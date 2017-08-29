@@ -21,7 +21,7 @@ import AppString from '../strings';
 // import WebServices from '../webServices/WebServices';
 import { CONTACT_SCENE_NAME } from './ContactScreen';
 
-import { styles, accentColor } from '../style';
+import { styles, accentColor, darkPrimaryColor } from '../style';
 
 const _ = require('lodash');
 
@@ -100,7 +100,7 @@ class ContactListScreen extends Component {
     return (
       <Container>
         <HeaderBar navigation={navigation} title={AppString.contactListPageName} />
-        <Header searchBar rounded style={styles.searchBar}>
+        <Header searchBar androidStatusBarColor={darkPrimaryColor} rounded style={styles.searchBar}>
           <Item>
             <Icon name="ios-search" />
             <Input placeholder="Search" onChangeText={(search) => { this.searchInput(search); }} />
