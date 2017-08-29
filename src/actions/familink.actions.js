@@ -48,7 +48,6 @@ function networkOrNotNetwork(isConnected, uri, optionsFetch) {
 }
 
 export function addContactsList() {
-<<<<<<< HEAD
   return (dispatch, getState) => {
     networkOrNotNetwork(getState().familinkReducer.isConnected,
       `${getState().familinkReducer.uri}/secured/users/contacts`,
@@ -99,20 +98,6 @@ export function addContactsList() {
         });
       });
   };
-=======
-  return (dispatch, getState) => WebServices.getContacts(getState().familinkReducer.userToken)
-    .then((contacts) => {
-      dispatch({
-        type: ADD_CONTACTSLIST,
-        contactsList: contacts,
-      });
-    },
-    )
-    .catch((error) => {
-      // TODO
-      throw (error);
-    });
->>>>>>> master
 }
 
 export function loginUser(loginString) {
