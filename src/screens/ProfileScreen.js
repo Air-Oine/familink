@@ -2,16 +2,17 @@ import React, { Component, PropTypes } from 'react';
 import {
   View,
 } from 'react-native';
-
+import { connect } from 'react-redux';
 import { Form, Input, Icon, Item, Label, Button, Text } from 'native-base';
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
 import { styles, inputSelectionColor } from '../style';
+import { HOME_SCENE_NAME } from './HomeScreen';
 
 export const PROFILE_SCENE_NAME = 'PROFILE_SCENE';
 
 
-export default class ProfileScreen extends Component {
+export class ProfileScreen extends Component {
   static navigationOptions = {
     drawerLabel: AppString.profilePageName,
     drawerIcon: () => (<Icon name="man" style={styles.menuDrawer_itemIcon} />),
@@ -20,8 +21,6 @@ export default class ProfileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedProfil: '',
-      profil: [],
       username: '',
       lastname: '',
       firstname: '',
@@ -30,12 +29,19 @@ export default class ProfileScreen extends Component {
       emailInputError: false,
     };
   }
-
+  componentDidMount() {
+    this.props.getProfile();
+  }
   render() {
     const navigation = this.props.navigation;
     return (
       <View>
-        <HeaderBar navigation={navigation} title={AppString.profilePageName} />
+        <HeaderBar
+          navigation={navigation}
+          title={AppString.profilePageName}
+          goBackTo={HOME_SCENE_NAME}
+          alterButton={this.a}
+        />
         <Form style={styles.form}>
           <Item
             rounded
@@ -113,3 +119,18 @@ export default class ProfileScreen extends Component {
 ProfileScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
 };
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addContactsList: () => dispatch(addContactsList()),
+  };
+}
+
+function mapStateToProps(state) {
+  return {
+    userToken: state.familinkReducer.userToken,
+    listOfContacts: state.familinkReducer.contactsList,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);
