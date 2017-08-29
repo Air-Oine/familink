@@ -53,7 +53,7 @@ export function updateProfileStatus(newStatus, newUserProfile) {
 function networkOrNotNetwork(isConnected, uri, optionsFetch) {
   return new Promise((resolve, reject) => {
     if (!isConnected) {
-      const toThrow = { code: 0, message: 'No network' };
+      const toThrow = { code: 0, message: AppString.errorNoConnection };
       reject(toThrow);
     }
     resolve(fetch(uri, optionsFetch));
