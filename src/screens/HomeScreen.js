@@ -34,7 +34,7 @@ class HomeScreen extends Component {
     const navigation = this.props.navigation;
     return (
       <Container>
-        <HeaderBar navigation={navigation} title={AppString.homePageName} />
+        <HeaderBar navigation={navigation} title={AppString.homePageName} homePage />
         <Content style={styles.accueilMargin}>
           <Grid>
             <Row size={1}>
