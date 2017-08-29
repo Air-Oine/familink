@@ -8,6 +8,7 @@ export const ADD_TOKEN_REJECTED = 'ADD_TOKEN_REJECTED';
 export const ADD_CONTACTSLIST = 'ADD_CONTACTSLIST';
 export const LOGIN_USER = 'LOGIN_USER';
 export const SET_CONNECTED = 'SET_CONNECTED';
+export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
 
 export function addToken(newToken) {
   return {
@@ -77,6 +78,72 @@ export function loginUser(loginString) {
                 toThrow.code = 400;
                 toThrow.message = AppString.actionError400Message;
                 throw toThrow;
+
+              case 500:
+                toThrow.code = 500;
+                toThrow.message = AppString.actionError500Message;
+                throw toThrow;
+
+              default:
+                return false;
+            }
+          } catch (error) {
+            dispatch({
+              type: ADD_TOKEN_REJECTED,
+              code: error.code,
+              message: error.message,
+            });
+
+            return false;
+          }
+        })
+        .then((response) => {
+          if (response === null || response === false) {
+            return dispatch({
+              type: ADD_TOKEN,
+              token: null,
+            });
+          }
+          return dispatch({
+            type: ADD_TOKEN,
+            token: response.token,
+          });
+        });
+    } catch (error) {
+      return dispatch({
+        type: ADD_TOKEN_REJECTED,
+        code: error.code,
+        message: error.message,
+      });
+    }
+  };
+}
+
+export function forgotPassword(phoneString) {
+  return (dispatch, getState) => {
+    try {
+      if (!getState().familinkReducer.isConnected) {
+        const toThrow = { code: 0, message: 'No network' };
+        throw toThrow;
+      }
+      return fetch(`${getState().familinkReducer.uri}/public/forgot-password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: phoneString,
+      })
+        .then((response) => {
+          try {
+            const toThrow = { code: 0, message: null };
+            switch (response.status) {
+              case 204:
+                // User found, mocking return of a new password
+                return true;
+
+              case 400:
+                // User not found
+                return false;
 
               case 500:
                 toThrow.code = 500;

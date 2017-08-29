@@ -17,7 +17,7 @@ const lodash = require('lodash');
 
 export const FORGOTTENPWD_SCENE_NAME = 'FORGETTENPWD_SCENE';
 
-export default class ForgottenPwdScreen extends Component {
+class ForgottenPwdScreen extends Component {
   static navigationOptions = {
     title: AppString.forgottenPasswordPageName,
   };
@@ -101,3 +101,18 @@ export default class ForgottenPwdScreen extends Component {
 ForgottenPwdScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
 };
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addContactLink: user => dispatch(addContactLink(user)),
+    addContactsList: () => dispatch(addContactsList()),
+  };
+}
+function mapStateToProps(state) {
+  return {
+    userToken: state.familinkReducer.userToken,
+    listOfContacts: state.familinkReducer.contactsList,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ForgottenPwdScreen);
