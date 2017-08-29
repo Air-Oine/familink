@@ -9,7 +9,7 @@ import { ADD_ISCONNECTED,
 export const initialState = {
   userIsConnected: false,
   contactLink: '',
-  userToken: null,
+  userToken: '',
   code: null,
   rejectedMessage: 'REJECT',
   contactsList: {},

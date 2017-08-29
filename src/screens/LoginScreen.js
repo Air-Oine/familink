@@ -46,16 +46,19 @@ class LoginScreen extends Component {
       });
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.userToken !== null && nextProps.userToken !== false) {
+      this.goHome();
+    }
+  }
+
   async login() {
     const loginString = `{
       "phone": "${this.state.user}",
       "password": "${this.state.password}"
     }`;
 
-    await this.props.loginAction(loginString);
-    if (this.props.userToken !== null && this.props.userToken !== false) {
-      this.goHome();
-    }
+    this.props.loginAction(loginString);
   }
 
   pressedRemember() {

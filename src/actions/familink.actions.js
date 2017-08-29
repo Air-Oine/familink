@@ -64,6 +64,27 @@ function storePhone(mustRemember, phone) {
   }
 }
 
+function networkReturn(response) {
+  const toThrow = { code: 0, message: null };
+  switch (response.status) {
+    case 200:
+      return response.json();
+
+    case 400:
+      toThrow.code = 400;
+      toThrow.message = AppString.actionError400Message;
+      throw toThrow;
+
+    case 500:
+      toThrow.code = 500;
+      toThrow.message = AppString.actionError500Message;
+      throw toThrow;
+
+    default:
+      return false;
+  }
+}
+
 export function addContactsList() {
   return (dispatch, getState) => {
     networkOrNotNetwork(getState().familinkReducer.isConnected,
@@ -128,26 +149,7 @@ export function loginUser(loginString) {
         },
         body: loginString,
       })
-      .then((response) => {
-        const toThrow = { code: 0, message: null };
-        switch (response.status) {
-          case 200:
-            return response.json();
-
-          case 400:
-            toThrow.code = 400;
-            toThrow.message = AppString.actionError400Message;
-            throw toThrow;
-
-          case 500:
-            toThrow.code = 500;
-            toThrow.message = AppString.actionError500Message;
-            throw toThrow;
-
-          default:
-            return false;
-        }
-      })
+      .then(response => networkReturn(response)) // Return is implicit
       .then((response) => {
         if (response === null || response === false) {
           return dispatch({
@@ -155,11 +157,14 @@ export function loginUser(loginString) {
             token: null,
           });
         }
-        return dispatch({
+        dispatch({
           type: ADD_TOKEN,
           token: response.token,
         });
+
+        return Promise;
       }).catch((error) => {
+        console.log('message : ', error.message);
         Tools.toastWarning(error.message);
       });
   };
