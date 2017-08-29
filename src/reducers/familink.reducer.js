@@ -1,5 +1,7 @@
 import { ADD_ISCONNECTED, ADD_CONTACTLINK, ADD_TOKEN, ADD_API_REJECTED, ADD_CONTACTSLIST, SET_CONNECTED } from '../actions/familink.actions';
 
+const _ = require('lodash');
+
 export const initialState = {
   userIsConnected: false,
   contactLink: '',
@@ -38,7 +40,7 @@ export default function familinkReducer(state = initialState, action) {
     case ADD_CONTACTSLIST:
       return {
         ...state,
-        contactsList: action.contactsList,
+        contactsList: _.orderBy(action.contactsList, ['lastName'], ['asc']),
       };
     case SET_CONNECTED:
       return {
