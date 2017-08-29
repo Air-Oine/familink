@@ -45,6 +45,11 @@ export function inputError(error) {
   };
 }
 
+export function inputnotWritable(value) {
+  return {
+    backgroundColor: value ? textSecondaryLightColor : primaryColor,
+  };
+}
 export const styles = StyleSheet.create({
   // Radio
   radioButtonView: {
@@ -216,6 +221,11 @@ export const styles = StyleSheet.create({
   // margin top accueil
   accueilMargin: {
     marginTop: 20,
+  },
+
+  // searchBar
+  searchBar: {
+    backgroundColor: darkPrimaryColor,
   },
 
 });
