@@ -9,6 +9,9 @@ import {
   ListItem,
   Text,
   Fab,
+  Header,
+  Item,
+  Input,
 } from 'native-base';
 import { connect } from 'react-redux';
 import { addContactLink, addContactsList } from '../actions/familink.actions';
@@ -33,23 +36,45 @@ class ContactListScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      token: '',
+      contactsFilter: [],
     };
     this.goToDetail = this.goToDetail.bind(this);
+    this.searchInput = this.searchInput.bind(this);
+    this.do = false;
   }
 
-  componentDidMount() {
+
+  componentWillMount() {
     // raz du link
     this.props.addContactLink(null);
     // récupération de liste de contacts
     this.props.addContactsList();
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ contactsFilter: nextProps.listOfContacts });
+  }
+
+
   goToDetail(user) {
     const navigation = this.props.navigation;
     this.props.addContactLink(user);
     navigation.navigate(CONTACT_SCENE_NAME);
   }
+
+  searchInput(Nsearch) {
+    const search = _.lowerCase(Nsearch);
+    if (search !== '') {
+      this.setState({ contactsFilter: _.filter(
+        this.props.listOfContacts, item => _.lowerCase(item.firstName).indexOf(search) > -1 ||
+        _.lowerCase(item.lastName).indexOf(search) > -1,
+      ),
+      });
+    } else {
+      this.setState({ contactsFilter: this.props.listOfContacts });
+    }
+  }
+
   renderItem(item) {
     let image;
     if (item.gravatar === '') {
@@ -69,15 +94,21 @@ class ContactListScreen extends Component {
       </ListItem>
     );
   }
+
   render() {
     const navigation = this.props.navigation;
-    const items = _.orderBy(this.props.listOfContacts, ['lastName'], ['asc']);
     return (
       <Container>
         <HeaderBar navigation={navigation} title={AppString.contactListPageName} />
+        <Header searchBar rounded style={styles.searchBar}>
+          <Item>
+            <Icon name="ios-search" />
+            <Input placeholder="Search" onChangeText={(search) => { this.searchInput(search); }} />
+          </Item>
+        </Header>
         <View style={styles.flex1}>
           <List
-            dataArray={items}
+            dataArray={this.state.contactsFilter}
             renderRow={item => this.renderItem(item)}
           />
           <Fab
@@ -89,9 +120,6 @@ class ContactListScreen extends Component {
             <Icon name="add" />
           </Fab>
         </View>
-        <Text>
-          afficher ici
-        </Text>
       </Container>
     );
   }
