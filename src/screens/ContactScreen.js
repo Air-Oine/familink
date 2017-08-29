@@ -48,17 +48,12 @@ class ContactScreen extends Component {
     this.modif = false;
   }
   componentWillMount() {
-    if (this.props.contactLink != null) {
+    if (this.props.contactLink == null) {
       this.modif = false;
     } else {
+      console.log(this.props.contactLink);
       this.modif = true;
     }
-  }
-  componentDidMount() {
-    Storage.getItem('token').then((v) => {
-      this.setState({ token: v });
-      this.getContact();
-    });
   }
 
   /**
@@ -135,6 +130,14 @@ class ContactScreen extends Component {
     return false;
   }
 
+  alter() {
+
+  }
+
+  delete() {
+
+  }
+
   render() {
     const navigation = this.props.navigation;
 
@@ -157,6 +160,8 @@ class ContactScreen extends Component {
           navigation={navigation}
           title={AppString.contactPageName}
           goBackTo={CONTACTLIST_SCENE_NAME}
+          alterOnPress={this.modif ? () => this.alter() : null}
+          deleteOnPress={this.modif ? () => this.delete() : null}
         />
         <ScrollView style={styles.form}>
           <Form>
