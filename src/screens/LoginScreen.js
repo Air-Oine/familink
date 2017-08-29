@@ -18,6 +18,7 @@ const logo = require('../../assets/iconFamilink.jpg');
 
 class LoginScreen extends Component {
   static navigationOptions = {
+    drawerLockMode: 'locked-closed',
     drawerLabel: AppString.loginPageName,
     drawerIcon: () => (<Icon name="log-out" style={styles.menuDrawer_itemIcon} />),
   };

@@ -6,8 +6,10 @@ import { styles, inputError, inputPlaceHolderColor, inputSelectionColor } from '
 
 import WebServices, { ERROR_REQUEST } from '../webServices/WebServices';
 import Helper from '../helpers/Helper';
+import HeaderBar from '../components/HeaderBar';
 import { LOGIN_SCENE_NAME } from './LoginScreen';
 import Tools from '../Tools';
+import Hidden from '../Hidden';
 
 const lodash = require('lodash');
 
@@ -16,6 +18,7 @@ export const SIGNIN_SCENE_NAME = 'SIGNIN_SCENE';
 export default class SignInScreen extends Component {
   static navigationOptions = {
     title: AppString.signInPageName,
+    drawerLabel: <Hidden />,
   };
 
   constructor(props) {
@@ -166,9 +169,15 @@ export default class SignInScreen extends Component {
   }
 
   render() {
+    const navigation = this.props.navigation;
     const profile = this.setProfil();
     return (
       <View>
+        <HeaderBar
+          navigation={navigation}
+          title={AppString.signInPageName}
+          goBackTo={LOGIN_SCENE_NAME}
+        />
         <ScrollView>
           <Form style={styles.form}>
             <Item
