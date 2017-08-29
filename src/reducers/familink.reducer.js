@@ -1,4 +1,10 @@
-import { ADD_ISCONNECTED, ADD_CONTACTLINK, ADD_TOKEN, ADD_API_REJECTED, ADD_CONTACTSLIST, SET_CONNECTED } from '../actions/familink.actions';
+import { ADD_ISCONNECTED,
+  ADD_CONTACTLINK,
+  ADD_TOKEN,
+  ADD_API_REJECTED,
+  ADD_CONTACTSLIST,
+  SET_CONNECTED,
+  SET_REMEMBER_ME } from '../actions/familink.actions';
 
 export const initialState = {
   userIsConnected: false,
@@ -8,6 +14,7 @@ export const initialState = {
   rejectedMessage: 'REJECT',
   contactsList: {},
   isConnected: false,
+  rememberMe: true,
   uri: 'https://familink.cleverapps.io',
 };
 
@@ -44,6 +51,11 @@ export default function familinkReducer(state = initialState, action) {
       return {
         ...state,
         isConnected: action.isConnected,
+      };
+    case SET_REMEMBER_ME:
+      return {
+        ...state,
+        rememberMe: action.rememberMe,
       };
     default:
       return state;

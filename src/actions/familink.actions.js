@@ -1,5 +1,6 @@
 import AppString from '../strings';
 import Tools from '../Tools';
+import Storage from '../asyncStorage';
 
 export const ADD_ISCONNECTED = 'ADD_ISCONNECTED';
 export const ADD_CONTACTLINK = 'ADD_CONTACTLINK';
@@ -8,11 +9,19 @@ export const ADD_API_REJECTED = 'ADD_API_REJECTED';
 export const ADD_CONTACTSLIST = 'ADD_CONTACTSLIST';
 export const LOGIN_USER = 'LOGIN_USER';
 export const SET_CONNECTED = 'SET_CONNECTED';
+export const SET_REMEMBER_ME = 'SET_REMEMBER_ME';
 
 export function addToken(newToken) {
   return {
     type: ADD_TOKEN,
     token: newToken,
+  };
+}
+
+export function setRememberMe(newState) {
+  return {
+    type: SET_REMEMBER_ME,
+    rememberMe: newState,
   };
 }
 
@@ -45,6 +54,14 @@ function networkOrNotNetwork(isConnected, uri, optionsFetch) {
     }
     resolve(fetch(uri, optionsFetch));
   });
+}
+
+function storePhone(mustRemember, phone) {
+  Storage.removeItem('phone'); // Remove phone from database
+  // If remember me is activated :
+  if (mustRemember) {
+    Storage.setItem('phone', phone);
+  }
 }
 
 export function addContactsList() {
@@ -98,6 +115,10 @@ export function addContactsList() {
 
 export function loginUser(loginString) {
   return (dispatch, getState) => {
+    const a = JSON.parse(loginString);
+    const phone = a.phone;
+    storePhone(getState().familinkReducer.rememberMe, phone);
+
     networkOrNotNetwork(getState().familinkReducer.isConnected,
       `${getState().familinkReducer.uri}/public/login`,
       {
