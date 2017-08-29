@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import { BackHandler } from 'react-native';
 import { Header, Left, Right, Button, Body, Title, Icon } from 'native-base';
 
@@ -25,71 +25,85 @@ function renderButton(onPress = {}, iconName) {
   );
 }
 
-export default function HeaderBar(props) {
-  // Handle android back button
-  BackHandler.addEventListener('hardwareBackPress', () => {
-    if (props.goBackTo) {
-      // Go back to page defined in props
-      props.navigation.navigate(props.goBackTo);
-    } else {
+export default class HeaderBar extends Component {
+  componentWillMount() {
+    // Handle android back button
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      if (this.props.goBackTo) {
+        // Go back to page defined in props
+        this.props.navigation.navigate(this.props.goBackTo);
+        return true;
+      } else if (this.props.homePage) {
+        // Quit app if we already are on Home page
+        BackHandler.exitApp();
+        return false;
+      }
       // Go back to Home page by default
-      props.navigation.navigate(HOME_SCENE_NAME);
-    }
-    return true;
-  });
+      this.props.navigation.navigate(HOME_SCENE_NAME);
+      return true;
+    });
+  }
 
-  // Menu button
-  let menuButton = null;
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress');
+  }
 
-  if (props.goBackTo) {
-    // Back button
-    menuButton = renderButton(() => { props.navigation.navigate(props.goBackTo); }, 'arrow-round-back');
-  } else {
+  render() {
     // Menu button
-    menuButton = renderButton(() => { props.navigation.navigate('DrawerOpen'); }, 'menu');
-  }
+    let menuButton = null;
 
-  // Alter button
-  let alterButton = null;
-  if (props.alterOnPress) {
-    alterButton = renderButton(props.alterOnPress, 'md-create');
-  }
+    if (this.props.goBackTo) {
+      // Back button
+      menuButton = renderButton(() => { this.props.navigation.navigate(this.props.goBackTo); }, 'arrow-round-back');
+    } else {
+      // Menu button
+      menuButton = renderButton(() => { this.props.navigation.navigate('DrawerOpen'); }, 'menu');
+    }
 
-  // Delete button
-  let deleteButton = null;
-  if (props.deleteOnPress) {
-    deleteButton = renderButton(props.deleteOnPress, 'trash');
-  }
+    // Alter button
+    let alterButton = null;
+    if (this.props.alterOnPress) {
+      alterButton = renderButton(this.props.alterOnPress, 'md-create');
+    }
 
-  return (
-    <Header androidStatusBarColor={darkPrimaryColor} style={styles.headerBarHeader}>
-      {/* BURGER MENU BUTTON */}
-      <Left>
-        {menuButton}
-      </Left>
-      {/* PAGE TITLE */}
-      <Body>
-        <Title style={styles.headerBarTitle}>
-          {props.title}
-        </Title>
-      </Body>
-      <Right>
-        {alterButton}
-        {deleteButton}
-      </Right>
-    </Header>
-  );
+    // Delete button
+    let deleteButton = null;
+    if (this.props.deleteOnPress) {
+      deleteButton = renderButton(this.props.deleteOnPress, 'trash');
+    }
+
+    return (
+      <Header androidStatusBarColor={darkPrimaryColor} style={styles.headerBarHeader}>
+        {/* BURGER MENU BUTTON */}
+        <Left>
+          {menuButton}
+        </Left>
+        {/* PAGE TITLE */}
+        <Body>
+          <Title style={styles.headerBarTitle}>
+            {this.props.title}
+          </Title>
+        </Body>
+        <Right>
+          {alterButton}
+          {deleteButton}
+        </Right>
+      </Header>
+    );
+  }
 }
 
 HeaderBar.propTypes = {
   navigation: PropTypes.any.isRequired,
   title: PropTypes.any.isRequired,
+  homePage: PropTypes.bool,
   goBackTo: PropTypes.string,
   alterOnPress: PropTypes.func,
   deleteOnPress: PropTypes.func,
 };
 
 HeaderBar.defaultProps = {
+  homePage: false,
   goBackTo: null,
   alterOnPress: null,
   deleteOnPress: null,
