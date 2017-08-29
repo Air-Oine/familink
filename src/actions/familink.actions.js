@@ -8,6 +8,9 @@ export const ADD_API_REJECTED = 'ADD_API_REJECTED';
 export const ADD_CONTACTSLIST = 'ADD_CONTACTSLIST';
 export const LOGIN_USER = 'LOGIN_USER';
 export const SET_CONNECTED = 'SET_CONNECTED';
+export const ADD_USER_PROFILE = 'ADD_USER_PROFILE';
+export const ADD_PROFILE = 'ADD_PROFILE';
+export const UPDATE_USER_PROFILE = 'UPDATE_USER_PROFILE';
 
 export function addToken(newToken) {
   return {
@@ -34,6 +37,14 @@ export function setConnected(newIsConnected) {
   return {
     type: SET_CONNECTED,
     isConnected: newIsConnected,
+  };
+}
+
+export function updateProfileStatus(newStatus, newUserProfile) {
+  return {
+    type: UPDATE_USER_PROFILE,
+    updateProfileStatus: newStatus,
+    userProfile: newUserProfile,
   };
 }
 
@@ -144,7 +155,152 @@ export function loginUser(loginString) {
   };
 }
 
+export function getProfileUser() {
+  return (dispatch, getState) => {
+    networkOrNotNetwork(getState().familinkReducer.isConnected,
+      `${getState().familinkReducer.uri}/secured/users/current`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${getState().familinkReducer.userToken}`,
+        },
+      })
+      .then((response) => {
+        const toThrow = { code: 0, message: null };
+        switch (response.status) {
+          case 200:
+            return response.json();
 
+          case 400:
+            toThrow.code = 400;
+            toThrow.message = AppString.actionError400Message;
+            throw toThrow;
+
+          case 500:
+            toThrow.code = 500;
+            toThrow.message = AppString.actionError500Message;
+            throw toThrow;
+
+          default:
+            return false;
+        }
+      })
+      .then((response) => {
+        if (response === null || response === false) {
+          return dispatch({
+            type: ADD_USER_PROFILE,
+            userProfile: null,
+          });
+        }
+        return dispatch({
+          type: ADD_USER_PROFILE,
+          userProfile: response,
+        });
+      }).catch((error) => {
+        Tools.toastWarning(error.message);
+      });
+  };
+}
+
+export function getProfiles() {
+  return (dispatch, getState) => {
+    networkOrNotNetwork(getState().familinkReducer.isConnected,
+      `${getState().familinkReducer.uri}/public/profiles`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) => {
+        const toThrow = { code: 0, message: null };
+        switch (response.status) {
+          case 200:
+            return response.json();
+
+          case 400:
+            toThrow.code = 400;
+            toThrow.message = AppString.actionError400Message;
+            throw toThrow;
+
+          case 500:
+            toThrow.code = 500;
+            toThrow.message = AppString.actionError500Message;
+            throw toThrow;
+
+          default:
+            return false;
+        }
+      })
+      .then((response) => {
+        if (response === null || response === false) {
+          return dispatch({
+            type: ADD_PROFILE,
+            profile: null,
+          });
+        }
+        return dispatch({
+          type: ADD_PROFILE,
+          profile: response,
+        });
+      }).catch((error) => {
+        Tools.toastWarning(error.message);
+      });
+  };
+}
+
+
+export function updateProfileUser(userProfile) {
+  return (dispatch, getState) => {
+    networkOrNotNetwork(getState().familinkReducer.isConnected,
+      `${getState().familinkReducer.uri}/secured/users`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${getState().familinkReducer.userToken}`,
+        },
+        body: userProfile,
+      })
+      .then((response) => {
+        const toThrow = { code: 0, message: null };
+        switch (response.status) {
+          case 200:
+            return response.json();
+
+          case 400:
+            toThrow.code = 400;
+            toThrow.message = AppString.actionError400Message;
+            throw toThrow;
+
+          case 500:
+            toThrow.code = 500;
+            toThrow.message = AppString.actionError500Message;
+            throw toThrow;
+
+          default:
+            return false;
+        }
+      })
+      .then((response) => {
+        if (response === null || response === false) {
+          return dispatch({
+            type: UPDATE_USER_PROFILE,
+            userProfile: null,
+            updateProfileStatus: false,
+          });
+        }
+        return dispatch({
+          type: UPDATE_USER_PROFILE,
+          userProfile: response,
+          updateProfileStatus: true,
+        });
+      }).catch((error) => {
+        Tools.toastWarning(error.message);
+      });
+  };
+}
 /*
 export function saveContact(contact) {
   return (dispatch, getState) => WebServices.createContact(contact,
