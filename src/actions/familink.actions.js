@@ -13,6 +13,7 @@ export const ADD_PROFILE = 'ADD_PROFILE';
 export const UPDATE_USER_PROFILE = 'UPDATE_USER_PROFILE';
 export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
 export const FORGOT_PASSWORD_REJECTED = 'FORGOT_PASSWORD_REJECTED';
+export const CREATE_USER_STATUS = 'CREATE_USER_STATUS';
 
 export function addToken(newToken) {
   return {
@@ -49,7 +50,12 @@ export function updateProfileStatus(newStatus, newUserProfile) {
     userProfile: newUserProfile,
   };
 }
-
+export function setUserStatus(newStatus) {
+  return {
+    type: UPDATE_USER_PROFILE,
+    createUserStatus: newStatus,
+  };
+}
 function networkOrNotNetwork(isConnected, uri, optionsFetch) {
   return new Promise((resolve, reject) => {
     if (!isConnected) {
@@ -60,6 +66,54 @@ function networkOrNotNetwork(isConnected, uri, optionsFetch) {
   });
 }
 
+export function createUser(user) {
+  return (dispatch, getState) => {
+    networkOrNotNetwork(getState().familinkReducer.isConnected,
+      `${getState().familinkReducer.uri}/public/sign-in`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: user,
+      })
+      .then((response) => {
+        const toThrow = { code: 0, message: null };
+        switch (response.status) {
+          case 200:
+            return response.json();
+
+          case 400:
+            toThrow.code = 400;
+            toThrow.message = AppString.actionError400Message;
+            throw toThrow;
+
+          case 500:
+            toThrow.code = 500;
+            toThrow.message = AppString.actionError500Message;
+            throw toThrow;
+
+          default:
+            return false;
+        }
+      })
+      .then((response) => {
+        if (response === null || response === false) {
+          return dispatch({
+            type: CREATE_USER_STATUS,
+            createUserStatus: false,
+          });
+        }
+        return dispatch({
+          type: CREATE_USER_STATUS,
+          createUserStatus: true,
+        });
+      })
+      .catch((error) => {
+        Tools.toastWarning(error.message);
+      });
+  };
+}
 export function addContactsList() {
   return (dispatch, getState) => {
     networkOrNotNetwork(getState().familinkReducer.isConnected,

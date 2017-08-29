@@ -1,21 +1,21 @@
 import React, { Component, PropTypes } from 'react';
 import { View, ScrollView } from 'react-native';
+import { connect } from 'react-redux';
 import { Form, Input, Icon, Item, Button, Text, Radio } from 'native-base';
 import AppString from '../strings';
 import { styles, inputError, inputPlaceHolderColor, inputSelectionColor } from '../style';
-
-import WebServices, { ERROR_REQUEST } from '../webServices/WebServices';
 import Helper from '../helpers/Helper';
 import HeaderBar from '../components/HeaderBar';
 import { LOGIN_SCENE_NAME } from './LoginScreen';
-import Tools from '../Tools';
 import Hidden from '../Hidden';
+import Tools from '../Tools';
+import { getProfiles, createUser, setUserStatus } from '../actions/familink.actions';
 
 const lodash = require('lodash');
 
 export const SIGNIN_SCENE_NAME = 'SIGNIN_SCENE';
 
-export default class SignInScreen extends Component {
+class SignInScreen extends Component {
   static navigationOptions = {
     title: AppString.signInPageName,
     drawerLabel: <Hidden />,
@@ -23,7 +23,6 @@ export default class SignInScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.getProfil();
     this.state = {
       selectedProfile: '',
       profiles: [],
@@ -44,9 +43,24 @@ export default class SignInScreen extends Component {
     this.signIn = this.signIn.bind(this);
   }
 
+  componentDidMount() {
+    this.props.getProfiles();
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      profiles: nextProps.profiles,
+      selectedProfile: nextProps.profiles[0],
+    });
+    if (nextProps.createUserStatus === true) {
+      const navigation = this.props.navigation;
+      Tools.toastSuccess(AppString.signIn_Success);
+      navigation.navigate(LOGIN_SCENE_NAME);
+      this.props.setUserStatus(false);
+    }
+  }
   onValueChange(value) {
     this.setState({
-      selectedProfil: value,
+      selectedProfile: value,
     });
   }
 
@@ -69,33 +83,6 @@ export default class SignInScreen extends Component {
       return profilItems;
     }
     return null;
-  }
-
-  async getProfil() {
-    try {
-      const response = await WebServices.getProfil();
-      if (response) {
-        this.setState({
-          profil: response,
-          selectedProfil: response[0],
-        });
-      }
-    } catch (error) {
-      Tools.toastWarning(ERROR_REQUEST);
-    }
-  }
-
-  async createUser(userString) {
-    try {
-      const value = await WebServices.createUser(userString);
-      if (value !== null) {
-        Tools.toastSuccess(AppString.signIn_Success);
-        this.goToLogin();
-      }
-    } catch (error) {
-      Tools.toastWarning(ERROR_REQUEST);
-    }
-    return false;
   }
 
   goToLogin() {
@@ -164,7 +151,7 @@ export default class SignInScreen extends Component {
           "profile": "${this.state.selectedProfile}"
         }`;
       }
-      this.createUser(userString);
+      this.props.createUser(userString);
     }
   }
 
@@ -289,4 +276,27 @@ export default class SignInScreen extends Component {
 
 SignInScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
+  getProfiles: PropTypes.any.isRequired,
+  profiles: PropTypes.any.isRequired,
+  createUser: PropTypes.any.isRequired,
+  createUserStatus: PropTypes.any.isRequired,
+  setUserStatus: PropTypes.any.isRequired,
 };
+
+function mapDispatchToProps(dispatch) {
+  return {
+    createUser: user => dispatch(createUser(user)),
+    getProfiles: () => dispatch(getProfiles()),
+    setUserStatus: status => dispatch(setUserStatus(status)),
+  };
+}
+
+function mapStateToProps(state) {
+  return {
+    userProfile: state.familinkReducer.userProfile,
+    profiles: state.familinkReducer.profile,
+    createUserStatus: state.familinkReducer.createUserStatus,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen);
