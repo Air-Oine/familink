@@ -75,8 +75,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   login_logo: {
-    width: 140,
-    height: 140,
+    width: 250,
+    height: 250,
     alignSelf: 'center',
   },
 
