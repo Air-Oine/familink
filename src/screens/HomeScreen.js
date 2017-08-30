@@ -10,6 +10,8 @@ import { Container, Content, Icon, Grid, Col, Row } from 'native-base';
 import { styles } from '../style';
 import HeaderBar from '../components/HeaderBar';
 import { CONTACTLIST_SCENE_NAME } from './ContactListScreen';
+import { PROFILE_SCENE_NAME } from './ProfileScreen';
+
 import AppString from '../strings';
 
 export const HOME_SCENE_NAME = 'HOME_SCENE';
@@ -67,7 +69,7 @@ class HomeScreen extends Component {
                 </TouchableOpacity>
               </Col>
               <Col>
-                <TouchableOpacity onPress={this.navigateToContactList}>
+                <TouchableOpacity onPress={() => { navigation.navigate(PROFILE_SCENE_NAME); }} >
 
                   <Text style={styles.MenuText}>
                     {AppString.homescreenProfil}

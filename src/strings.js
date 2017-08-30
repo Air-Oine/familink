@@ -75,6 +75,14 @@ I18n.translations = {
     contactYesAlertMessage: 'oui',
     contactNoAlertMessage: 'non',
 
+    // Profile 
+    profileUser: 'Utilisateur',
+    profileLastName: 'Nom',
+    profileFirstName: 'Prénom',
+    profileEmail: 'Email',
+    profileProfil: 'Profile',
+    profileSave: 'Sauvegarder',
+    profileUpdateSuccess: 'Profil modifié avec succès',
   },
 };
 
@@ -153,6 +161,14 @@ const AppString = {
   contactYesAlertMessage: I18n.t('contactYesAlertMessage'),
   contactNoAlertMessage: I18n.t('contactNoAlertMessage'),
 
+  // Profile 
+  profileUser: I18n.t('profileUser'),
+  profileLastName: I18n.t('profileLastName'),
+  profileFirstName: I18n.t('profileFirstName'),
+  profileEmail: I18n.t('profileEmail'),
+  profileProfil: I18n.t('profileProfil'),
+  profileSave: I18n.t('profileSave'),
+  profileUpdateSuccess: I18n.t('profileUpdateSuccess'),
 };
 
 /**
