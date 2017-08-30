@@ -65,12 +65,6 @@ class ContactScreen extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.deleted) {
-      this.props.navigation.navigate(CONTACTLIST_SCENE_NAME);
-    }
-  }
-
   /**
    * Check if the form is valid (and set errors status)
    * Return true if it is valid, else otherwise
@@ -169,7 +163,10 @@ class ContactScreen extends Component {
   }
 
   delete() {
-    Tools.alert(AppString.contactTitleAlertMessage, `${AppString.contactBodyAlertMessage1} ${this.props.contactLink.firstName} ${this.props.contactLink.lastName} ${AppString.contactBodyAlertMessage2}`, AppString.contactYesAlertMessage, this.isDeleted, AppString.contactNoAlertMessage);
+    Tools.alert(AppString.contactTitleAlertMessage,
+      `${AppString.contactBodyAlertMessage1} ${this.props.contactLink.firstName} ${this.props.contactLink.lastName} ${AppString.contactBodyAlertMessage2}`,
+      AppString.contactYesAlertMessage, this.isDeleted,
+      AppString.contactNoAlertMessage);
   }
 
   render() {
