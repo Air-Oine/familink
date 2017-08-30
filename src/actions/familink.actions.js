@@ -226,7 +226,6 @@ export function loginUser(loginString) {
 
         return Promise;
       }).catch((error) => {
-        console.log('message : ', error.message);
         Tools.toastWarning(error.message);
       });
   };

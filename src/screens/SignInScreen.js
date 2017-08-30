@@ -281,10 +281,7 @@ class SignInScreen extends Component {
 SignInScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
   getProfiles: PropTypes.any.isRequired,
-  profiles: PropTypes.any.isRequired,
   createUser: PropTypes.any.isRequired,
-  createUserStatus: PropTypes.any.isRequired,
-  setUserStatus: PropTypes.any.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
