@@ -167,7 +167,7 @@ export function loginUser(loginString) {
         if (response === null || response === false) {
           return dispatch({
             type: ADD_TOKEN,
-            token: null,
+            token: '',
           });
         }
         dispatch({

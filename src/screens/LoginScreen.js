@@ -47,7 +47,7 @@ class LoginScreen extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.userToken !== null && nextProps.userToken !== false) {
+    if (nextProps.userToken !== false && nextProps.userToken !== '') {
       this.goHome();
     }
   }
