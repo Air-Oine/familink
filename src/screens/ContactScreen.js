@@ -46,6 +46,7 @@ class ContactScreen extends Component {
     this.save = this.save.bind(this);
     this.saveContact = this.saveContact.bind(this);
     this.delete = this.delete.bind(this);
+    this.isDeleted = this.isDeleted.bind(this);
     this.modif = false;
   }
   componentWillMount() {
@@ -140,8 +141,13 @@ class ContactScreen extends Component {
 
   }
 
+  isDeleted() {
+    this.props.deleteContact(this.props.contactLink).then(() =>
+      this.props.navigation.navigate(CONTACTLIST_SCENE_NAME));
+  }
+
   delete() {
-    this.props.deleteContact(this.props.contactLink);
+    Tools.alert(AppString.contactTitleAlertMessage, `${AppString.contactBodyAlertMessage1} ${this.props.contactLink.firstName} ${this.props.contactLink.lastName} ${AppString.contactBodyAlertMessage2}`, AppString.contactYesAlertMessage, this.isDeleted, AppString.contactNoAlertMessage);
   }
 
   render() {

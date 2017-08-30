@@ -214,8 +214,11 @@ export function forgotPassword(phoneString) {
 
 export function deleteContact(contact) {
   return (dispatch, getState) => {
-    networkOrNotNetwork(getState().familinkReducer.isConnected,
-      `${getState().familinkReducer.uri}/secured/users/contacts/${contact._id}`,
+    if (!getState().familinkReducer.isConnected) {
+      const toThrow = { code: 0, message: 'No network' };
+      throw toThrow;
+    }
+    return fetch(`${getState().familinkReducer.uri}/secured/users/contacts/${contact._id}`,
       {
         method: 'DELETE',
         headers: {
@@ -229,7 +232,6 @@ export function deleteContact(contact) {
           case 204:
             return dispatch({
               type: DELETE_CONTACT,
-              isDeleted: true,
             });
 
           case 400:

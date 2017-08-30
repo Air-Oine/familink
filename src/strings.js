@@ -66,6 +66,14 @@ I18n.translations = {
     // Familink Action :
     actionError400Message: 'Erreur de login ou de mot de passe',
     actionError500Message: 'Une erreur est survenue coté serveur',
+
+    // contact page:
+    contactTitleAlertMessage: 'Confirmer la suppression',
+    contactBodyAlertMessage1: 'Etes vous sûr de vouloir supprimer ',
+    contactBodyAlertMessage2: ' de votre liste de contacts?',
+    contactYesAlertMessage: 'oui',
+    contactNoAlertMessage: 'non',
+
   },
 };
 
@@ -135,6 +143,14 @@ const AppString = {
   // Page Familink.actions :
   actionError400Message: I18n.t('actionError400Message'),
   actionError500Message: I18n.t('actionError500Message'),
+
+  // page contact :
+  contactTitleAlertMessage: I18n.t('contactTitleAlertMessage'),
+  contactBodyAlertMessage1: I18n.t('contactBodyAlertMessage1'),
+  contactBodyAlertMessage2: I18n.t('contactBodyAlertMessage2'),
+  contactYesAlertMessage: I18n.t('contactYesAlertMessage'),
+  contactNoAlertMessage: I18n.t('contactNoAlertMessage'),
+
 };
 
 /**

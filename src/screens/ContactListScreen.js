@@ -14,7 +14,7 @@ import {
   Input,
 } from 'native-base';
 import { connect } from 'react-redux';
-import { addContactLink, addContactsList, setDeleted } from '../actions/familink.actions';
+import { addContactLink, addContactsList } from '../actions/familink.actions';
 // import Storage from '../asyncStorage';
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
@@ -48,7 +48,6 @@ class ContactListScreen extends Component {
     // raz du link
     this.props.addContactLink(null);
     // récupération de liste de contacts
-    this.props.setDeleted();
     this.props.addContactsList();
   }
 
