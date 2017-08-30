@@ -35,7 +35,7 @@ const headerBarColor = '#FFFFFF';
 
 
 export const buttonColor = primaryColor;
-export const inputPlaceHolderColor = textSecondaryLightColor;
+export const inputPlaceHolderColor = textSecondaryDarkColor;
 export const inputSelectionColor = textColorInput;
 
 export function inputError(error) {
