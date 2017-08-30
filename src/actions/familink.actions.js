@@ -15,6 +15,9 @@ export const ADD_PROFILE = 'ADD_PROFILE';
 export const UPDATE_USER_PROFILE = 'UPDATE_USER_PROFILE';
 export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
 export const FORGOT_PASSWORD_REJECTED = 'FORGOT_PASSWORD_REJECTED';
+export const DELETE_CONTACT = 'DELETE_CONTACT';
+export const UPDATE_CONTACT = 'UPDATE_CONTACT';
+export const UPDATE_CONTACT_REJECTED = 'UPDATE_CONTACT_REJECTED';
 
 export function addToken(newToken) {
   return {
@@ -350,7 +353,6 @@ export function updateProfileUser(userProfile) {
         switch (response.status) {
           case 200:
             return response.json();
-
           case 400:
             toThrow.code = 400;
             toThrow.message = AppString.actionError400Message;
@@ -379,6 +381,102 @@ export function updateProfileUser(userProfile) {
           updateProfileStatus: true,
         });
       }).catch((error) => {
+        Tools.toastWarning(error.message);
+      });
+  };
+}
+
+export function updateContact(id, contactString) {
+  return (dispatch, getState) => {
+    try {
+      if (!getState().familinkReducer.isConnected) {
+        const toThrow = { code: 0, message: 'No network' };
+        throw toThrow;
+      }
+
+      return fetch(`${getState().familinkReducer.uri}/secured/users/contacts/${id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${getState().familinkReducer.userToken}`,
+          },
+          body: contactString,
+        })
+        .then((response) => {
+          const toThrow = { code: 0, message: null };
+          switch (response.status) {
+            case 204:
+              return true;
+
+            case 400:
+              toThrow.code = 400;
+              toThrow.message = AppString.actionError400Message;
+              throw toThrow;
+
+            case 500:
+              toThrow.code = 500;
+              toThrow.message = AppString.actionError500Message;
+              throw toThrow;
+
+            default:
+              return false;
+          }
+        })
+        .then(response => dispatch({
+          type: UPDATE_CONTACT,
+          result: response,
+        }))
+        .catch((error) => {
+          Tools.toastWarning(error.message);
+        });
+    } catch (error) {
+      return dispatch({
+        type: UPDATE_CONTACT_REJECTED,
+        code: error.code,
+        message: error.message,
+      });
+    }
+  };
+}
+
+export function deleteContact(contact) {
+  return (dispatch, getState) => {
+    if (!getState().familinkReducer.isConnected) {
+      const toThrow = { code: 0, message: 'No network' };
+      throw toThrow;
+    }
+    return fetch(`${getState().familinkReducer.uri}/secured/users/contacts/${contact._id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${getState().familinkReducer.userToken}`,
+        },
+      })
+      .then((response) => {
+        const toThrow = { code: 0, message: null };
+        switch (response.status) {
+          case 204:
+            return dispatch({
+              type: DELETE_CONTACT,
+            });
+
+          case 400:
+            toThrow.code = 400;
+            toThrow.message = AppString.actionError400Message;
+            throw toThrow;
+
+          case 500:
+            toThrow.code = 500;
+            toThrow.message = AppString.actionError500Message;
+            throw toThrow;
+
+          default:
+            return false;
+        }
+      })
+      .catch((error) => {
         Tools.toastWarning(error.message);
       });
   };

@@ -10,6 +10,8 @@ import {
   ADD_PROFILE,
   UPDATE_USER_PROFILE,
   FORGOT_PASSWORD,
+  UPDATE_CONTACT,
+  DELETE_CONTACT,
 } from '../actions/familink.actions';
 
 const _ = require('lodash');
@@ -104,7 +106,16 @@ export default function familinkReducer(state = initialState, action) {
         ...state,
         phoneString: action.phoneString,
       };
-
+    case DELETE_CONTACT:
+      return {
+        ...state,
+      };
+    case UPDATE_CONTACT:
+      return {
+        ...state,
+        id: action.id,
+        contactString: action.contact,
+      };
     default:
       return state;
   }
