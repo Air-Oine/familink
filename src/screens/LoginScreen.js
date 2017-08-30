@@ -13,7 +13,7 @@ import { SIGNIN_SCENE_NAME } from './SignInScreen';
 import { FORGOTTENPWD_SCENE_NAME } from './ForgottenPwdScreen';
 
 export const LOGIN_SCENE_NAME = 'LOGIN_SCENE';
-const logo = require('../../assets/iconFamilink.jpg');
+const logo = require('../../assets/iconFamilink.png');
 
 class LoginScreen extends Component {
   static navigationOptions = {
