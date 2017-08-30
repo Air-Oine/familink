@@ -12,6 +12,8 @@ import {
   Header,
   Item,
   Input,
+  Body,
+  Left,
 } from 'native-base';
 import { connect } from 'react-redux';
 import { addContactLink, addContactsList } from '../actions/familink.actions';
@@ -84,13 +86,13 @@ class ContactListScreen extends Component {
     }
     return (
       <ListItem button onPress={() => { this.goToDetail(item); }} >
-        <View style={styles.contactList_viewItem}>
+        <Left style={styles.contactList_viewItem}>
           {image}
-          <View style={styles.contactList_viewItem_name_phone}>
-            <Text style={styles.contactList_name}>{item.lastName} {item.firstName} </Text>
-            <Text style={styles.contactList_phone}>{item.phone} </Text>
-          </View>
-        </View>
+        </Left>
+        <Body style={styles.contactList_viewItemBody}>
+          <Text style={styles.contactList_name}>{item.lastName} {item.firstName} </Text>
+          <Text style={styles.contactList_phone}>{item.phone} </Text>
+        </Body>
       </ListItem>
     );
   }

@@ -92,20 +92,24 @@ export const styles = StyleSheet.create({
   },
   // Contact list
   contactList_img: {
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
   },
   contactList_viewItem: {
     flexDirection: 'row',
   },
   contactList_viewItem_name_phone: {
     flexDirection: 'column',
+    flex: 1,
+  },
+  contactList_viewItemBody: {
+    flex: 4,
   },
   contactList_name: {
-    marginLeft: 10,
+    fontSize: defaultFontSize,
   },
   contactList_phone: {
-    marginLeft: 10,
+    fontSize: defaultFontSize,
     marginTop: 10,
   },
   // -------------------------------------  Universel  ---------------------------------------------
