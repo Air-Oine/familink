@@ -131,14 +131,12 @@ ContactListScreen.propTypes = {
   addContactLink: PropTypes.func.isRequired,
   addContactsList: PropTypes.any.isRequired,
   listOfContacts: PropTypes.any.isRequired,
-  setDeleted: PropTypes.any.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
     addContactLink: user => dispatch(addContactLink(user)),
     addContactsList: () => dispatch(addContactsList()),
-    setDeleted: () => dispatch(setDeleted()),
   };
 }
 function mapStateToProps(state) {
