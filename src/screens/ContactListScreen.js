@@ -141,7 +141,6 @@ function mapDispatchToProps(dispatch) {
 }
 function mapStateToProps(state) {
   return {
-    userToken: state.familinkReducer.userToken,
     listOfContacts: state.familinkReducer.contactsList,
   };
 }
