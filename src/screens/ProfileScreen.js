@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import {
   View,
   ScrollView,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Form, Input, Icon, Item, Button, Text, Radio } from 'native-base';
@@ -40,6 +41,7 @@ class ProfileScreen extends Component {
     };
     this.alterButton = this.alterButton.bind(this);
     this.onValueChange = this.onValueChange.bind(this);
+    this.setProfil = this.setProfil.bind(this);
   }
   componentDidMount() {
     this.props.getProfileUser()
@@ -71,18 +73,20 @@ class ProfileScreen extends Component {
     if (this.props.profiles.length > 0) {
       let key = 0;
 
-      this.props.profiles.forEach(((element) => {
+      this.props.profiles.forEach((element) => {
         let selected = false;
         if (this.state.userProfile.profile === element) {
           selected = true;
         }
         profilItems.push(
-          <View key={key} style={styles.radioButton}>
-            <Text>{element}</Text>
-            <Radio selected={selected} onPress={() => this.onValueChange(element)} />
-          </View>);
+          <TouchableWithoutFeedback onPress={() => this.onValueChange(element)}>
+            <View key={key} style={styles.radioButton}>
+              <Text>{element}</Text>
+              <Radio selected={selected} />
+            </View>
+          </TouchableWithoutFeedback>);
         key += 1;
-      }));
+      });
       return profilItems;
     }
     return null;
