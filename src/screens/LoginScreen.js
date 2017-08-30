@@ -84,8 +84,8 @@ class LoginScreen extends Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.login_view}>
-          <Image source={logo} style={styles.login_logo} />
           <Form style={styles.form}>
+            <Image source={logo} style={styles.login_logo} />
             <Item style={[styles.input, inputError(false)]} rounded>
               <Icon name="ios-call-outline" style={styles.inputIcon} />
               <Input

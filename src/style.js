@@ -51,7 +51,7 @@ export function inputnotWritable(value) {
   };
 }
 export const styles = StyleSheet.create({
-  // Radio
+  // Radio 
   radioButtonView: {
     marginTop: 10,
     backgroundColor: primaryColor,
@@ -83,7 +83,7 @@ export const styles = StyleSheet.create({
   login_viewSignInPwdForgot: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20,
+    marginBottom: 50,
   },
   login_underlineTextLogin: {
     color: primaryColor,
@@ -126,7 +126,7 @@ export const styles = StyleSheet.create({
     borderRadius: defaultBorderRadius,
     backgroundColor: accentColor,
     marginTop: 30,
-    marginBottom: 30,
+    marginBottom: 20,
   },
   iconButton: {
     fontSize: defaultFontSizeButtonIcon,
