@@ -6,7 +6,7 @@ import { Form, Item, Input, Button, CheckBox, Icon } from 'native-base';
 import AppString from '../strings';
 import { styles, inputError, inputPlaceHolderColor, inputSelectionColor } from '../style';
 import Storage from '../asyncStorage';
-import { loginUser } from '../actions/familink.actions';
+import { loginUser, setRememberMe } from '../actions/familink.actions';
 
 import { HOME_SCENE_NAME } from './HomeScreen';
 import { SIGNIN_SCENE_NAME } from './SignInScreen';
@@ -46,27 +46,23 @@ class LoginScreen extends Component {
       });
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.userToken !== null && nextProps.userToken !== false) {
+      this.goHome();
+    }
+  }
+
   async login() {
     const loginString = `{
       "phone": "${this.state.user}",
       "password": "${this.state.password}"
     }`;
 
-    await this.props.loginAction(loginString);
-    Storage.removeItem('phone'); // Remove phone from database
-    // If remember me is activated :
-    if (this.state.rememberMeStatus) {
-      Storage.setItem('phone', this.state.user);
-    }
-    if (this.props.userToken !== null && this.props.userToken !== false) {
-      this.goHome();
-    }
+    this.props.loginAction(loginString);
   }
 
   pressedRemember() {
-    this.setState({
-      rememberMeStatus: !this.state.rememberMeStatus,
-    });
+    this.props.rememberAction(!this.props.rememberMe);
   }
 
   goHome() {
@@ -170,19 +166,22 @@ class LoginScreen extends Component {
 LoginScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
   loginAction: PropTypes.func.isRequired,
+  rememberAction: PropTypes.func.isRequired,
   userToken: PropTypes.any.isRequired,
+  rememberMe: PropTypes.any.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     userToken: state.familinkReducer.userToken,
-    rejectedMessage: state.familinkReducer.rejectedMessage,
+    rememberMe: state.familinkReducer.rememberMe,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     loginAction: loginString => dispatch(loginUser(loginString)),
+    rememberAction: newState => dispatch(setRememberMe(newState)),
   };
 }
 

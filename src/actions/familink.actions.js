@@ -1,5 +1,6 @@
 import AppString from '../strings';
 import Tools from '../Tools';
+import Storage from '../asyncStorage';
 
 export const ADD_ISCONNECTED = 'ADD_ISCONNECTED';
 export const ADD_CONTACTLINK = 'ADD_CONTACTLINK';
@@ -8,6 +9,7 @@ export const ADD_API_REJECTED = 'ADD_API_REJECTED';
 export const ADD_CONTACTSLIST = 'ADD_CONTACTSLIST';
 export const LOGIN_USER = 'LOGIN_USER';
 export const SET_CONNECTED = 'SET_CONNECTED';
+export const SET_REMEMBER_ME = 'SET_REMEMBER_ME';
 export const ADD_USER_PROFILE = 'ADD_USER_PROFILE';
 export const ADD_PROFILE = 'ADD_PROFILE';
 export const UPDATE_USER_PROFILE = 'UPDATE_USER_PROFILE';
@@ -18,6 +20,13 @@ export function addToken(newToken) {
   return {
     type: ADD_TOKEN,
     token: newToken,
+  };
+}
+
+export function setRememberMe(newState) {
+  return {
+    type: SET_REMEMBER_ME,
+    rememberMe: newState,
   };
 }
 
@@ -58,6 +67,35 @@ function networkOrNotNetwork(isConnected, uri, optionsFetch) {
     }
     resolve(fetch(uri, optionsFetch));
   });
+}
+
+function storePhone(mustRemember, phone) {
+  Storage.removeItem('phone'); // Remove phone from database
+  // If remember me is activated :
+  if (mustRemember) {
+    Storage.setItem('phone', phone);
+  }
+}
+
+function networkReturn(response) {
+  const toThrow = { code: 0, message: null };
+  switch (response.status) {
+    case 200:
+      return response.json();
+
+    case 400:
+      toThrow.code = 400;
+      toThrow.message = AppString.actionError400Message;
+      throw toThrow;
+
+    case 500:
+      toThrow.code = 500;
+      toThrow.message = AppString.actionError500Message;
+      throw toThrow;
+
+    default:
+      return false;
+  }
 }
 
 export function addContactsList() {
@@ -111,6 +149,10 @@ export function addContactsList() {
 
 export function loginUser(loginString) {
   return (dispatch, getState) => {
+    const a = JSON.parse(loginString);
+    const phone = a.phone;
+    storePhone(getState().familinkReducer.rememberMe, phone);
+
     networkOrNotNetwork(getState().familinkReducer.isConnected,
       `${getState().familinkReducer.uri}/public/login`,
       {
@@ -120,26 +162,7 @@ export function loginUser(loginString) {
         },
         body: loginString,
       })
-      .then((response) => {
-        const toThrow = { code: 0, message: null };
-        switch (response.status) {
-          case 200:
-            return response.json();
-
-          case 400:
-            toThrow.code = 400;
-            toThrow.message = AppString.actionError400Message;
-            throw toThrow;
-
-          case 500:
-            toThrow.code = 500;
-            toThrow.message = AppString.actionError500Message;
-            throw toThrow;
-
-          default:
-            return false;
-        }
-      })
+      .then(response => networkReturn(response)) // Return is implicit
       .then((response) => {
         if (response === null || response === false) {
           return dispatch({
@@ -147,11 +170,14 @@ export function loginUser(loginString) {
             token: null,
           });
         }
-        return dispatch({
+        dispatch({
           type: ADD_TOKEN,
           token: response.token,
         });
+
+        return Promise;
       }).catch((error) => {
+        console.log('message : ', error.message);
         Tools.toastWarning(error.message);
       });
   };
