@@ -10,6 +10,7 @@ import {
   ADD_PROFILE,
   UPDATE_USER_PROFILE,
   FORGOT_PASSWORD,
+  CREATE_USER_STATUS,
   UPDATE_CONTACT,
   DELETE_CONTACT,
 } from '../actions/familink.actions';
@@ -35,6 +36,7 @@ export const initialState = {
   },
   profile: [],
   updateProfileStatus: false,
+  createUserStatus: false,
 };
 
 export default function familinkReducer(state = initialState, action) {
@@ -105,6 +107,11 @@ export default function familinkReducer(state = initialState, action) {
       return {
         ...state,
         phoneString: action.phoneString,
+      };
+    case CREATE_USER_STATUS:
+      return {
+        ...state,
+        createUserStatus: action.createUserStatus,
       };
     case DELETE_CONTACT:
       return {
