@@ -70,8 +70,8 @@ I18n.translations = {
 
     // contact page:
     contactTitleAlertMessage: 'Confirmer la suppression',
-    contactBodyAlertMessage1: 'Etes vous sûr de vouloir supprimer ',
-    contactBodyAlertMessage2: ' de votre liste de contacts?',
+    contactBodyAlertMessage1: 'Etes vous sûr de vouloir supprimer',
+    contactBodyAlertMessage2: 'de votre liste de contacts?',
     contactYesAlertMessage: 'oui',
     contactNoAlertMessage: 'non',
 

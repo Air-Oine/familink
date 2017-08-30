@@ -13,9 +13,7 @@ import Helper from '../helpers/Helper';
 import WebServices, { ERROR_REQUEST } from '../webServices/WebServices';
 import Tools from '../Tools';
 import Hidden from '../Hidden';
-import { deleteContact } from '../actions/familink.actions';
-
-import { updateContact } from '../actions/familink.actions';
+import { deleteContact, updateContact } from '../actions/familink.actions';
 import { CONTACTLIST_SCENE_NAME } from './ContactListScreen';
 import { LOGIN_SCENE_NAME } from './LoginScreen';
 
@@ -323,12 +321,6 @@ ContactScreen.propTypes = {
   updateContact: PropTypes.func.isRequired,
 };
 
-function mapDispatchToProps(dispatch) {
-  return {
-    updateContact: (id, contact) => dispatch(updateContact(id, contact)),
-  };
-}
-
 function mapStateToProps(state) {
   return {
     contactLink: state.familinkReducer.contactLink,
@@ -336,6 +328,7 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
+    updateContact: (id, contact) => dispatch(updateContact(id, contact)),
     deleteContact: contact => dispatch(deleteContact(contact)),
   };
 }
