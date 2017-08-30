@@ -15,6 +15,7 @@ import Tools from '../Tools';
 import Hidden from '../Hidden';
 import { deleteContact } from '../actions/familink.actions';
 
+import { updateContact } from '../actions/familink.actions';
 import { CONTACTLIST_SCENE_NAME } from './ContactListScreen';
 import { LOGIN_SCENE_NAME } from './LoginScreen';
 
@@ -32,6 +33,8 @@ class ContactScreen extends Component {
     super(props);
 
     this.state = {
+      modification: false,
+      visualisation: false,
       lastName: '',
       firstName: '',
       firstNameError: false,
@@ -47,13 +50,20 @@ class ContactScreen extends Component {
     this.saveContact = this.saveContact.bind(this);
     this.delete = this.delete.bind(this);
     this.isDeleted = this.isDeleted.bind(this);
-    this.modif = false;
+    this.alter = this.alter.bind(this);
   }
+
   componentWillMount() {
-    if (this.props.contactLink == null) {
-      this.modif = false;
-    } else {
-      this.modif = true;
+    // Modification
+    if (this.props.contactLink !== null) {
+      this.setState({
+        visualisation: true,
+        lastName: this.props.contactLink.lastName,
+        firstName: this.props.contactLink.firstName,
+        avatarUrl: this.props.contactLink.gravatar,
+        tel: this.props.contactLink.phone,
+        email: this.props.contactLink.email,
+      });
     }
   }
 
@@ -106,7 +116,18 @@ class ContactScreen extends Component {
       contact += `"phone": "${this.state.tel}"`;
       contact += '}';
 
-      this.saveContact(contact);
+      if (!this.state.modification) {
+        // Contact creation
+        this.saveContact(contact);
+      } else {
+        // Contact update
+        this.props.updateContact(this.props.contactLink._id, contact).then((value) => {
+          if (value.result) {
+            Tools.toastSuccess(AppString.addContactToastUpdateSuccess);
+            this.props.navigation.navigate(CONTACTLIST_SCENE_NAME);
+          }
+        });
+      }
     }
   }
 
@@ -137,8 +158,11 @@ class ContactScreen extends Component {
     return false;
   }
 
+  /**
+   * Switch to modification mode
+   */
   alter() {
-
+    this.setState({ modification: true });
   }
 
   isDeleted() {
@@ -152,6 +176,22 @@ class ContactScreen extends Component {
 
   render() {
     const navigation = this.props.navigation;
+
+    // Render save button
+    let saveButton = null;
+    if (!this.state.visualisation || this.state.modification) {
+      saveButton = (
+        <Button
+          style={styles.button}
+          iconRight
+          full
+          light
+          onPress={this.save}
+        >
+          <Text>{AppString.addContactSave}</Text>
+        </Button>
+      );
+    }
 
     // Render avatar
     let avatar = null;
@@ -172,8 +212,10 @@ class ContactScreen extends Component {
           navigation={navigation}
           title={AppString.contactPageName}
           goBackTo={CONTACTLIST_SCENE_NAME}
-          alterOnPress={this.modif ? () => this.alter() : null}
-          deleteOnPress={this.modif ? () => this.delete() : null}
+          alterOnPress={
+            this.state.visualisation && !this.state.modification ? () => this.alter() : null
+          }
+          deleteOnPress={this.state.visualisation ? () => this.delete() : null}
         />
         <ScrollView style={styles.form}>
           <Form>
@@ -183,7 +225,9 @@ class ContactScreen extends Component {
               style={[styles.input]}
             >
               <Input
+                value={this.state.lastName}
                 onChangeText={text => this.setState({ lastName: text })}
+                disabled={this.state.visualisation && !this.state.modification}
                 placeholder={AppString.addContactLastName}
                 placeholderTextColor={inputPlaceHolderColor}
                 selectionColor={inputSelectionColor}
@@ -197,7 +241,9 @@ class ContactScreen extends Component {
               style={[styles.input, inputError(this.state.firstNameError)]}
             >
               <Input
+                value={this.state.firstName}
                 onChangeText={text => this.setState({ firstName: text })}
+                disabled={this.state.visualisation && !this.state.modification}
                 placeholder={AppString.addContactFirstName}
                 placeholderTextColor={inputPlaceHolderColor}
                 selectionColor={inputSelectionColor}
@@ -213,7 +259,9 @@ class ContactScreen extends Component {
                   style={[styles.input]}
                 >
                   <Input
+                    value={this.state.avatarUrl}
                     onChangeText={text => this.setState({ avatarUrl: text })}
+                    disabled={this.state.visualisation && !this.state.modification}
                     placeholder={AppString.addContactGravatar}
                     placeholderTextColor={inputPlaceHolderColor}
                     selectionColor={inputSelectionColor}
@@ -232,7 +280,9 @@ class ContactScreen extends Component {
               <Input
                 maxLength={10}
                 keyboardType="numeric"
+                value={this.state.tel}
                 onChangeText={text => this.setState({ tel: text })}
+                disabled={this.state.visualisation && !this.state.modification}
                 placeholder={AppString.addContactPhone}
                 placeholderTextColor={inputPlaceHolderColor}
                 selectionColor={inputSelectionColor}
@@ -246,7 +296,9 @@ class ContactScreen extends Component {
               style={[styles.input, inputError(this.state.emailError)]}
             >
               <Input
+                value={this.state.email}
                 onChangeText={text => this.setState({ email: text })}
+                disabled={this.state.visualisation && !this.state.modification}
                 placeholder={AppString.addContactEmail}
                 placeholderTextColor={inputPlaceHolderColor}
                 selectionColor={inputSelectionColor}
@@ -256,15 +308,7 @@ class ContactScreen extends Component {
           </Form>
 
           {/* SAVE BUTTON */}
-          <Button
-            style={styles.button}
-            iconRight
-            full
-            light
-            onPress={this.save}
-          >
-            <Text>{AppString.addContactSave}</Text>
-          </Button>
+          {saveButton}
         </ScrollView>
       </View>
     );
@@ -275,13 +319,19 @@ ContactScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
   contactLink: PropTypes.any.isRequired,
   deleteContact: PropTypes.func.isRequired,
-  deleted: PropTypes.any.isRequired,
+  userToken: PropTypes.any.isRequired,
+  updateContact: PropTypes.func.isRequired,
 };
+
+function mapDispatchToProps(dispatch) {
+  return {
+    updateContact: (id, contact) => dispatch(updateContact(id, contact)),
+  };
+}
 
 function mapStateToProps(state) {
   return {
     contactLink: state.familinkReducer.contactLink,
-    deleted: state.familinkReducer.deleted,
   };
 }
 function mapDispatchToProps(dispatch) {

@@ -1,4 +1,4 @@
-import { ADD_ISCONNECTED, ADD_CONTACTLINK, ADD_TOKEN, ADD_API_REJECTED, ADD_CONTACTSLIST, SET_CONNECTED, FORGOT_PASSWORD, DELETE_CONTACT } from '../actions/familink.actions';
+import { ADD_ISCONNECTED, ADD_CONTACTLINK, ADD_TOKEN, ADD_API_REJECTED, ADD_CONTACTSLIST, SET_CONNECTED, FORGOT_PASSWORD, UPDATE_CONTACT, DELETE_CONTACT } from '../actions/familink.actions';
 
 const _ = require('lodash');
 
@@ -56,6 +56,12 @@ export default function familinkReducer(state = initialState, action) {
     case DELETE_CONTACT:
       return {
         ...state,
+      };
+    case UPDATE_CONTACT:
+      return {
+        ...state,
+        id: action.id,
+        contactString: action.contact,
       };
     default:
       return state;
