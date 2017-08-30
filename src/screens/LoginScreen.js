@@ -48,7 +48,6 @@ class LoginScreen extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.userToken !== false && nextProps.userToken !== '') {
-      console.log('I AM HERE : ', nextProps.userToken);
       this.goHome();
     }
   }
