@@ -114,12 +114,11 @@ class ContactListScreen extends Component {
             renderRow={item => this.renderItem(item)}
           />
           <Fab
-            direction="up"
             style={{ backgroundColor: accentColor }}
             position="bottomRight"
             onPress={() => navigation.navigate(CONTACT_SCENE_NAME)}
           >
-            <Icon name="add" />
+            <Icon name="md-add" />
           </Fab>
         </View>
       </Container>
