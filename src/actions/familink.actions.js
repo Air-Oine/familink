@@ -18,6 +18,8 @@ export const FORGOT_PASSWORD_REJECTED = 'FORGOT_PASSWORD_REJECTED';
 export const DELETE_CONTACT = 'DELETE_CONTACT';
 export const UPDATE_CONTACT = 'UPDATE_CONTACT';
 export const UPDATE_CONTACT_REJECTED = 'UPDATE_CONTACT_REJECTED';
+export const CREATE_CONTACT = 'CREATE_CONTACT';
+export const CREATE_CONTACT_REJECTED = 'CREATE_CONTACT_REJECTED';
 
 export function addToken(newToken) {
   return {
@@ -386,6 +388,60 @@ export function updateProfileUser(userProfile) {
   };
 }
 
+export function createContact(contactString) {
+  return (dispatch, getState) => {
+    try {
+      if (!getState().familinkReducer.isConnected) {
+        const toThrow = { code: 0, message: 'No network' };
+        throw toThrow;
+      }
+
+      return fetch(`${getState().familinkReducer.uri}/secured/users/contacts`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${getState().familinkReducer.userToken}`,
+          },
+          body: contactString,
+        })
+        .then((response) => {
+          const toThrow = { code: 0, message: null };
+          switch (response.status) {
+            case 200:
+              return true;
+
+            case 400:
+              toThrow.code = 400;
+              toThrow.message = AppString.actionError400Message;
+              throw toThrow;
+
+            case 500:
+              toThrow.code = 500;
+              toThrow.message = AppString.actionError500Message;
+              throw toThrow;
+
+            default:
+              return response.status;
+          }
+        })
+        .then(response => dispatch({
+          type: CREATE_CONTACT,
+          result: response,
+        }))
+        .catch((error) => {
+          Tools.toastWarning(error.message);
+        });
+    } catch (error) {
+      return dispatch({
+        type: CREATE_CONTACT_REJECTED,
+        code: error.code,
+        message: error.message,
+      });
+    }
+  };
+}
+
 export function updateContact(id, contactString) {
   return (dispatch, getState) => {
     try {
@@ -481,21 +537,4 @@ export function deleteContact(contact) {
       });
   };
 }
-/*
-export function saveContact(contact) {
-  return (dispatch, getState) => WebServices.createContact(contact,
-    getState().familinkReducer.userToken)
-    .then((result) => {
-      dispatch({
-        type: ADD_CREATECONTACTRESULT,
-        createContactResult: result,
-      });
-      throw Error('error');
-    },
-    )
-    .catch(() => {
-      // TODO
-      console.log('catch');
-    });
-}
-*/
+

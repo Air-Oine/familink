@@ -10,6 +10,7 @@ import {
   ADD_PROFILE,
   UPDATE_USER_PROFILE,
   FORGOT_PASSWORD,
+  CREATE_CONTACT,
   UPDATE_CONTACT,
   DELETE_CONTACT,
 } from '../actions/familink.actions';
@@ -106,10 +107,18 @@ export default function familinkReducer(state = initialState, action) {
         ...state,
         phoneString: action.phoneString,
       };
+
+    case CREATE_CONTACT:
+      return {
+        ...state,
+        contactString: action.contact,
+      };
+
     case DELETE_CONTACT:
       return {
         ...state,
       };
+
     case UPDATE_CONTACT:
       return {
         ...state,
