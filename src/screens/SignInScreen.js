@@ -44,19 +44,15 @@ class SignInScreen extends Component {
   }
 
   componentDidMount() {
-    this.props.getProfiles();
-  }
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      profiles: nextProps.profiles,
-      selectedProfile: nextProps.profiles[0],
-    });
-    if (nextProps.createUserStatus === true) {
-      const navigation = this.props.navigation;
-      Tools.toastSuccess(AppString.signIn_Success);
-      navigation.navigate(LOGIN_SCENE_NAME);
-      this.props.setUserStatus(false);
-    }
+    this.props.getProfiles()
+      .then((response) => {
+        if (response.profile !== false) {
+          this.setState({
+            profiles: response.profile,
+            selectedProfile: response.profile[0],
+          });
+        }
+      });
   }
   onValueChange(value) {
     this.setState({
@@ -151,7 +147,14 @@ class SignInScreen extends Component {
           "profile": "${this.state.selectedProfile}"
         }`;
       }
-      this.props.createUser(userString);
+      this.props.createUser(userString)
+        .then((response) => {
+          if (response !== false) {
+            const navigation = this.props.navigation;
+            Tools.toastSuccess(AppString.signIn_Success);
+            navigation.navigate(LOGIN_SCENE_NAME);
+          }
+        });
     }
   }
 

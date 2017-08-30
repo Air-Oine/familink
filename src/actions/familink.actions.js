@@ -46,14 +46,7 @@ export function setConnected(newIsConnected) {
 export function updateProfileStatus(newStatus, newUserProfile) {
   return {
     type: UPDATE_USER_PROFILE,
-    updateProfileStatus: newStatus,
     userProfile: newUserProfile,
-  };
-}
-export function setUserStatus(newStatus) {
-  return {
-    type: UPDATE_USER_PROFILE,
-    createUserStatus: newStatus,
   };
 }
 function networkOrNotNetwork(isConnected, uri, optionsFetch) {
@@ -68,8 +61,11 @@ function networkOrNotNetwork(isConnected, uri, optionsFetch) {
 
 export function createUser(user) {
   return (dispatch, getState) => {
-    networkOrNotNetwork(getState().familinkReducer.isConnected,
-      `${getState().familinkReducer.uri}/public/sign-in`,
+    if (!getState().familinkReducer.isConnected) {
+      const toThrow = { code: 0, message: AppString.errorNoConnection };
+      throw toThrow;
+    }
+    return fetch(`${getState().familinkReducer.uri}/public/sign-in`,
       {
         method: 'POST',
         headers: {
@@ -85,32 +81,28 @@ export function createUser(user) {
 
           case 400:
             toThrow.code = 400;
-            toThrow.message = AppString.actionError400Message;
+            toThrow.message = AppString.signIn_ErrorAccount;
             throw toThrow;
-
           case 500:
             toThrow.code = 500;
             toThrow.message = AppString.actionError500Message;
             throw toThrow;
 
           default:
-            return false;
+            toThrow.message = AppString.signin_Error;
+            throw toThrow;
         }
       })
       .then((response) => {
         if (response === null || response === false) {
-          return dispatch({
-            type: CREATE_USER_STATUS,
-            createUserStatus: false,
-          });
+          Tools.toastWarning(AppString.signin_Error);
+          return false;
         }
-        return dispatch({
-          type: CREATE_USER_STATUS,
-          createUserStatus: true,
-        });
+        return true;
       })
       .catch((error) => {
         Tools.toastWarning(error.message);
+        return false;
       });
   };
 }
@@ -213,8 +205,11 @@ export function loginUser(loginString) {
 
 export function getProfileUser() {
   return (dispatch, getState) => {
-    networkOrNotNetwork(getState().familinkReducer.isConnected,
-      `${getState().familinkReducer.uri}/secured/users/current`,
+    if (!getState().familinkReducer.isConnected) {
+      const toThrow = { code: 0, message: AppString.errorNoConnection };
+      throw toThrow;
+    }
+    return fetch(`${getState().familinkReducer.uri}/secured/users/current`,
       {
         method: 'GET',
         headers: {
@@ -230,7 +225,7 @@ export function getProfileUser() {
 
           case 400:
             toThrow.code = 400;
-            toThrow.message = AppString.actionError400Message;
+            toThrow.message = AppString.profileGetError;
             throw toThrow;
 
           case 500:
@@ -239,15 +234,14 @@ export function getProfileUser() {
             throw toThrow;
 
           default:
-            return false;
+            toThrow.message = AppString.profileGetError;
+            throw toThrow;
         }
       })
       .then((response) => {
         if (response === null || response === false) {
-          return dispatch({
-            type: ADD_USER_PROFILE,
-            userProfile: null,
-          });
+          Tools.toastWarning(AppString.profileGetError);
+          return false;
         }
         return dispatch({
           type: ADD_USER_PROFILE,
@@ -255,60 +249,64 @@ export function getProfileUser() {
         });
       }).catch((error) => {
         Tools.toastWarning(error.message);
+        return false;
       });
   };
 }
 
 export function getProfiles() {
   return (dispatch, getState) => {
-    networkOrNotNetwork(getState().familinkReducer.isConnected,
-      `${getState().familinkReducer.uri}/public/profiles`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .then((response) => {
-        const toThrow = { code: 0, message: null };
-        switch (response.status) {
-          case 200:
-            return response.json();
+    try {
+      return fetch(`${getState().familinkReducer.uri}/public/profiles`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then((response) => {
+          const toThrow = { code: 0, message: null };
+          switch (response.status) {
+            case 200:
+              return response.json();
 
-          case 400:
-            toThrow.code = 400;
-            toThrow.message = AppString.actionError400Message;
-            throw toThrow;
-          case 500:
-            toThrow.code = 500;
-            toThrow.message = AppString.actionError500Message;
-            throw toThrow;
+            case 400:
+              toThrow.code = 400;
+              toThrow.message = AppString.actionErrorGetProfiles;
+              throw toThrow;
+            case 500:
+              toThrow.code = 500;
+              toThrow.message = AppString.actionError500Message;
+              throw toThrow;
 
-          default:
+            default:
+              toThrow.message = AppString.actionErrorGetProfiles;
+              throw toThrow;
+          }
+        })
+        .then((response) => {
+          if (response === null || response === false) {
+            Tools.toastWarning(AppString.actionErrorGetProfiles);
             return false;
-        }
-      })
-      .then((response) => {
-        if (response === null || response === false) {
+          }
           return dispatch({
             type: ADD_PROFILE,
-            profile: null,
+            profile: response,
           });
-        }
-        return dispatch({
-          type: ADD_PROFILE,
-          profile: response,
+        }).catch((error) => {
+          Tools.toastWarning(error.message);
+          return false;
         });
-      }).catch((error) => {
-        Tools.toastWarning(error.message);
-      });
+    } catch (error) {
+      return false;
+    }
   };
 }
 export function forgotPassword(phoneString) {
   return (dispatch, getState) => {
     try {
       if (!getState().familinkReducer.isConnected) {
-        const toThrow = { code: 0, message: 'No network' };
+        const toThrow = { code: 0, message: AppString.errorNoConnection };
         throw toThrow;
       }
       return fetch(`${getState().familinkReducer.uri}/public/forgot-password`, {
@@ -363,8 +361,11 @@ export function forgotPassword(phoneString) {
 }
 export function updateProfileUser(userProfile) {
   return (dispatch, getState) => {
-    networkOrNotNetwork(getState().familinkReducer.isConnected,
-      `${getState().familinkReducer.uri}/secured/users`,
+    if (!getState().familinkReducer.isConnected) {
+      const toThrow = { code: 0, message: AppString.errorNoConnection };
+      throw toThrow;
+    }
+    return fetch(`${getState().familinkReducer.uri}/secured/users`,
       {
         method: 'PUT',
         headers: {
@@ -381,7 +382,7 @@ export function updateProfileUser(userProfile) {
 
           case 400:
             toThrow.code = 400;
-            toThrow.message = AppString.actionError400Message;
+            toThrow.message = AppString.profileError;
             throw toThrow;
 
           case 500:
@@ -390,24 +391,22 @@ export function updateProfileUser(userProfile) {
             throw toThrow;
 
           default:
-            return false;
+            toThrow.message = AppString.profileError;
+            throw toThrow;
         }
       })
       .then((response) => {
         if (response === null || response === false) {
-          return dispatch({
-            type: UPDATE_USER_PROFILE,
-            userProfile: null,
-            updateProfileStatus: false,
-          });
+          Tools.toastWarning(AppString.profileError);
+          return false;
         }
         return dispatch({
           type: UPDATE_USER_PROFILE,
           userProfile: response,
-          updateProfileStatus: true,
         });
       }).catch((error) => {
         Tools.toastWarning(error.message);
+        return false;
       });
   };
 }

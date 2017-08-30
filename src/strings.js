@@ -20,6 +20,7 @@ I18n.translations = {
     signIn_LastName: 'Nom',
     signIn_FirstName: 'Prénom *',
     signIn_Email: 'Email',
+    signIn_ErrorAccount: 'Erreur nom de compte déjà existant',
     signIn_Error: 'Erreur lors de la création du compte',
     signIn_Success: 'Compte ajouté avec succès',
 
@@ -66,7 +67,7 @@ I18n.translations = {
     // Familink Action :
     actionError400Message: 'Erreur de login ou de mot de passe',
     actionError500Message: 'Une erreur est survenue coté serveur',
-
+    actionErrorGetProfiles: 'Erreur lors de la récupération des profiles',
     // Profile 
     profileUser: 'Utilisateur',
     profileLastName: 'Nom',
@@ -75,6 +76,8 @@ I18n.translations = {
     profileProfil: 'Profile',
     profileSave: 'Sauvegarder',
     profileUpdateSuccess: 'Profil modifié avec succès',
+    profileError: 'Erreur lors de la modification',
+    profileGetError: 'Erreur lors de la récupération du profile',
   },
 };
 
@@ -87,6 +90,7 @@ const AppString = {
   signIn_FirstName: I18n.t('signIn_FirstName'),
   signIn_Email: I18n.t('signIn_Email'),
   signin_Error: I18n.t('signIn_Error'),
+  signIn_ErrorAccount: I18n.t('signIn_ErrorAccount'),
   signIn_Success: I18n.t('signIn_Success'),
 
   // Home
@@ -144,7 +148,7 @@ const AppString = {
   // Page Familink.actions :
   actionError400Message: I18n.t('actionError400Message'),
   actionError500Message: I18n.t('actionError500Message'),
-
+  actionErrorGetProfiles: I18n.t('actionErrorGetProfiles'),
   // Profile 
   profileUser: I18n.t('profileUser'),
   profileLastName: I18n.t('profileLastName'),
@@ -153,6 +157,8 @@ const AppString = {
   profileProfil: I18n.t('profileProfil'),
   profileSave: I18n.t('profileSave'),
   profileUpdateSuccess: I18n.t('profileUpdateSuccess'),
+  profileError: I18n.t('profileError'),
+  profileGetError: I18n.t('profileGetError'),
 };
 
 /**
