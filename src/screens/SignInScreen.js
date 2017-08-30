@@ -3,6 +3,7 @@ import { View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { Form, Input, Icon, Item, Button, Text, Radio } from 'native-base';
 import AppString from '../strings';
+
 import { styles, inputError, inputPlaceHolderColor, inputSelectionColor } from '../style';
 import Helper from '../helpers/Helper';
 import HeaderBar from '../components/HeaderBar';

@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { Form, Input, Icon, Item, Button, Text, Radio } from 'native-base';
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
+
 import { styles, inputSelectionColor, inputPlaceHolderColor, inputnotWritable, inputError } from '../style';
 import { getProfileUser, getProfiles, updateProfileUser } from '../actions/familink.actions';
 import Helper from '../helpers/Helper';

@@ -1,5 +1,6 @@
 import AppString from '../strings';
 import Tools from '../Tools';
+import Storage from '../asyncStorage';
 
 export const ADD_ISCONNECTED = 'ADD_ISCONNECTED';
 export const ADD_CONTACTLINK = 'ADD_CONTACTLINK';
@@ -8,17 +9,28 @@ export const ADD_API_REJECTED = 'ADD_API_REJECTED';
 export const ADD_CONTACTSLIST = 'ADD_CONTACTSLIST';
 export const LOGIN_USER = 'LOGIN_USER';
 export const SET_CONNECTED = 'SET_CONNECTED';
+export const SET_REMEMBER_ME = 'SET_REMEMBER_ME';
 export const ADD_USER_PROFILE = 'ADD_USER_PROFILE';
 export const ADD_PROFILE = 'ADD_PROFILE';
 export const UPDATE_USER_PROFILE = 'UPDATE_USER_PROFILE';
 export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
 export const FORGOT_PASSWORD_REJECTED = 'FORGOT_PASSWORD_REJECTED';
 export const CREATE_USER_STATUS = 'CREATE_USER_STATUS';
+export const DELETE_CONTACT = 'DELETE_CONTACT';
+export const UPDATE_CONTACT = 'UPDATE_CONTACT';
+export const UPDATE_CONTACT_REJECTED = 'UPDATE_CONTACT_REJECTED';
 
 export function addToken(newToken) {
   return {
     type: ADD_TOKEN,
     token: newToken,
+  };
+}
+
+export function setRememberMe(newState) {
+  return {
+    type: SET_REMEMBER_ME,
+    rememberMe: newState,
   };
 }
 
@@ -106,6 +118,35 @@ export function createUser(user) {
       });
   };
 }
+function storePhone(mustRemember, phone) {
+  Storage.removeItem('phone'); // Remove phone from database
+  // If remember me is activated :
+  if (mustRemember) {
+    Storage.setItem('phone', phone);
+  }
+}
+
+function networkReturn(response) {
+  const toThrow = { code: 0, message: null };
+  switch (response.status) {
+    case 200:
+      return response.json();
+
+    case 400:
+      toThrow.code = 400;
+      toThrow.message = AppString.actionError400Message;
+      throw toThrow;
+
+    case 500:
+      toThrow.code = 500;
+      toThrow.message = AppString.actionError500Message;
+      throw toThrow;
+
+    default:
+      return false;
+  }
+}
+
 export function addContactsList() {
   return (dispatch, getState) => {
     networkOrNotNetwork(getState().familinkReducer.isConnected,
@@ -157,6 +198,10 @@ export function addContactsList() {
 
 export function loginUser(loginString) {
   return (dispatch, getState) => {
+    const a = JSON.parse(loginString);
+    const phone = a.phone;
+    storePhone(getState().familinkReducer.rememberMe, phone);
+
     networkOrNotNetwork(getState().familinkReducer.isConnected,
       `${getState().familinkReducer.uri}/public/login`,
       {
@@ -166,38 +211,22 @@ export function loginUser(loginString) {
         },
         body: loginString,
       })
-      .then((response) => {
-        const toThrow = { code: 0, message: null };
-        switch (response.status) {
-          case 200:
-            return response.json();
-
-          case 400:
-            toThrow.code = 400;
-            toThrow.message = AppString.actionError400Message;
-            throw toThrow;
-
-          case 500:
-            toThrow.code = 500;
-            toThrow.message = AppString.actionError500Message;
-            throw toThrow;
-
-          default:
-            return false;
-        }
-      })
+      .then(response => networkReturn(response)) // Return is implicit
       .then((response) => {
         if (response === null || response === false) {
           return dispatch({
             type: ADD_TOKEN,
-            token: null,
+            token: '',
           });
         }
-        return dispatch({
+        dispatch({
           type: ADD_TOKEN,
           token: response.token,
         });
+
+        return Promise;
       }).catch((error) => {
+        console.log('message : ', error.message);
         Tools.toastWarning(error.message);
       });
   };
@@ -379,7 +408,6 @@ export function updateProfileUser(userProfile) {
         switch (response.status) {
           case 200:
             return response.json();
-
           case 400:
             toThrow.code = 400;
             toThrow.message = AppString.profileError;
@@ -407,6 +435,102 @@ export function updateProfileUser(userProfile) {
       }).catch((error) => {
         Tools.toastWarning(error.message);
         return false;
+      });
+  };
+}
+
+export function updateContact(id, contactString) {
+  return (dispatch, getState) => {
+    try {
+      if (!getState().familinkReducer.isConnected) {
+        const toThrow = { code: 0, message: 'No network' };
+        throw toThrow;
+      }
+
+      return fetch(`${getState().familinkReducer.uri}/secured/users/contacts/${id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${getState().familinkReducer.userToken}`,
+          },
+          body: contactString,
+        })
+        .then((response) => {
+          const toThrow = { code: 0, message: null };
+          switch (response.status) {
+            case 204:
+              return true;
+
+            case 400:
+              toThrow.code = 400;
+              toThrow.message = AppString.actionError400Message;
+              throw toThrow;
+
+            case 500:
+              toThrow.code = 500;
+              toThrow.message = AppString.actionError500Message;
+              throw toThrow;
+
+            default:
+              return false;
+          }
+        })
+        .then(response => dispatch({
+          type: UPDATE_CONTACT,
+          result: response,
+        }))
+        .catch((error) => {
+          Tools.toastWarning(error.message);
+        });
+    } catch (error) {
+      return dispatch({
+        type: UPDATE_CONTACT_REJECTED,
+        code: error.code,
+        message: error.message,
+      });
+    }
+  };
+}
+
+export function deleteContact(contact) {
+  return (dispatch, getState) => {
+    if (!getState().familinkReducer.isConnected) {
+      const toThrow = { code: 0, message: 'No network' };
+      throw toThrow;
+    }
+    return fetch(`${getState().familinkReducer.uri}/secured/users/contacts/${contact._id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${getState().familinkReducer.userToken}`,
+        },
+      })
+      .then((response) => {
+        const toThrow = { code: 0, message: null };
+        switch (response.status) {
+          case 204:
+            return dispatch({
+              type: DELETE_CONTACT,
+            });
+
+          case 400:
+            toThrow.code = 400;
+            toThrow.message = AppString.actionError400Message;
+            throw toThrow;
+
+          case 500:
+            toThrow.code = 500;
+            toThrow.message = AppString.actionError500Message;
+            throw toThrow;
+
+          default:
+            return false;
+        }
+      })
+      .catch((error) => {
+        Tools.toastWarning(error.message);
       });
   };
 }

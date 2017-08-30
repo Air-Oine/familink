@@ -83,7 +83,7 @@ class ContactListScreen extends Component {
       image = (<Image style={styles.contactList_img} source={{ uri: item.gravatar }} />);
     }
     return (
-      <ListItem button onPress={() => { this.goToDetail(); }} >
+      <ListItem button onPress={() => { this.goToDetail(item); }} >
         <View style={styles.contactList_viewItem}>
           {image}
           <View style={styles.contactList_viewItem_name_phone}>

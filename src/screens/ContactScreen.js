@@ -6,7 +6,6 @@ import {
 } from 'react-native';
 import { Form, Input, Item, Button, Text, Grid, Col } from 'native-base';
 import { connect } from 'react-redux';
-import Storage from '../asyncStorage';
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
 import { styles, inputError, inputPlaceHolderColor, inputSelectionColor } from '../style';
@@ -14,7 +13,7 @@ import Helper from '../helpers/Helper';
 import WebServices, { ERROR_REQUEST } from '../webServices/WebServices';
 import Tools from '../Tools';
 import Hidden from '../Hidden';
-
+import { deleteContact, updateContact } from '../actions/familink.actions';
 import { CONTACTLIST_SCENE_NAME } from './ContactListScreen';
 import { LOGIN_SCENE_NAME } from './LoginScreen';
 
@@ -32,6 +31,8 @@ class ContactScreen extends Component {
     super(props);
 
     this.state = {
+      modification: false,
+      visualisation: false,
       lastName: '',
       firstName: '',
       firstNameError: false,
@@ -45,20 +46,23 @@ class ContactScreen extends Component {
     this.validationForm = this.validationForm.bind(this);
     this.save = this.save.bind(this);
     this.saveContact = this.saveContact.bind(this);
-    this.modif = false;
+    this.delete = this.delete.bind(this);
+    this.isDeleted = this.isDeleted.bind(this);
+    this.alter = this.alter.bind(this);
   }
+
   componentWillMount() {
-    if (this.props.contactLink != null) {
-      this.modif = false;
-    } else {
-      this.modif = true;
+    // Modification
+    if (this.props.contactLink !== null) {
+      this.setState({
+        visualisation: true,
+        lastName: this.props.contactLink.lastName,
+        firstName: this.props.contactLink.firstName,
+        avatarUrl: this.props.contactLink.gravatar,
+        tel: this.props.contactLink.phone,
+        email: this.props.contactLink.email,
+      });
     }
-  }
-  componentDidMount() {
-    Storage.getItem('token').then((v) => {
-      this.setState({ token: v });
-      this.getContact();
-    });
   }
 
   /**
@@ -104,7 +108,18 @@ class ContactScreen extends Component {
       contact += `"phone": "${this.state.tel}"`;
       contact += '}';
 
-      this.saveContact(contact);
+      if (!this.state.modification) {
+        // Contact creation
+        this.saveContact(contact);
+      } else {
+        // Contact update
+        this.props.updateContact(this.props.contactLink._id, contact).then((value) => {
+          if (value.result) {
+            Tools.toastSuccess(AppString.addContactToastUpdateSuccess);
+            this.props.navigation.navigate(CONTACTLIST_SCENE_NAME);
+          }
+        });
+      }
     }
   }
 
@@ -135,8 +150,43 @@ class ContactScreen extends Component {
     return false;
   }
 
+  /**
+   * Switch to modification mode
+   */
+  alter() {
+    this.setState({ modification: true });
+  }
+
+  isDeleted() {
+    this.props.deleteContact(this.props.contactLink).then(() =>
+      this.props.navigation.navigate(CONTACTLIST_SCENE_NAME));
+  }
+
+  delete() {
+    Tools.alert(AppString.contactTitleAlertMessage,
+      `${AppString.contactBodyAlertMessage1} ${this.props.contactLink.firstName} ${this.props.contactLink.lastName} ${AppString.contactBodyAlertMessage2}`,
+      AppString.contactYesAlertMessage, this.isDeleted,
+      AppString.contactNoAlertMessage);
+  }
+
   render() {
     const navigation = this.props.navigation;
+
+    // Render save button
+    let saveButton = null;
+    if (!this.state.visualisation || this.state.modification) {
+      saveButton = (
+        <Button
+          style={styles.button}
+          iconRight
+          full
+          light
+          onPress={this.save}
+        >
+          <Text>{AppString.addContactSave}</Text>
+        </Button>
+      );
+    }
 
     // Render avatar
     let avatar = null;
@@ -157,6 +207,10 @@ class ContactScreen extends Component {
           navigation={navigation}
           title={AppString.contactPageName}
           goBackTo={CONTACTLIST_SCENE_NAME}
+          alterOnPress={
+            this.state.visualisation && !this.state.modification ? () => this.alter() : null
+          }
+          deleteOnPress={this.state.visualisation ? () => this.delete() : null}
         />
         <ScrollView style={styles.form}>
           <Form>
@@ -166,7 +220,9 @@ class ContactScreen extends Component {
               style={[styles.input]}
             >
               <Input
+                value={this.state.lastName}
                 onChangeText={text => this.setState({ lastName: text })}
+                disabled={this.state.visualisation && !this.state.modification}
                 placeholder={AppString.addContactLastName}
                 placeholderTextColor={inputPlaceHolderColor}
                 selectionColor={inputSelectionColor}
@@ -180,7 +236,9 @@ class ContactScreen extends Component {
               style={[styles.input, inputError(this.state.firstNameError)]}
             >
               <Input
+                value={this.state.firstName}
                 onChangeText={text => this.setState({ firstName: text })}
+                disabled={this.state.visualisation && !this.state.modification}
                 placeholder={AppString.addContactFirstName}
                 placeholderTextColor={inputPlaceHolderColor}
                 selectionColor={inputSelectionColor}
@@ -196,7 +254,9 @@ class ContactScreen extends Component {
                   style={[styles.input]}
                 >
                   <Input
+                    value={this.state.avatarUrl}
                     onChangeText={text => this.setState({ avatarUrl: text })}
+                    disabled={this.state.visualisation && !this.state.modification}
                     placeholder={AppString.addContactGravatar}
                     placeholderTextColor={inputPlaceHolderColor}
                     selectionColor={inputSelectionColor}
@@ -215,7 +275,9 @@ class ContactScreen extends Component {
               <Input
                 maxLength={10}
                 keyboardType="numeric"
+                value={this.state.tel}
                 onChangeText={text => this.setState({ tel: text })}
+                disabled={this.state.visualisation && !this.state.modification}
                 placeholder={AppString.addContactPhone}
                 placeholderTextColor={inputPlaceHolderColor}
                 selectionColor={inputSelectionColor}
@@ -229,7 +291,9 @@ class ContactScreen extends Component {
               style={[styles.input, inputError(this.state.emailError)]}
             >
               <Input
+                value={this.state.email}
                 onChangeText={text => this.setState({ email: text })}
+                disabled={this.state.visualisation && !this.state.modification}
                 placeholder={AppString.addContactEmail}
                 placeholderTextColor={inputPlaceHolderColor}
                 selectionColor={inputSelectionColor}
@@ -239,15 +303,7 @@ class ContactScreen extends Component {
           </Form>
 
           {/* SAVE BUTTON */}
-          <Button
-            style={styles.button}
-            iconRight
-            full
-            light
-            onPress={this.save}
-          >
-            <Text>{AppString.addContactSave}</Text>
-          </Button>
+          {saveButton}
         </ScrollView>
       </View>
     );
@@ -257,14 +313,21 @@ class ContactScreen extends Component {
 ContactScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
   contactLink: PropTypes.any.isRequired,
+  deleteContact: PropTypes.func.isRequired,
   userToken: PropTypes.any.isRequired,
+  updateContact: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     contactLink: state.familinkReducer.contactLink,
-    userToken: state.familinkReducer.userToken,
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    updateContact: (id, contact) => dispatch(updateContact(id, contact)),
+    deleteContact: contact => dispatch(deleteContact(contact)),
   };
 }
 
-export default connect(mapStateToProps, undefined)(ContactScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(ContactScreen);
