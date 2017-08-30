@@ -126,6 +126,7 @@ export const styles = StyleSheet.create({
     borderRadius: defaultBorderRadius,
     backgroundColor: accentColor,
     marginTop: 30,
+    marginBottom: 30,
   },
   iconButton: {
     fontSize: defaultFontSizeButtonIcon,
