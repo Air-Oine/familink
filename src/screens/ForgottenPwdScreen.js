@@ -23,6 +23,7 @@ export const FORGOTTENPWD_SCENE_NAME = 'FORGETTENPWD_SCENE';
 
 class ForgottenPwdScreen extends Component {
   static navigationOptions = {
+    drawerLockMode: 'locked-closed',
     title: AppString.forgottenPasswordPageName,
     drawerLabel: <Hidden />,
   };

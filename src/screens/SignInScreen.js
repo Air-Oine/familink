@@ -18,6 +18,7 @@ export const SIGNIN_SCENE_NAME = 'SIGNIN_SCENE';
 
 class SignInScreen extends Component {
   static navigationOptions = {
+    drawerLockMode: 'locked-closed',
     title: AppString.signInPageName,
     drawerLabel: <Hidden />,
   };
