@@ -54,11 +54,9 @@ class ForgottenPwdScreen extends Component {
       const phoneString = JSON.stringify({ phone: this.state.username });
 
       this.props.forgotPassword(phoneString)
-        .then((value) => {
-          const result = value.result;
-
+        .then((response) => {
           // User found => pasword reinit (mock)
-          if (result) {
+          if (response === true) {
             // Show alert message
             Tools.alert(
               AppString.forgottenPasswordPopInTitle,
@@ -72,9 +70,9 @@ class ForgottenPwdScreen extends Component {
             });
 
             // Show alert message
-            Tools.alert(
-              AppString.forgottenPasswordPopInNotFoundTitle,
-              AppString.forgottenPasswordPopInNotFoundMessage);
+            // Tools.alert(
+            //   AppString.forgottenPasswordPopInNotFoundTitle,
+            //   AppString.forgottenPasswordPopInNotFoundMessage);
           }
         });
     }

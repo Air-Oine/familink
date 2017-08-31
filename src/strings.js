@@ -139,7 +139,7 @@ I18n.translations = {
     forgottenPasswordPopInMessage: 'Voici votre nouveau mot de passe : 0000',
     forgottenPasswordPopInTitle: 'Information',
     forgottenPasswordPopInOk: 'J\'ai noté',
-    forgottenPasswordPopInNotFoundMessage: 'Le numéro que vous avez saisi ne correspond a aucun utilisateur',
+    forgottenPasswordPopInNotFoundMessage: 'Le numéro saisi ne correspond a aucun utilisateur',
     forgottenPasswordPopInNotFoundTitle: 'Avertissement',
 
     // Familink Action :
@@ -151,6 +151,10 @@ I18n.translations = {
     actionErrorGetUserProfile: 'Erreur lors de la récupération du profile',
     actionErrorContactList: 'Erreur lors de la récupération des contacts',
     actionErrorCreateContact: 'Erreur lors de la création du contact',
+    actionErrorUpdateContact: 'Erreur lors de la modification du contact',
+    actionErrorRemoveContact: 'Erreur lors de la suppression du contact',
+    actionErrorForgotPwd: 'Erreur lors de la récupération du mot de passe',
+    actionErrorForgotPwdNotExist: 'Le numéro saisi ne correspond a aucun utilisateur',
 
     // contact page:
     contactTitleAlertMessage: 'Confirmer la suppression',
@@ -244,6 +248,10 @@ const AppString = {
   actionErrorGetUserProfile: I18n.t('actionErrorGetUserProfile'),
   actionErrorContactList: I18n.t('actionErrorContactList'),
   actionErrorCreateContact: I18n.t('actionErrorCreateContact'),
+  actionErrorUpdateContact: I18n.t('actionErrorUpdateContact'),
+  actionErrorRemoveContact: I18n.t('actionErrorRemoveContact'),
+  actionErrorForgotPwd: I18n.t('actionErrorForgotPwd'),
+  actionErrorForgotPwdNotExist: I18n.t('actionErrorForgotPwdNotExist'),
 
   // page contact :
   contactTitleAlertMessage: I18n.t('contactTitleAlertMessage'),

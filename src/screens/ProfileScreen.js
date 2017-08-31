@@ -86,7 +86,6 @@ class ProfileScreen extends Component {
   alterButton() {
     this.props.getProfiles()
       .then((response) => {
-        console.log('responseProfile :',response);
         if (response.profile !== false) {
           this.setState({
             profile: response.profile,
