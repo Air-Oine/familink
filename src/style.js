@@ -23,6 +23,7 @@ const textSecondaryDarkColor = '#757575'; // Gray
 const errorColor = '#F90606'; // Red
 
 const headerBarColor = '#FFFFFF';
+const spinnerColor = '#FFFFFF';
 
 // dark-primary-color    { background: #0097A7 ; }
 // .default-primary-color { background: #00BCD4 ; }
@@ -232,6 +233,11 @@ export const styles = StyleSheet.create({
   // searchBar
   searchBar: {
     backgroundColor: darkPrimaryColor,
+  },
+
+  // spinner
+  spinner: {
+    color: spinnerColor,
   },
 
 });

@@ -147,6 +147,7 @@ class ContactScreen extends Component {
   isDeleted() {
     this.props.deleteContact(this.props.contactLink).then(() =>
       this.props.navigation.navigate(CONTACTLIST_SCENE_NAME));
+    Tools.toastSuccess(AppString.contactDeleteSuccess);
   }
 
   delete() {
