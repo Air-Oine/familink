@@ -13,6 +13,7 @@ import {
   Item,
   Input,
 } from 'native-base';
+import Spinner from 'react-native-loading-spinner-overlay';
 import { connect } from 'react-redux';
 import { addContactLink, addContactsList } from '../actions/familink.actions';
 // import Storage from '../asyncStorage';
@@ -37,6 +38,7 @@ class ContactListScreen extends Component {
     super(props);
     this.state = {
       contactsFilter: [],
+      visible: true,
     };
     this.goToDetail = this.goToDetail.bind(this);
     this.searchInput = this.searchInput.bind(this);
@@ -53,8 +55,10 @@ class ContactListScreen extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({ contactsFilter: nextProps.listOfContacts });
+    if (this.state.visible === true) {
+      this.setState({ visible: false });
+    }
   }
-
 
   goToDetail(user) {
     const navigation = this.props.navigation;
@@ -95,12 +99,14 @@ class ContactListScreen extends Component {
     );
   }
 
+
   render() {
     const navigation = this.props.navigation;
     return (
       <Container>
         <HeaderBar navigation={navigation} title={AppString.contactListPageName} />
         <Header searchBar androidStatusBarColor={darkPrimaryColor} rounded style={styles.searchBar}>
+          <Spinner visible={this.state.visible} textContent={'Loading...'} textStyle={styles.spinner} />
           <Item>
             <Icon name="ios-search" />
             <Input placeholder="Search" onChangeText={(search) => { this.searchInput(search); }} />

@@ -229,4 +229,9 @@ export const styles = StyleSheet.create({
     backgroundColor: darkPrimaryColor,
   },
 
+  // spinner
+  spinner: {
+    color: headerBarColor,
+  },
+
 });
