@@ -265,6 +265,7 @@ class ProfileScreen extends Component {
             >
               <Icon name="ios-at-outline" style={styles.inputIcon} />
               <Input
+                keyboardType="email-address"
                 disabled={!this.state.modify}
                 selectionColor={inputSelectionColor}
                 style={styles.inputText}

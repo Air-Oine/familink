@@ -280,6 +280,7 @@ class ContactScreen extends Component {
               style={[styles.input, inputError(this.state.emailError)]}
             >
               <Input
+                keyboardType="email-address"
                 value={this.state.email}
                 onChangeText={text => this.setState({ email: text })}
                 disabled={this.state.visualisation && !this.state.modification}
