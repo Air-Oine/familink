@@ -4,13 +4,90 @@ I18n.fallbacks = true;
 
 I18n.translations = {
   en: {
-    test: 'Welcome to React Native!',
+    homescreenAnnuaire: 'Phone book',
+    homescreenHumeur: 'Mood',
+    homescreenConfig: 'Settings',
+    homescreenProfil: 'Profile',
+    homescreenQuitter: 'Disconnect',
+
+    signIn_User: 'User *',
+    signIn_Pwd: 'Password *',
+    signIn_PwdConfirm: 'Confirm password *',
+    signIn_LastName: 'Last name',
+    signIn_FirstName: 'First name *',
+    signIn_Email: 'Email',
+    signIn_ErrorAccount: 'User already exists error',
+    signIn_Error: 'Sign in error',
+    signIn_Success: 'User successfully created',
+
+    addContactSave: 'Save',
+    addContactLastName: 'Last name',
+    addContactFirstName: 'First name *',
+    addContactGravatar: 'Gravatar URL',
+    addContactPhone: 'Phone *',
+    addContactEmail: 'Mail',
+    addContactToastSuccess: 'Contact successfully created',
+    addContactToastUpdateSuccess: 'Contact successfully updated',
+
+    loginPageName: 'Disconnect',
+    homePageName: 'Home',
+    signInPageName: 'Sign in',
+    forgottenPasswordPageName: 'Forgot password',
+    contactPageName: 'Contact',
+    contactListPageName: 'Phone book',
+    profilePageName: 'Profile',
+
+    errorNoConnection: 'No connection',
+    errorRequest: 'Request error',
+    alertTitleConnection: 'Connection',
+    alertMessageConnection: 'Connection token expired',
+
+    // Page Login
+    loginUser: 'Login',
+    loginRememberMe: 'Remember me',
+    loginPassword: 'Password',
+    loginOK: 'Login',
+    loginSignup: 'Sign up',
+    loginForgotPassword: 'Forgot password ?',
+    loginError: 'Login error',
+    logoutConfirm: 'You have been disconnected',
+
+    // Page Forgotten password
+    forgottenPasswordPhone: 'Phone number *',
+    forgottenPasswordSave: 'Generate',
+    forgottenPasswordPopInMessage: 'New password : 0000',
+    forgottenPasswordPopInTitle: 'Information',
+    forgottenPasswordPopInOk: 'Ok',
+    forgottenPasswordPopInNotFoundMessage: 'The phone number you entered does not match any user\'s',
+    forgottenPasswordPopInNotFoundTitle: 'Warning',
+
+    // Familink Action :
+    actionError400Message: 'Login or password error',
+    actionError500Message: 'The server has encountered an error',
+    actionErrorGetProfiles: 'Error while getting profiles',
+
+    // contact page:
+    contactTitleAlertMessage: 'Confirm delete',
+    contactBodyAlertMessage1: 'Are you sure you want to delete ?',
+    contactBodyAlertMessage2: 'from your contact list ?',
+    contactYesAlertMessage: 'yes',
+    contactNoAlertMessage: 'no',
+
+    // Profile
+    profileUser: 'User',
+    profileLastName: 'Last name',
+    profileFirstName: 'First name',
+    profileEmail: 'Email',
+    profileProfil: 'Profile',
+    profileSave: 'Save',
+    profileUpdateSuccess: 'Profile update success',
+    profileError: 'Error while updating',
+    profileGetError: 'Error while getting profile',
   },
   fr: {
-    test: 'Bienvenue sur React Native!',
     homescreenAnnuaire: 'Annuaire',
     homescreenHumeur: 'Humeur',
-    homescreenConfig: 'Configuration',
+    homescreenConfig: 'Settings',
     homescreenProfil: 'Profil',
     homescreenQuitter: 'Se déconnecter',
 
@@ -20,6 +97,7 @@ I18n.translations = {
     signIn_LastName: 'Nom',
     signIn_FirstName: 'Prénom *',
     signIn_Email: 'Email',
+    signIn_ErrorAccount: 'Erreur nom de compte déjà existant',
     signIn_Error: 'Erreur lors de la création du compte',
     signIn_Success: 'Compte ajouté avec succès',
 
@@ -67,6 +145,7 @@ I18n.translations = {
     // Familink Action :
     actionError400Message: 'Erreur de login ou de mot de passe',
     actionError500Message: 'Une erreur est survenue coté serveur',
+    actionErrorGetProfiles: 'Erreur lors de la récupération des profiles',
 
     // contact page:
     contactTitleAlertMessage: 'Confirmer la suppression',
@@ -75,7 +154,7 @@ I18n.translations = {
     contactYesAlertMessage: 'oui',
     contactNoAlertMessage: 'non',
 
-    // Profile 
+    // Profile
     profileUser: 'Utilisateur',
     profileLastName: 'Nom',
     profileFirstName: 'Prénom',
@@ -83,6 +162,8 @@ I18n.translations = {
     profileProfil: 'Profile',
     profileSave: 'Sauvegarder',
     profileUpdateSuccess: 'Profil modifié avec succès',
+    profileError: 'Erreur lors de la modification',
+    profileGetError: 'Erreur lors de la récupération du profile',
   },
 };
 
@@ -95,6 +176,7 @@ const AppString = {
   signIn_FirstName: I18n.t('signIn_FirstName'),
   signIn_Email: I18n.t('signIn_Email'),
   signin_Error: I18n.t('signIn_Error'),
+  signIn_ErrorAccount: I18n.t('signIn_ErrorAccount'),
   signIn_Success: I18n.t('signIn_Success'),
 
   // Home
@@ -153,6 +235,7 @@ const AppString = {
   // Page Familink.actions :
   actionError400Message: I18n.t('actionError400Message'),
   actionError500Message: I18n.t('actionError500Message'),
+  actionErrorGetProfiles: I18n.t('actionErrorGetProfiles'),
 
   // page contact :
   contactTitleAlertMessage: I18n.t('contactTitleAlertMessage'),
@@ -162,7 +245,7 @@ const AppString = {
   contactNoAlertMessage: I18n.t('contactNoAlertMessage'),
   contactDeleteSuccess: I18n.t('contactDeleteSuccess'),
 
-  // Profile 
+  // Profile
   profileUser: I18n.t('profileUser'),
   profileLastName: I18n.t('profileLastName'),
   profileFirstName: I18n.t('profileFirstName'),
@@ -170,6 +253,8 @@ const AppString = {
   profileProfil: I18n.t('profileProfil'),
   profileSave: I18n.t('profileSave'),
   profileUpdateSuccess: I18n.t('profileUpdateSuccess'),
+  profileError: I18n.t('profileError'),
+  profileGetError: I18n.t('profileGetError'),
 };
 
 /**

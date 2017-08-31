@@ -1,4 +1,3 @@
-import { NetInfo } from 'react-native';
 import AppString from '../strings';
 import Tools from '../Tools';
 
@@ -40,32 +39,8 @@ export default class WebServices {
   static toast() {
     Tools.toastWarning(NO_CONNECTION);
   }
-
-  static initializeCheckConnection() {
-    NetInfo.fetch().then((reach) => {
-      if (reach === 'NONE') {
-        isConnected = false;
-      } else {
-        isConnected = true;
-      }
-    });
-    NetInfo.addEventListener(
-      'change',
-      (reach) => {
-        if (reach === 'NONE') {
-          isConnected = false;
-        } else {
-          isConnected = true;
-        }
-      });
-  }
-
   static async getProfil() {
     try {
-      if (!isConnected) {
-        WebServices.toast();
-        return null;
-      }
       const response = await fetch(`${uri}/public/profiles`);
       const responseJSON = await response.json();
       return responseJSON;
@@ -76,10 +51,6 @@ export default class WebServices {
 
   static async getContacts(token) {
     try {
-      if (!isConnected) {
-        WebServices.toast();
-        return null;
-      }
       const response = await fetch(`${uri}/secured/users/contacts`, {
         method: 'GET',
         headers: {
@@ -101,10 +72,6 @@ export default class WebServices {
 
   static async createUser(value) {
     try {
-      if (!isConnected) {
-        WebServices.toast();
-        return null;
-      }
       const response = await fetch(`${uri}/public/sign-in`, {
         method: 'POST',
         headers: {
@@ -150,10 +117,6 @@ export default class WebServices {
 
   static async forgetPassWord(value) {
     try {
-      if (!isConnected) {
-        WebServices.toast();
-        return null;
-      }
       const response = await fetch(`${uri}/public/login`, {
         method: 'POST',
         headers: {

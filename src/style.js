@@ -35,7 +35,7 @@ const headerBarColor = '#FFFFFF';
 
 
 export const buttonColor = primaryColor;
-export const inputPlaceHolderColor = textSecondaryLightColor;
+export const inputPlaceHolderColor = textSecondaryDarkColor;
 export const inputSelectionColor = textColorInput;
 
 export function inputError(error) {
@@ -51,7 +51,7 @@ export function inputnotWritable(value) {
   };
 }
 export const styles = StyleSheet.create({
-  // Radio
+  // Radio 
   radioButtonView: {
     marginTop: 10,
     backgroundColor: primaryColor,
@@ -75,15 +75,15 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   login_logo: {
-    width: 140,
-    height: 140,
+    width: 250,
+    height: 250,
     alignSelf: 'center',
   },
 
   login_viewSignInPwdForgot: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20,
+    marginBottom: 50,
   },
   login_underlineTextLogin: {
     color: primaryColor,
@@ -92,20 +92,24 @@ export const styles = StyleSheet.create({
   },
   // Contact list
   contactList_img: {
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
   },
   contactList_viewItem: {
     flexDirection: 'row',
   },
   contactList_viewItem_name_phone: {
     flexDirection: 'column',
+    flex: 1,
+  },
+  contactList_viewItemBody: {
+    flex: 4,
   },
   contactList_name: {
-    marginLeft: 10,
+    fontSize: defaultFontSize,
   },
   contactList_phone: {
-    marginLeft: 10,
+    fontSize: defaultFontSize,
     marginTop: 10,
   },
   // -------------------------------------  Universel  ---------------------------------------------
@@ -126,6 +130,7 @@ export const styles = StyleSheet.create({
     borderRadius: defaultBorderRadius,
     backgroundColor: accentColor,
     marginTop: 30,
+    marginBottom: 20,
   },
   iconButton: {
     fontSize: defaultFontSizeButtonIcon,

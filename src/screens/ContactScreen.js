@@ -10,10 +10,10 @@ import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
 import { styles, inputError, inputPlaceHolderColor, inputSelectionColor } from '../style';
 import Helper from '../helpers/Helper';
-import WebServices, { ERROR_REQUEST } from '../webServices/WebServices';
+import WebServices from '../webServices/WebServices';
 import Tools from '../Tools';
 import Hidden from '../Hidden';
-import { deleteContact, updateContact } from '../actions/familink.actions';
+import { createContact, deleteContact, updateContact } from '../actions/familink.actions';
 import { CONTACTLIST_SCENE_NAME } from './ContactListScreen';
 import { LOGIN_SCENE_NAME } from './LoginScreen';
 
@@ -45,7 +45,6 @@ class ContactScreen extends Component {
 
     this.validationForm = this.validationForm.bind(this);
     this.save = this.save.bind(this);
-    this.saveContact = this.saveContact.bind(this);
     this.delete = this.delete.bind(this);
     this.isDeleted = this.isDeleted.bind(this);
     this.alter = this.alter.bind(this);
@@ -110,44 +109,33 @@ class ContactScreen extends Component {
 
       if (!this.state.modification) {
         // Contact creation
-        this.saveContact(contact);
+        this.props.createContact(contact).then((value) => {
+          if (value.result === true) {
+            // Show success
+            Tools.toastSuccess(AppString.addContactToastSuccess);
+
+            // Go back to contact list
+            this.props.navigation.navigate(CONTACTLIST_SCENE_NAME);
+          } else if (value.result === 401) {
+            // Handling unauthorized
+            WebServices.alertUnauthorized();
+            // Go to login
+            this.props.navigation.navigate(LOGIN_SCENE_NAME);
+          }
+        });
       } else {
         // Contact update
         this.props.updateContact(this.props.contactLink._id, contact).then((value) => {
           if (value.result) {
+            // Show success
             Tools.toastSuccess(AppString.addContactToastUpdateSuccess);
+
+            // Go back to contact list
             this.props.navigation.navigate(CONTACTLIST_SCENE_NAME);
           }
         });
       }
     }
-  }
-
-  /**
-   * Call WS for saving contact
-   * Show toast if success
-   */
-  async saveContact(contact) {
-    try {
-      const result = await WebServices.createContact(contact, this.props.userToken);
-      if (result === null) {
-        return null;
-      }
-      if (result === true) {
-        // Show success
-        Tools.toastSuccess(AppString.addContactToastSuccess);
-
-        // Go back to contact list
-        this.props.navigation.navigate(CONTACTLIST_SCENE_NAME);
-      } else if (result === 401) {
-        WebServices.alertUnauthorized();
-        // Go to login
-        this.props.navigation.navigate(LOGIN_SCENE_NAME);
-      }
-    } catch (error) {
-      Tools.toastWarning(ERROR_REQUEST);
-    }
-    return false;
   }
 
   /**
@@ -213,8 +201,8 @@ class ContactScreen extends Component {
           }
           deleteOnPress={this.state.visualisation ? () => this.delete() : null}
         />
-        <ScrollView style={styles.form}>
-          <Form>
+        <ScrollView>
+          <Form style={styles.form}>
             {/* LAST NAME */}
             <Item
               rounded
@@ -301,10 +289,10 @@ class ContactScreen extends Component {
                 style={styles.inputText}
               />
             </Item>
-          </Form>
 
-          {/* SAVE BUTTON */}
-          {saveButton}
+            {/* SAVE BUTTON */}
+            {saveButton}
+          </Form>
         </ScrollView>
       </View>
     );
@@ -313,10 +301,14 @@ class ContactScreen extends Component {
 
 ContactScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
-  contactLink: PropTypes.any.isRequired,
-  deleteContact: PropTypes.func.isRequired,
-  userToken: PropTypes.any.isRequired,
+  contactLink: PropTypes.any,
+  createContact: PropTypes.func.isRequired,
   updateContact: PropTypes.func.isRequired,
+  deleteContact: PropTypes.func.isRequired,
+};
+
+ContactScreen.defaultProps = {
+  contactLink: null,
 };
 
 function mapStateToProps(state) {
@@ -326,6 +318,7 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
+    createContact: contact => dispatch(createContact(contact)),
     updateContact: (id, contact) => dispatch(updateContact(id, contact)),
     deleteContact: contact => dispatch(deleteContact(contact)),
   };
