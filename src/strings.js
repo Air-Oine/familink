@@ -160,6 +160,7 @@ const AppString = {
   contactBodyAlertMessage2: I18n.t('contactBodyAlertMessage2'),
   contactYesAlertMessage: I18n.t('contactYesAlertMessage'),
   contactNoAlertMessage: I18n.t('contactNoAlertMessage'),
+  contactDeleteSuccess: I18n.t('contactDeleteSuccess'),
 
   // Profile 
   profileUser: I18n.t('profileUser'),
