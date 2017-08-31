@@ -6,23 +6,23 @@ I18n.translations = {
   en: {
     homescreenAnnuaire: 'Phone book',
     homescreenHumeur: 'Mood',
-    homescreenConfig: 'Configuration',
+    homescreenConfig: 'Settings',
     homescreenProfil: 'Profile',
     homescreenQuitter: 'Disconnect',
 
     signIn_User: 'User *',
     signIn_Pwd: 'Password *',
     signIn_PwdConfirm: 'Confirm password *',
-    signIn_LastName: 'Name',
-    signIn_FirstName: 'Surname *',
+    signIn_LastName: 'Last name',
+    signIn_FirstName: 'First name *',
     signIn_Email: 'Email',
     signIn_ErrorAccount: 'User already exists error',
     signIn_Error: 'Sign in error',
     signIn_Success: 'User successfully created',
 
     addContactSave: 'Save',
-    addContactLastName: 'Name',
-    addContactFirstName: 'Surname *',
+    addContactLastName: 'Last name',
+    addContactFirstName: 'First name *',
     addContactGravatar: 'Gravatar URL',
     addContactPhone: 'Phone *',
     addContactEmail: 'Mail',
@@ -75,8 +75,8 @@ I18n.translations = {
 
     // Profile
     profileUser: 'User',
-    profileLastName: 'Name',
-    profileFirstName: 'Surname',
+    profileLastName: 'Last name',
+    profileFirstName: 'First name',
     profileEmail: 'Email',
     profileProfil: 'Profile',
     profileSave: 'Save',
@@ -87,7 +87,7 @@ I18n.translations = {
   fr: {
     homescreenAnnuaire: 'Annuaire',
     homescreenHumeur: 'Humeur',
-    homescreenConfig: 'Configuration',
+    homescreenConfig: 'Settings',
     homescreenProfil: 'Profil',
     homescreenQuitter: 'Se déconnecter',
 
