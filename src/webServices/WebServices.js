@@ -33,7 +33,7 @@ export const ERROR_REQUEST = AppString.errorRequest;
 // }
 export default class WebServices {
   static alertUnauthorized() {
-    Tools.alert(AppString.alertTitleConnection, AppString.alertMessageConnection);
+    
   }
 
   static toast() {

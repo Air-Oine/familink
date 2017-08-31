@@ -43,20 +43,12 @@ class ProfileScreen extends Component {
     this.onValueChange = this.onValueChange.bind(this);
     this.setProfil = this.setProfil.bind(this);
   }
-  componentDidMount() {
+  componentWillMount() {
     this.props.getProfileUser()
       .then((response) => {
         if (response.profile !== false) {
           this.setState({
             userProfile: response.userProfile,
-          });
-        }
-      });
-    this.props.getProfiles()
-      .then((response) => {
-        if (response.profile !== false) {
-          this.setState({
-            profile: response.profile,
           });
         }
       });
@@ -79,10 +71,10 @@ class ProfileScreen extends Component {
           selected = true;
         }
         profilItems.push(
-          <TouchableWithoutFeedback onPress={() => this.onValueChange(element)}>
-            <View key={key} style={styles.radioButton}>
+          <TouchableWithoutFeedback key={key} onPress={() => this.onValueChange(element)}>
+            <View style={styles.radioButton}>
               <Text>{element}</Text>
-              <Radio selected={selected} />
+              <Radio selected={selected} onPress={() => this.onValueChange(element)} />
             </View>
           </TouchableWithoutFeedback>);
         key += 1;
@@ -92,6 +84,15 @@ class ProfileScreen extends Component {
     return null;
   }
   alterButton() {
+    this.props.getProfiles()
+      .then((response) => {
+        console.log('responseProfile :',response);
+        if (response.profile !== false) {
+          this.setState({
+            profile: response.profile,
+          });
+        }
+      });
     this.setState({
       modify: true,
       selectedProfile: this.props.userProfile.profile,

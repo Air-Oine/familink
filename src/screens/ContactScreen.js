@@ -10,7 +10,6 @@ import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
 import { styles, inputError, inputPlaceHolderColor, inputSelectionColor } from '../style';
 import Helper from '../helpers/Helper';
-import WebServices from '../webServices/WebServices';
 import Tools from '../Tools';
 import Hidden from '../Hidden';
 import { createContact, deleteContact, updateContact } from '../actions/familink.actions';
@@ -110,7 +109,7 @@ class ContactScreen extends Component {
       if (!this.state.modification) {
         // Contact creation
         this.props.createContact(contact).then((value) => {
-          if (value.result === true) {
+          if (value !== false) {
             // Show success
             Tools.toastSuccess(AppString.addContactToastSuccess);
 
@@ -118,7 +117,7 @@ class ContactScreen extends Component {
             this.props.navigation.navigate(CONTACTLIST_SCENE_NAME);
           } else if (value.result === 401) {
             // Handling unauthorized
-            WebServices.alertUnauthorized();
+            Tools.alertUnauthorized();
             // Go to login
             this.props.navigation.navigate(LOGIN_SCENE_NAME);
           }

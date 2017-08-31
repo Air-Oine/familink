@@ -143,9 +143,14 @@ I18n.translations = {
     forgottenPasswordPopInNotFoundTitle: 'Avertissement',
 
     // Familink Action :
-    actionError400Message: 'Erreur de login ou de mot de passe',
+    actionErrorLogin: 'Erreur de login ou de mot de passe',
     actionError500Message: 'Une erreur est survenue coté serveur',
     actionErrorGetProfiles: 'Erreur lors de la récupération des profiles',
+    actionErrorSignIn: 'Erreur lors de la création du compte',
+    actionErrorUpdateUserProfile: 'Erreur lors de la modification',
+    actionErrorGetUserProfile: 'Erreur lors de la récupération du profile',
+    actionErrorContactList: 'Erreur lors de la récupération des contacts',
+    actionErrorCreateContact: 'Erreur lors de la création du contact',
 
     // contact page:
     contactTitleAlertMessage: 'Confirmer la suppression',
@@ -162,8 +167,6 @@ I18n.translations = {
     profileProfil: 'Profile',
     profileSave: 'Sauvegarder',
     profileUpdateSuccess: 'Profil modifié avec succès',
-    profileError: 'Erreur lors de la modification',
-    profileGetError: 'Erreur lors de la récupération du profile',
   },
 };
 
@@ -233,9 +236,14 @@ const AppString = {
   forgottenPasswordPopInNotFoundMessage: I18n.t('forgottenPasswordPopInNotFoundMessage'),
 
   // Page Familink.actions :
-  actionError400Message: I18n.t('actionError400Message'),
+  actionErrorLogin: I18n.t('actionErrorLogin'),
   actionError500Message: I18n.t('actionError500Message'),
   actionErrorGetProfiles: I18n.t('actionErrorGetProfiles'),
+  actionErrorSignIn: I18n.t('actionErrorSignIn'),
+  actionErrorUpdateUserProfile: I18n.t('actionErrorUpdateUserProfile'),
+  actionErrorGetUserProfile: I18n.t('actionErrorGetUserProfile'),
+  actionErrorContactList: I18n.t('actionErrorContactList'),
+  actionErrorCreateContact: I18n.t('actionErrorCreateContact'),
 
   // page contact :
   contactTitleAlertMessage: I18n.t('contactTitleAlertMessage'),
@@ -253,8 +261,6 @@ const AppString = {
   profileProfil: I18n.t('profileProfil'),
   profileSave: I18n.t('profileSave'),
   profileUpdateSuccess: I18n.t('profileUpdateSuccess'),
-  profileError: I18n.t('profileError'),
-  profileGetError: I18n.t('profileGetError'),
 };
 
 /**
