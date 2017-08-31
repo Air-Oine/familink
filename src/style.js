@@ -43,6 +43,10 @@ export function inputError(error) {
   return {
     borderColor: error ? errorColor : borderColorInput,
     borderWidth: error ? 2 : 1,
+    borderBottomWidth: error ? 2 : 1,
+    borderTopWidth: error ? 2 : 1,
+    borderRightWidth: error ? 2 : 1,
+    borderLeftWidth: error ? 2 : 1,
   };
 }
 
