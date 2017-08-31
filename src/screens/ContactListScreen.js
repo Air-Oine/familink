@@ -52,7 +52,11 @@ class ContactListScreen extends Component {
     // raz du link
     this.props.addContactLink(null);
     // récupération de liste de contacts
-    this.props.addContactsList();
+    this.props.addContactsList().then((response) => {
+      if (response === false) {
+        this.setState({ visible: false });
+      }
+    });
   }
 
   componentWillReceiveProps(nextProps) {
