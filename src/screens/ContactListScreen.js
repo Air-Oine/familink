@@ -16,6 +16,7 @@ import {
   Left,
 } from 'native-base';
 import Spinner from 'react-native-loading-spinner-overlay';
+import AlphabetListView from 'react-native-alphabetlistview';
 import { connect } from 'react-redux';
 import { addContactLink, addContactsList } from '../actions/familink.actions';
 // import Storage from '../asyncStorage';
@@ -85,21 +86,23 @@ class ContactListScreen extends Component {
     }
   }
 
+
   renderItem(item) {
+    // console.log ('item ta mere: ', item.item);
     let image;
-    if (item.gravatar === '') {
+    if (item.item.gravatar === '') {
       image = (<Image style={styles.contactList_img} source={noAvatar} />);
     } else {
-      image = (<Image style={styles.contactList_img} source={{ uri: item.gravatar }} />);
+      image = (<Image style={styles.contactList_img} source={{ uri: item.item.gravatar }} />);
     }
     return (
-      <ListItem button onPress={() => { this.goToDetail(item); }} >
+      <ListItem button onPress={() => { this.goToDetail(item.item); }} >
         <Left style={styles.contactList_viewItem}>
           {image}
         </Left>
         <Body style={styles.contactList_viewItemBody}>
-          <Text style={styles.contactList_name}>{item.lastName} {item.firstName} </Text>
-          <Text style={styles.contactList_phone}>{item.phone} </Text>
+          <Text style={styles.contactList_name}>{item.item.lastName} {item.item.firstName} </Text>
+          <Text style={styles.contactList_phone}>{item.item.phone} </Text>
         </Body>
       </ListItem>
     );
@@ -119,9 +122,9 @@ class ContactListScreen extends Component {
           </Item>
         </Header>
         <View style={styles.flex1}>
-          <List
-            dataArray={this.state.contactsFilter}
-            renderRow={item => this.renderItem(item)}
+          <AlphabetListView
+            data={this.state.contactsFilter}
+            cell={item => this.renderItem(item)}
           />
           <Fab
             style={{ backgroundColor: accentColor }}
