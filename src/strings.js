@@ -4,10 +4,87 @@ I18n.fallbacks = true;
 
 I18n.translations = {
   en: {
-    test: 'Welcome to React Native!',
+    homescreenAnnuaire: 'Phone book',
+    homescreenHumeur: 'Mood',
+    homescreenConfig: 'Configuration',
+    homescreenProfil: 'Profile',
+    homescreenQuitter: 'Disconnect',
+
+    signIn_User: 'User *',
+    signIn_Pwd: 'Password *',
+    signIn_PwdConfirm: 'Confirm password *',
+    signIn_LastName: 'Name',
+    signIn_FirstName: 'Surname *',
+    signIn_Email: 'Email',
+    signIn_ErrorAccount: 'User already exists error',
+    signIn_Error: 'Sign in error',
+    signIn_Success: 'User successfully created',
+
+    addContactSave: 'Save',
+    addContactLastName: 'Name',
+    addContactFirstName: 'Surname *',
+    addContactGravatar: 'Gravatar URL',
+    addContactPhone: 'Phone *',
+    addContactEmail: 'Mail',
+    addContactToastSuccess: 'Contact successfully created',
+    addContactToastUpdateSuccess: 'Contact successfully updated',
+
+    loginPageName: 'Disconnect',
+    homePageName: 'Home',
+    signInPageName: 'Sign in',
+    forgottenPasswordPageName: 'Forgot password',
+    contactPageName: 'Contact',
+    contactListPageName: 'Phone book',
+    profilePageName: 'Profile',
+
+    errorNoConnection: 'No connection',
+    errorRequest: 'Request error',
+    alertTitleConnection: 'Connection',
+    alertMessageConnection: 'Connection token expired',
+
+    // Page Login
+    loginUser: 'Login',
+    loginRememberMe: 'Remember me',
+    loginPassword: 'Password',
+    loginOK: 'Login',
+    loginSignup: 'Sign up',
+    loginForgotPassword: 'Forgot password ?',
+    loginError: 'Login error',
+    logoutConfirm: 'You have been disconnected',
+
+    // Page Forgotten password
+    forgottenPasswordPhone: 'Phone number *',
+    forgottenPasswordSave: 'Generate',
+    forgottenPasswordPopInMessage: 'New password : 0000',
+    forgottenPasswordPopInTitle: 'Information',
+    forgottenPasswordPopInOk: 'Ok',
+    forgottenPasswordPopInNotFoundMessage: 'The phone number you entered does not match any user\'s',
+    forgottenPasswordPopInNotFoundTitle: 'Warning',
+
+    // Familink Action :
+    actionError400Message: 'Login or password error',
+    actionError500Message: 'The server has encountered an error',
+    actionErrorGetProfiles: 'Error while getting profiles',
+
+    // contact page:
+    contactTitleAlertMessage: 'Confirm delete',
+    contactBodyAlertMessage1: 'Are you sure you want to delete ?',
+    contactBodyAlertMessage2: 'from your contact list ?',
+    contactYesAlertMessage: 'yes',
+    contactNoAlertMessage: 'no',
+
+    // Profile
+    profileUser: 'User',
+    profileLastName: 'Name',
+    profileFirstName: 'Surname',
+    profileEmail: 'Email',
+    profileProfil: 'Profile',
+    profileSave: 'Save',
+    profileUpdateSuccess: 'Profile update success',
+    profileError: 'Error while updating',
+    profileGetError: 'Error while getting profile',
   },
   fr: {
-    test: 'Bienvenue sur React Native!',
     homescreenAnnuaire: 'Annuaire',
     homescreenHumeur: 'Humeur',
     homescreenConfig: 'Configuration',
@@ -77,7 +154,7 @@ I18n.translations = {
     contactYesAlertMessage: 'oui',
     contactNoAlertMessage: 'non',
 
-    // Profile 
+    // Profile
     profileUser: 'Utilisateur',
     profileLastName: 'Nom',
     profileFirstName: 'Prénom',
@@ -167,7 +244,7 @@ const AppString = {
   contactYesAlertMessage: I18n.t('contactYesAlertMessage'),
   contactNoAlertMessage: I18n.t('contactNoAlertMessage'),
 
-  // Profile 
+  // Profile
   profileUser: I18n.t('profileUser'),
   profileLastName: I18n.t('profileLastName'),
   profileFirstName: I18n.t('profileFirstName'),
