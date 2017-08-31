@@ -1,5 +1,6 @@
 import { Toast } from 'native-base';
 import { Alert } from 'react-native';
+import AppString from './strings';
 
 export default class Tools {
   // --------------------------------------------TOAST--------------------------------------------
@@ -73,5 +74,9 @@ export default class Tools {
     }
 
     Alert.alert(title, message, buttons.length > 0 ? buttons : null, { cancelable: false });
+  }
+
+  static alertUnauthorized() {
+    Tools.alert(AppString.alertTitleConnection, AppString.alertMessageConnection);
   }
 }

@@ -56,70 +56,17 @@ export function setConnected(newIsConnected) {
     isConnected: newIsConnected,
   };
 }
-
-export function updateProfileStatus(newStatus, newUserProfile) {
-  return {
-    type: UPDATE_USER_PROFILE,
-    userProfile: newUserProfile,
-  };
-}
 function networkOrNotNetwork(isConnected, uri, optionsFetch) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     if (!isConnected) {
       const toThrow = { code: 0, message: AppString.errorNoConnection };
-      reject(toThrow);
+      throw toThrow;
     }
     resolve(fetch(uri, optionsFetch));
   });
 }
 
-export function createUser(user) {
-  return (dispatch, getState) => {
-    if (!getState().familinkReducer.isConnected) {
-      const toThrow = { code: 0, message: AppString.errorNoConnection };
-      throw toThrow;
-    }
-    return fetch(`${getState().familinkReducer.uri}/public/sign-in`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: user,
-      })
-      .then((response) => {
-        const toThrow = { code: 0, message: null };
-        switch (response.status) {
-          case 200:
-            return response.json();
 
-          case 400:
-            toThrow.code = 400;
-            toThrow.message = AppString.signIn_ErrorAccount;
-            throw toThrow;
-          case 500:
-            toThrow.code = 500;
-            toThrow.message = AppString.actionError500Message;
-            throw toThrow;
-
-          default:
-            toThrow.message = AppString.signin_Error;
-            throw toThrow;
-        }
-      })
-      .then((response) => {
-        if (response === null || response === false) {
-          Tools.toastWarning(AppString.signin_Error);
-          return false;
-        }
-        return true;
-      })
-      .catch((error) => {
-        Tools.toastWarning(error.message);
-        return false;
-      });
-  };
-}
 function storePhone(mustRemember, phone) {
   Storage.removeItem('phone'); // Remove phone from database
   // If remember me is activated :
@@ -128,7 +75,7 @@ function storePhone(mustRemember, phone) {
   }
 }
 
-function networkReturn(response) {
+function networkReturn(response, messageError) {
   const toThrow = { code: 0, message: null };
   switch (response.status) {
     case 200:
@@ -136,7 +83,7 @@ function networkReturn(response) {
 
     case 400:
       toThrow.code = 400;
-      toThrow.message = AppString.actionError400Message;
+      toThrow.message = messageError;
       throw toThrow;
 
     case 500:
@@ -145,175 +92,166 @@ function networkReturn(response) {
       throw toThrow;
 
     default:
-      return false;
+      toThrow.message = AppString.messageError;
+      throw toThrow;
   }
 }
+export function createUser(user) {
+  return (dispatch, getState) => {
+    try {
+      return networkOrNotNetwork(getState().familinkReducer.isConnected,
+        `${getState().familinkReducer.uri}/public/sign-in`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: user,
+        })
+        .then(response => networkReturn(response, AppString.actionErrorSignIn),
+        )
+        .then((response) => {
+          if (response === null || response === false) {
+            Tools.toastWarning(AppString.actionErrorSignIn);
+            return false;
+          }
+          return dispatch({
+            type: ADD_PROFILE,
+            profile: response,
+          });
+        })
+        .catch((error) => {
+          Tools.toastWarning(error.message);
+          return false;
+        });
+    } catch (error) {
+      Tools.toastWarning(error.message);
+      return false;
+    }
+  };
+}
+
 
 export function addContactsList() {
   return (dispatch, getState) => {
-    networkOrNotNetwork(getState().familinkReducer.isConnected,
-      `${getState().familinkReducer.uri}/secured/users/contacts`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${getState().familinkReducer.userToken}`,
-        },
-      })
-      .then((response) => {
-        const toThrow = { code: 0, message: null };
-        switch (response.status) {
-          case 200:
-            return response.json();
-
-          case 400:
-            toThrow.code = 400;
-            toThrow.message = AppString.actionError400Message;
-            throw toThrow;
-
-          case 500:
-            toThrow.code = 500;
-            toThrow.message = AppString.actionError500Message;
-            throw toThrow;
-
-          default:
+    try {
+      return networkOrNotNetwork(getState().familinkReducer.isConnected,
+        `${getState().familinkReducer.uri}/secured/users/contacts`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${getState().familinkReducer.userToken}`,
+          },
+        })
+        .then(response => networkReturn(response, AppString.actionErrorContactList),
+        )
+        .then((response) => {
+          if (response === null || response === false) {
+            Tools.toastWarning(AppString.actionErrorContactList);
             return false;
-        }
-      })
-      .then((response) => {
-        if (response === null || response === false) {
+          }
           return dispatch({
             type: ADD_CONTACTSLIST,
-            contactsList: null,
+            contactsList: response,
           });
-        }
-        return dispatch({
-          type: ADD_CONTACTSLIST,
-          contactsList: response,
+        })
+        .catch((error) => {
+          Tools.toastWarning(error.message);
+          return false;
         });
-      })
-      .catch((error) => {
-        Tools.toastWarning(error.message);
-      });
+    } catch (error) {
+      Tools.toastWarning(error.message);
+      return false;
+    }
   };
 }
 
 export function loginUser(loginString) {
   return (dispatch, getState) => {
-    const a = JSON.parse(loginString);
-    const phone = a.phone;
-    storePhone(getState().familinkReducer.rememberMe, phone);
+    try {
+      const a = JSON.parse(loginString);
+      const phone = a.phone;
+      storePhone(getState().familinkReducer.rememberMe, phone);
 
-    networkOrNotNetwork(getState().familinkReducer.isConnected,
-      `${getState().familinkReducer.uri}/public/login`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: loginString,
-      })
-      .then(response => networkReturn(response)) // Return is implicit
-      .then((response) => {
-        if (response === null || response === false) {
+      return networkOrNotNetwork(getState().familinkReducer.isConnected,
+        `${getState().familinkReducer.uri}/public/login`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: loginString,
+        })
+        .then(response => networkReturn(response, AppString.actionErrorLogin)) // Return is implicit
+        .then((response) => {
+          if (response === null || response === false) {
+            Tools.toastWarning(AppString.actionErrorLogin);
+            return false;
+          }
           return dispatch({
             type: ADD_TOKEN,
-            token: '',
+            token: response.token,
           });
-        }
-        dispatch({
-          type: ADD_TOKEN,
-          token: response.token,
+        }).catch((error) => {
+          Tools.toastWarning(error.message);
+          return false;
         });
-
-        return Promise;
-      }).catch((error) => {
-        Tools.toastWarning(error.message);
-      });
+    } catch (error) {
+      Tools.toastWarning(error.message);
+      return false;
+    }
   };
 }
 
 export function getProfileUser() {
   return (dispatch, getState) => {
-    if (!getState().familinkReducer.isConnected) {
-      const toThrow = { code: 0, message: AppString.errorNoConnection };
-      throw toThrow;
-    }
-    return fetch(`${getState().familinkReducer.uri}/secured/users/current`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${getState().familinkReducer.userToken}`,
-        },
-      })
-      .then((response) => {
-        const toThrow = { code: 0, message: null };
-        switch (response.status) {
-          case 200:
-            return response.json();
-
-          case 400:
-            toThrow.code = 400;
-            toThrow.message = AppString.profileGetError;
-            throw toThrow;
-
-          case 500:
-            toThrow.code = 500;
-            toThrow.message = AppString.actionError500Message;
-            throw toThrow;
-
-          default:
-            toThrow.message = AppString.profileGetError;
-            throw toThrow;
-        }
-      })
-      .then((response) => {
-        if (response === null || response === false) {
-          Tools.toastWarning(AppString.profileGetError);
+    try {
+      return networkOrNotNetwork(getState().familinkReducer.isConnected,
+        `${getState().familinkReducer.uri}/secured/users/current`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${getState().familinkReducer.userToken}`,
+          },
+        })
+        .then(response => networkReturn(response, AppString.actionErrorGetUserProfile),
+        )
+        .then((response) => {
+          if (response === null || response === false) {
+            Tools.toastWarning(AppString.actionErrorGetUserProfile);
+            return false;
+          }
+          return dispatch({
+            type: ADD_USER_PROFILE,
+            userProfile: response,
+          });
+        })
+        .catch((error) => {
+          Tools.toastWarning(error.message);
           return false;
-        }
-        return dispatch({
-          type: ADD_USER_PROFILE,
-          userProfile: response,
         });
-      }).catch((error) => {
-        Tools.toastWarning(error.message);
-        return false;
-      });
+    } catch (error) {
+      Tools.toastWarning(error.message);
+      return false;
+    }
   };
 }
 
 export function getProfiles() {
   return (dispatch, getState) => {
     try {
-      return fetch(`${getState().familinkReducer.uri}/public/profiles`,
+      return networkOrNotNetwork(getState().familinkReducer.isConnected,
+        `${getState().familinkReducer.uri}/public/profiles`,
         {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
         })
-        .then((response) => {
-          const toThrow = { code: 0, message: null };
-          switch (response.status) {
-            case 200:
-              return response.json();
-
-            case 400:
-              toThrow.code = 400;
-              toThrow.message = AppString.actionErrorGetProfiles;
-              throw toThrow;
-            case 500:
-              toThrow.code = 500;
-              toThrow.message = AppString.actionError500Message;
-              throw toThrow;
-
-            default:
-              toThrow.message = AppString.actionErrorGetProfiles;
-              throw toThrow;
-          }
-        })
+        .then(response => networkReturn(response, AppString.actionErrorGetProfiles),
+        )
         .then((response) => {
           if (response === null || response === false) {
             Tools.toastWarning(AppString.actionErrorGetProfiles);
@@ -323,11 +261,13 @@ export function getProfiles() {
             type: ADD_PROFILE,
             profile: response,
           });
-        }).catch((error) => {
+        })
+        .catch((error) => {
           Tools.toastWarning(error.message);
           return false;
         });
     } catch (error) {
+      Tools.toastWarning(error.message);
       return false;
     }
   };
@@ -335,17 +275,14 @@ export function getProfiles() {
 export function forgotPassword(phoneString) {
   return (dispatch, getState) => {
     try {
-      if (!getState().familinkReducer.isConnected) {
-        const toThrow = { code: 0, message: AppString.errorNoConnection };
-        throw toThrow;
-      }
-      return fetch(`${getState().familinkReducer.uri}/public/forgot-password`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: phoneString,
-      })
+      return networkOrNotNetwork(getState().familinkReducer.isConnected,
+        `${getState().familinkReducer.uri}/public/forgot-password`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: phoneString,
+        })
         .then((response) => {
           try {
             const toThrow = { code: 0, message: null };
@@ -391,64 +328,45 @@ export function forgotPassword(phoneString) {
 }
 export function updateProfileUser(userProfile) {
   return (dispatch, getState) => {
-    if (!getState().familinkReducer.isConnected) {
-      const toThrow = { code: 0, message: AppString.errorNoConnection };
-      throw toThrow;
-    }
-    return fetch(`${getState().familinkReducer.uri}/secured/users`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${getState().familinkReducer.userToken}`,
-        },
-        body: userProfile,
-      })
-      .then((response) => {
-        const toThrow = { code: 0, message: null };
-        switch (response.status) {
-          case 200:
-            return response.json();
-          case 400:
-            toThrow.code = 400;
-            toThrow.message = AppString.profileError;
-            throw toThrow;
-
-          case 500:
-            toThrow.code = 500;
-            toThrow.message = AppString.actionError500Message;
-            throw toThrow;
-
-          default:
-            toThrow.message = AppString.profileError;
-            throw toThrow;
-        }
-      })
-      .then((response) => {
-        if (response === null || response === false) {
-          Tools.toastWarning(AppString.profileError);
+    try {
+      return networkOrNotNetwork(getState().familinkReducer.isConnected,
+        `${getState().familinkReducer.uri}/secured/users`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${getState().familinkReducer.userToken}`,
+          },
+          body: userProfile,
+        })
+        .then(response => networkReturn(response, AppString.actionErrorUpdateUserProfile),
+        )
+        .then((response) => {
+          if (response === null || response === false) {
+            Tools.toastWarning(AppString.actionErrorUpdateUserProfile);
+            return false;
+          }
+          return dispatch({
+            type: ADD_PROFILE,
+            profile: response,
+          });
+        })
+        .catch((error) => {
+          Tools.toastWarning(error.message);
           return false;
-        }
-        return dispatch({
-          type: UPDATE_USER_PROFILE,
-          userProfile: response,
         });
-      }).catch((error) => {
-        Tools.toastWarning(error.message);
-        return false;
-      });
+    } catch (error) {
+      Tools.toastWarning(error.message);
+      return false;
+    }
   };
 }
 
 export function createContact(contactString) {
   return (dispatch, getState) => {
     try {
-      if (!getState().familinkReducer.isConnected) {
-        const toThrow = { code: 0, message: 'No network' };
-        throw toThrow;
-      }
-
-      return fetch(`${getState().familinkReducer.uri}/secured/users/contacts`,
+      return networkOrNotNetwork(getState().familinkReducer.isConnected,
+        `${getState().familinkReducer.uri}/secured/users/contacts`,
         {
           method: 'POST',
           headers: {
@@ -457,39 +375,25 @@ export function createContact(contactString) {
           },
           body: contactString,
         })
+        .then(response => networkReturn(response, AppString.actionErrorCreateContact),
+        )
         .then((response) => {
-          const toThrow = { code: 0, message: null };
-          switch (response.status) {
-            case 200:
-              return true;
-
-            case 400:
-              toThrow.code = 400;
-              toThrow.message = AppString.actionError400Message;
-              throw toThrow;
-
-            case 500:
-              toThrow.code = 500;
-              toThrow.message = AppString.actionError500Message;
-              throw toThrow;
-
-            default:
-              return response.status;
+          if (response === null || response === false) {
+            Tools.toastWarning(AppString.actionErrorCreateContact);
+            return false;
           }
+          return dispatch({
+            type: CREATE_CONTACT,
+            contactString: response,
+          });
         })
-        .then(response => dispatch({
-          type: CREATE_CONTACT,
-          result: response,
-        }))
         .catch((error) => {
           Tools.toastWarning(error.message);
+          return false;
         });
     } catch (error) {
-      return dispatch({
-        type: CREATE_CONTACT_REJECTED,
-        code: error.code,
-        message: error.message,
-      });
+      Tools.toastWarning(error.message);
+      return false;
     }
   };
 }
@@ -497,12 +401,8 @@ export function createContact(contactString) {
 export function updateContact(id, contactString) {
   return (dispatch, getState) => {
     try {
-      if (!getState().familinkReducer.isConnected) {
-        const toThrow = { code: 0, message: 'No network' };
-        throw toThrow;
-      }
-
-      return fetch(`${getState().familinkReducer.uri}/secured/users/contacts/${id}`,
+      return networkOrNotNetwork(getState().familinkReducer.isConnected,
+        `${getState().familinkReducer.uri}/secured/users/contacts/${id}`,
         {
           method: 'PUT',
           headers: {
@@ -550,43 +450,45 @@ export function updateContact(id, contactString) {
 
 export function deleteContact(contact) {
   return (dispatch, getState) => {
-    if (!getState().familinkReducer.isConnected) {
-      const toThrow = { code: 0, message: 'No network' };
-      throw toThrow;
+    try {
+      return networkOrNotNetwork(getState().familinkReducer.isConnected,
+        `${getState().familinkReducer.uri}/secured/users/contacts/${contact._id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${getState().familinkReducer.userToken}`,
+          },
+        })
+        .then((response) => {
+          const toThrow = { code: 0, message: null };
+          switch (response.status) {
+            case 204:
+              return dispatch({
+                type: DELETE_CONTACT,
+              });
+
+            case 400:
+              toThrow.code = 400;
+              toThrow.message = AppString.actionError400Message;
+              throw toThrow;
+
+            case 500:
+              toThrow.code = 500;
+              toThrow.message = AppString.actionError500Message;
+              throw toThrow;
+
+            default:
+              return false;
+          }
+        })
+        .catch((error) => {
+          Tools.toastWarning(error.message);
+          return false;
+        });
+    } catch (error) {
+      Tools.toastWarning(error.message);
+      return false;
     }
-    return fetch(`${getState().familinkReducer.uri}/secured/users/contacts/${contact._id}`,
-      {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${getState().familinkReducer.userToken}`,
-        },
-      })
-      .then((response) => {
-        const toThrow = { code: 0, message: null };
-        switch (response.status) {
-          case 204:
-            return dispatch({
-              type: DELETE_CONTACT,
-            });
-
-          case 400:
-            toThrow.code = 400;
-            toThrow.message = AppString.actionError400Message;
-            throw toThrow;
-
-          case 500:
-            toThrow.code = 500;
-            toThrow.message = AppString.actionError500Message;
-            throw toThrow;
-
-          default:
-            return false;
-        }
-      })
-      .catch((error) => {
-        Tools.toastWarning(error.message);
-      });
   };
 }
-

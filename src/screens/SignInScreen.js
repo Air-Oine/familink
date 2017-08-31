@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
 import { Form, Input, Icon, Item, Button, Text, Radio } from 'native-base';
 import AppString from '../strings';
@@ -44,10 +44,10 @@ class SignInScreen extends Component {
     this.signIn = this.signIn.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.getProfiles()
       .then((response) => {
-        if (response.profile !== false) {
+        if (response !== false) {
           this.setState({
             profiles: response.profile,
             selectedProfile: response.profile[0],
@@ -71,10 +71,12 @@ class SignInScreen extends Component {
           selected = true;
         }
         profilItems.push(
-          <View key={key} style={styles.radioButton}>
-            <Text>{element}</Text>
-            <Radio selected={selected} onPress={() => this.onValueChange(element)} />
-          </View>);
+          <TouchableWithoutFeedback key={key} onPress={() => this.onValueChange(element)}>
+            <View style={styles.radioButton}>
+              <Text>{element}</Text>
+              <Radio selected={selected} onPress={() => this.onValueChange(element)} />
+            </View>
+          </TouchableWithoutFeedback>);
         key += 1;
       }));
       return profilItems;
