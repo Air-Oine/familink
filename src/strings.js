@@ -73,6 +73,9 @@ I18n.translations = {
     contactYesAlertMessage: 'yes',
     contactNoAlertMessage: 'no',
 
+    // contactList page:
+    contactListEmptyMessage: 'You don\'t have any contacts',
+
     // Profile
     profileUser: 'User',
     profileLastName: 'Last name',
@@ -158,6 +161,9 @@ I18n.translations = {
     contactBodyAlertMessage2: 'de votre liste de contacts?',
     contactYesAlertMessage: 'oui',
     contactNoAlertMessage: 'non',
+
+    // contactList page:
+    contactListEmptyMessage: 'Vous n\'avez aucun contacts',
 
     // Profile
     profileUser: 'Utilisateur',
@@ -252,6 +258,9 @@ const AppString = {
   contactYesAlertMessage: I18n.t('contactYesAlertMessage'),
   contactNoAlertMessage: I18n.t('contactNoAlertMessage'),
   contactDeleteSuccess: I18n.t('contactDeleteSuccess'),
+
+  // page contactList :
+  contactListEmptyMessage: I18n.t('contactListEmptyMessage'),
 
   // Profile
   profileUser: I18n.t('profileUser'),
