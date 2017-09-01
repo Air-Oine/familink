@@ -128,14 +128,15 @@ export const styles = StyleSheet.create({
   // -------------------------------------  Universel  ---------------------------------------------
   // --------------  CheckBox
   checkBox: {
-    marginTop: 5,
+    marginTop: 15,
+    paddingLeft: 10,
     flexDirection: 'row',
   },
   checkBoxTouchable: {
     padding: 10,
   },
   textCheckbox: {
-    paddingLeft: 10,
+    paddingLeft: 15,
     color: textSecondaryDarkColor,
   },
   // --------------  Button

@@ -18,12 +18,11 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import AlphabetListView from 'react-native-alphabetlistview';
 import { connect } from 'react-redux';
 import { addContactLink, addContactsList } from '../actions/familink.actions';
-// import Storage from '../asyncStorage';
+import Tools from '../Tools';
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
-// import WebServices from '../webServices/WebServices';
 import { CONTACT_SCENE_NAME } from './ContactScreen';
-
+import { LOGIN_SCENE_NAME } from './LoginScreen';
 import { styles, accentColor, darkPrimaryColor } from '../style';
 
 const _ = require('lodash');
@@ -57,6 +56,10 @@ class ContactListScreen extends Component {
     this.props.addContactLink(null);
     // récupération de liste de contacts
     this.props.addContactsList().then((response) => {
+      if (response === 401) {
+        Tools.alertUnauthorized();
+        this.props.navigation.navigate(LOGIN_SCENE_NAME);
+      }
       if (response === false) {
         this.setState({ visible: false });
       }
@@ -107,6 +110,27 @@ class ContactListScreen extends Component {
     }
   }
 
+  renderContactList() {
+    if (_.isEmpty(this.state.contactsFilter)) {
+      return (
+        <Text style={styles.MenuText}>
+          {AppString.contactListEmptyMessage}
+        </Text>
+      );
+    }
+
+    return (
+      <AlphabetListView
+        data={this.state.contactsIndex}
+        cell={item => this.renderItem(item)}
+        cellHeight={30}
+        sectionHeaderHeight={22.5}
+        sectionHeader={item => <Text style={styles.headerAlphabetList} >{item.title}</Text>}
+        hideSectionList
+        enableEmptySections
+      />
+    );
+  }
 
   renderItem(item) {
     let image;
@@ -128,10 +152,8 @@ class ContactListScreen extends Component {
     );
   }
 
-
   render() {
     const navigation = this.props.navigation;
-
     return (
       <Container>
         <HeaderBar navigation={navigation} title={AppString.contactListPageName} />
@@ -141,17 +163,10 @@ class ContactListScreen extends Component {
             <Input placeholder="Search" onChangeText={(search) => { this.searchInput(search); }} />
           </Item>
         </Header>
+
         <View style={styles.flex1}>
           <Spinner visible={this.state.visible} textContent={'Loading...'} textStyle={styles.spinner} />
-          <AlphabetListView
-            data={this.state.contactsIndex}
-            cell={item => this.renderItem(item)}
-            cellHeight={30}
-            sectionHeaderHeight={22.5}
-            sectionHeader={item => <Text style={styles.headerAlphabetList} >{item.title}</Text>}
-            hideSectionList
-            enableEmptySections
-          />
+          {this.renderContactList()}
           <Fab
             style={{ backgroundColor: accentColor }}
             position="bottomRight"

@@ -295,12 +295,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-function mapStateToProps(state) {
-  return {
-    userProfile: state.familinkReducer.userProfile,
-    profiles: state.familinkReducer.profile,
-    createUserStatus: state.familinkReducer.createUserStatus,
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen);
+export default connect(null, mapDispatchToProps)(SignInScreen);

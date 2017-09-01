@@ -108,24 +108,28 @@ class ContactScreen extends Component {
 
       if (!this.state.modification) {
         // Contact creation
-        this.props.createContact(contact).then((value) => {
-          if (value !== false) {
-            // Show success
-            Tools.toastSuccess(AppString.addContactToastSuccess);
-
-            // Go back to contact list
-            this.props.navigation.navigate(CONTACTLIST_SCENE_NAME);
-          } else if (value.result === 401) {
+        this.props.createContact(contact).then((response) => {
+          if (response === 401) {
             // Handling unauthorized
             Tools.alertUnauthorized();
             // Go to login
             this.props.navigation.navigate(LOGIN_SCENE_NAME);
           }
+          if (response !== false) {
+            // Show success
+            Tools.toastSuccess(AppString.addContactToastSuccess);
+            // Go back to contact list
+            this.props.navigation.navigate(CONTACTLIST_SCENE_NAME);
+          }
         });
       } else {
         // Contact update
-        this.props.updateContact(this.props.contactLink._id, contact).then((value) => {
-          if (value.result) {
+        this.props.updateContact(this.props.contactLink._id, contact).then((response) => {
+          if (response === 401) {
+            Tools.alertUnauthorized();
+            this.props.navigation.navigate(LOGIN_SCENE_NAME);
+          }
+          if (response !== false) {
             // Show success
             Tools.toastSuccess(AppString.addContactToastUpdateSuccess);
 
@@ -145,9 +149,16 @@ class ContactScreen extends Component {
   }
 
   isDeleted() {
-    this.props.deleteContact(this.props.contactLink).then(() =>
-      this.props.navigation.navigate(CONTACTLIST_SCENE_NAME));
-    Tools.toastSuccess(AppString.contactDeleteSuccess);
+    this.props.deleteContact(this.props.contactLink).then((response) => {
+      if (response === 401) {
+        Tools.alertUnauthorized();
+        this.props.navigation.navigate(LOGIN_SCENE_NAME);
+      }
+      if (response !== false) {
+        this.props.navigation.navigate(CONTACTLIST_SCENE_NAME);
+        Tools.toastSuccess(AppString.contactDeleteSuccess);
+      }
+    });
   }
 
   delete() {
