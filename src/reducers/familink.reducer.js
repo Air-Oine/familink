@@ -40,8 +40,8 @@ export const initialState = {
 };
 
 function sortAnnuaire(annuaire) {
-  let temp = _.orderBy(annuaire, ['lastName'], ['asc']);
-  temp = _.groupBy(temp, val => val.lastName.substr(0, 1));
+  const temp = _.orderBy(annuaire, ['firstName'], ['asc']);
+  // temp = _.groupBy(temp, val => val.firstName.substr(0, 1));
   return temp;
 }
 
