@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Image, View, Text, TouchableHighlight, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { Image, View, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Form, Item, Input, Button, CheckBox, Icon } from 'native-base';
 
@@ -37,6 +37,13 @@ class LoginScreen extends Component {
     this.toForgotPassword = this.toForgotPassword.bind(this);
   }
 
+  componentWillMount() {
+    this.setState({
+      rememberMeStatus: this.props.rememberMe,
+    });
+    this.isRememberChecked();
+  }
+
   componentDidMount() {
     Storage.getItem('phone')
       .then((v) => {
@@ -46,10 +53,20 @@ class LoginScreen extends Component {
       });
   }
 
-  componentWillReceiveProps(nextProps) {
+  /* componentWillReceiveProps(nextProps) {
     if (nextProps.userToken !== false && nextProps.userToken !== '') {
       this.goHome();
     }
+  }  */
+
+  isRememberChecked() {
+    Storage.getItem('phone').then((value) => {
+      if (value !== '') {
+        this.props.rememberAction(true);
+      } else {
+        this.props.rememberAction(false);
+      }
+    });
   }
 
   async login() {
@@ -58,11 +75,19 @@ class LoginScreen extends Component {
       "password": "${this.state.password}"
     }`;
 
-    this.props.loginAction(loginString);
+    this.props.loginAction(loginString)
+      .then((response) => {
+        if (response !== false) {
+          this.goHome();
+        }
+      });
   }
 
   pressedRemember() {
-    this.props.rememberAction(!this.props.rememberMe);
+    this.setState({
+      rememberMeStatus: !this.state.rememberMeStatus,
+    });
+    this.props.rememberAction(this.state.rememberMeStatus);
   }
 
   goHome() {
@@ -114,7 +139,7 @@ class LoginScreen extends Component {
             </Item>
 
             <View style={styles.checkBox} >
-              <TouchableHighlight
+              <TouchableOpacity
                 style={styles.checkBoxTouchable}
                 onPress={() => this.pressedRemember()}
               >
@@ -122,8 +147,8 @@ class LoginScreen extends Component {
                   checked={this.state.rememberMeStatus}
                   onPress={() => this.pressedRemember()}
                 />
-              </TouchableHighlight>
-              <TouchableHighlight
+              </TouchableOpacity>
+              <TouchableOpacity
                 style={styles.checkBoxTouchable}
                 onPress={() => this.pressedRemember()}
               >
@@ -132,7 +157,7 @@ class LoginScreen extends Component {
                 >
                   {AppString.loginRememberMe}
                 </Text>
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
             <Button
               style={styles.button}
@@ -169,7 +194,6 @@ LoginScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
   loginAction: PropTypes.func.isRequired,
   rememberAction: PropTypes.func.isRequired,
-  userToken: PropTypes.any.isRequired,
   rememberMe: PropTypes.any.isRequired,
 };
 
