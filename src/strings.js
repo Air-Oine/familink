@@ -90,7 +90,7 @@ I18n.translations = {
   fr: {
     homescreenAnnuaire: 'Annuaire',
     homescreenHumeur: 'Humeur',
-    homescreenConfig: 'Settings',
+    homescreenConfig: 'Configuration',
     homescreenProfil: 'Profil',
     homescreenQuitter: 'Se déconnecter',
 

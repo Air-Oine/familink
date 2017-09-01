@@ -37,6 +37,12 @@ export const initialState = {
   createUserStatus: false,
 };
 
+function sortAnnuaire(annuaire) {
+  const temp = _.orderBy(annuaire, ['firstName'], ['asc']);
+  // temp = _.groupBy(temp, val => val.firstName.substr(0, 1));
+  return temp;
+}
+
 export default function familinkReducer(state = initialState, action) {
   switch (action.type) {
     case ADD_ISCONNECTED:
@@ -66,9 +72,12 @@ export default function familinkReducer(state = initialState, action) {
       };
 
     case ADD_CONTACTSLIST:
+      // temp = _.orderBy(temp, ['lastName', ['asc']]);
+      // console.log ("wech :", temp);
+      // temp = _.orderBy(action.contactsList, ['lastName'], ['asc']);
       return {
         ...state,
-        contactsList: _.orderBy(action.contactsList, ['lastName'], ['asc']),
+        contactsList: sortAnnuaire(action.contactsList),
       };
 
     case SET_CONNECTED:
