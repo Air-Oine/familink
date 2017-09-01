@@ -73,6 +73,9 @@ I18n.translations = {
     contactYesAlertMessage: 'yes',
     contactNoAlertMessage: 'no',
 
+    // contactList page:
+    contactListEmptyMessage: 'You don\'t have any contacts',
+
     // Profile
     profileUser: 'User',
     profileLastName: 'Last name',
@@ -139,7 +142,7 @@ I18n.translations = {
     forgottenPasswordPopInMessage: 'Voici votre nouveau mot de passe : 0000',
     forgottenPasswordPopInTitle: 'Information',
     forgottenPasswordPopInOk: 'J\'ai noté',
-    forgottenPasswordPopInNotFoundMessage: 'Le numéro que vous avez saisi ne correspond a aucun utilisateur',
+    forgottenPasswordPopInNotFoundMessage: 'Le numéro saisi ne correspond a aucun utilisateur',
     forgottenPasswordPopInNotFoundTitle: 'Avertissement',
 
     // Familink Action :
@@ -151,6 +154,10 @@ I18n.translations = {
     actionErrorGetUserProfile: 'Erreur lors de la récupération du profile',
     actionErrorContactList: 'Erreur lors de la récupération des contacts',
     actionErrorCreateContact: 'Erreur lors de la création du contact',
+    actionErrorUpdateContact: 'Erreur lors de la modification du contact',
+    actionErrorRemoveContact: 'Erreur lors de la suppression du contact',
+    actionErrorForgotPwd: 'Erreur lors de la récupération du mot de passe',
+    actionErrorForgotPwdNotExist: 'Le numéro saisi ne correspond a aucun utilisateur',
 
     // contact page:
     contactTitleAlertMessage: 'Confirmer la suppression',
@@ -158,6 +165,9 @@ I18n.translations = {
     contactBodyAlertMessage2: 'de votre liste de contacts?',
     contactYesAlertMessage: 'oui',
     contactNoAlertMessage: 'non',
+
+    // contactList page:
+    contactListEmptyMessage: 'Vous n\'avez aucun contacts',
 
     // Profile
     profileUser: 'Utilisateur',
@@ -244,6 +254,10 @@ const AppString = {
   actionErrorGetUserProfile: I18n.t('actionErrorGetUserProfile'),
   actionErrorContactList: I18n.t('actionErrorContactList'),
   actionErrorCreateContact: I18n.t('actionErrorCreateContact'),
+  actionErrorUpdateContact: I18n.t('actionErrorUpdateContact'),
+  actionErrorRemoveContact: I18n.t('actionErrorRemoveContact'),
+  actionErrorForgotPwd: I18n.t('actionErrorForgotPwd'),
+  actionErrorForgotPwdNotExist: I18n.t('actionErrorForgotPwdNotExist'),
 
   // page contact :
   contactTitleAlertMessage: I18n.t('contactTitleAlertMessage'),
@@ -252,6 +266,9 @@ const AppString = {
   contactYesAlertMessage: I18n.t('contactYesAlertMessage'),
   contactNoAlertMessage: I18n.t('contactNoAlertMessage'),
   contactDeleteSuccess: I18n.t('contactDeleteSuccess'),
+
+  // page contactList :
+  contactListEmptyMessage: I18n.t('contactListEmptyMessage'),
 
   // Profile
   profileUser: I18n.t('profileUser'),

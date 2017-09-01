@@ -14,6 +14,7 @@ import { getProfileUser, getProfiles, updateProfileUser } from '../actions/famil
 import Helper from '../helpers/Helper';
 import Tools from '../Tools';
 import { HOME_SCENE_NAME } from '../screens/HomeScreen';
+import { LOGIN_SCENE_NAME } from '../screens/LoginScreen';
 
 export const PROFILE_SCENE_NAME = 'PROFILE_SCENE';
 const lodash = require('lodash');
@@ -46,6 +47,10 @@ class ProfileScreen extends Component {
   componentWillMount() {
     this.props.getProfileUser()
       .then((response) => {
+        if (response === 401) {
+          Tools.alertUnauthorized();
+          this.props.navigation.navigate(LOGIN_SCENE_NAME);
+        }
         if (response.profile !== false) {
           this.setState({
             userProfile: response.userProfile,
@@ -86,6 +91,10 @@ class ProfileScreen extends Component {
   alterButton() {
     this.props.getProfiles()
       .then((response) => {
+        if (response === 401) {
+          Tools.alertUnauthorized();
+          this.props.navigation.navigate(LOGIN_SCENE_NAME);
+        }
         if (response.profile !== false) {
           this.setState({
             profile: response.profile,

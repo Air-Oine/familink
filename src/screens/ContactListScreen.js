@@ -18,12 +18,11 @@ import {
 import Spinner from 'react-native-loading-spinner-overlay';
 import { connect } from 'react-redux';
 import { addContactLink, addContactsList } from '../actions/familink.actions';
-// import Storage from '../asyncStorage';
+import Tools from '../Tools';
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
-// import WebServices from '../webServices/WebServices';
 import { CONTACT_SCENE_NAME } from './ContactScreen';
-
+import { LOGIN_SCENE_NAME } from './LoginScreen';
 import { styles, accentColor, darkPrimaryColor } from '../style';
 
 const _ = require('lodash');
@@ -52,7 +51,15 @@ class ContactListScreen extends Component {
     // raz du link
     this.props.addContactLink(null);
     // récupération de liste de contacts
-    this.props.addContactsList();
+    this.props.addContactsList().then((response) => {
+      if (response === 401) {
+        Tools.alertUnauthorized();
+        this.props.navigation.navigate(LOGIN_SCENE_NAME);
+      }
+      if (response === false) {
+        this.setState({ visible: false });
+      }
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -81,6 +88,23 @@ class ContactListScreen extends Component {
     }
   }
 
+  renderContactList() {
+    if (_.isEmpty(this.state.contactsFilter)) {
+      return (
+        <Text style={styles.MenuText}>
+          {AppString.contactListEmptyMessage}
+        </Text>
+      );
+    }
+
+    return (
+      <List
+        dataArray={this.state.contactsFilter}
+        renderRow={item => this.renderItem(item)}
+      />
+    );
+  }
+
   renderItem(item) {
     let image;
     if (item.gravatar === '') {
@@ -101,9 +125,10 @@ class ContactListScreen extends Component {
     );
   }
 
-
   render() {
     const navigation = this.props.navigation;
+
+
     return (
       <Container>
         <HeaderBar navigation={navigation} title={AppString.contactListPageName} />
@@ -114,11 +139,9 @@ class ContactListScreen extends Component {
             <Input placeholder="Search" onChangeText={(search) => { this.searchInput(search); }} />
           </Item>
         </Header>
+
         <View style={styles.flex1}>
-          <List
-            dataArray={this.state.contactsFilter}
-            renderRow={item => this.renderItem(item)}
-          />
+          {this.renderContactList()}
           <Fab
             style={{ backgroundColor: accentColor }}
             position="bottomRight"
