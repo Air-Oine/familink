@@ -56,24 +56,18 @@ class ForgottenPwdScreen extends Component {
       this.props.forgotPassword(phoneString)
         .then((response) => {
           // User found => pasword reinit (mock)
-          if (response === true) {
+          if (response) {
             // Show alert message
             Tools.alert(
               AppString.forgottenPasswordPopInTitle,
               AppString.forgottenPasswordPopInMessage,
               AppString.forgottenPasswordPopInOk,
               () => { this.props.navigation.navigate(LOGIN_SCENE_NAME); });
-          } else {
-            // Show wrong phone number
-            this.setState({
-              usernameInputError: true,
-            });
-
-            // Show alert message
-            // Tools.alert(
-            //   AppString.forgottenPasswordPopInNotFoundTitle,
-            //   AppString.forgottenPasswordPopInNotFoundMessage);
           }
+          // Show wrong phone number
+          this.setState({
+            usernameInputError: true,
+          });
         });
     }
   }
