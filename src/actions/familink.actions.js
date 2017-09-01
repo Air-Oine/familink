@@ -167,7 +167,7 @@ export function addContactsList() {
         })
         .catch((error) => {
           if (error.code === 0 && !_.isEmpty(getState().familinkReducer.contactsList)) {
-            Tools.toastWarning('Liste des contacts non mis à jour');
+            Tools.toastWarning(AppString.actionContactListNoUpdate);
             return true;
           }
           if (error.code === 0 && _.isEmpty(getState().familinkReducer.contactsList)) {

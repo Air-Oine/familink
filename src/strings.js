@@ -158,6 +158,7 @@ I18n.translations = {
     actionErrorRemoveContact: 'Erreur lors de la suppression du contact',
     actionErrorForgotPwd: 'Erreur lors de la récupération du mot de passe',
     actionErrorForgotPwdNotExist: 'Le numéro saisi ne correspond a aucun utilisateur',
+    actionContactListNoUpdate: 'Liste des contacts non mise à jour',
 
     // contact page:
     contactTitleAlertMessage: 'Confirmer la suppression',
@@ -169,6 +170,7 @@ I18n.translations = {
     // contactList page:
     contactListEmptyMessage: 'Vous n\'avez aucun contacts',
     contactListNoContactInApp: 'Aucun contact enregistré en mémoire dans l\'application',
+
     // Profile
     profileUser: 'Utilisateur',
     profileLastName: 'Nom',
@@ -258,6 +260,7 @@ const AppString = {
   actionErrorRemoveContact: I18n.t('actionErrorRemoveContact'),
   actionErrorForgotPwd: I18n.t('actionErrorForgotPwd'),
   actionErrorForgotPwdNotExist: I18n.t('actionErrorForgotPwdNotExist'),
+  actionContactListNoUpdate: I18n.t('actionContactListNoUpdate'),
 
   // page contact :
   contactTitleAlertMessage: I18n.t('contactTitleAlertMessage'),
