@@ -7,7 +7,7 @@ export default class Storage {
       const value = await AsyncStorage.getItem(item);
       return value;
     } catch (error) {
-      return -1;
+      throw error;
     }
   }
   // return 1 si l'enregistrement est OK
@@ -17,7 +17,7 @@ export default class Storage {
       await AsyncStorage.setItem(item, value);
       return 1;
     } catch (error) {
-      return -1;
+      throw error;
     }
   }
 
@@ -26,7 +26,7 @@ export default class Storage {
       const value = await AsyncStorage.removeItem(item);
       return value;
     } catch (error) {
-      return -1;
+      throw error;
     }
   }
 }
