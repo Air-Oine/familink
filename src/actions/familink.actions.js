@@ -15,12 +15,7 @@ export const ADD_PROFILE = 'ADD_PROFILE';
 export const UPDATE_USER_PROFILE = 'UPDATE_USER_PROFILE';
 export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
 export const FORGOT_PASSWORD_REJECTED = 'FORGOT_PASSWORD_REJECTED';
-export const CREATE_USER_STATUS = 'CREATE_USER_STATUS';
-export const DELETE_CONTACT = 'DELETE_CONTACT';
-export const UPDATE_CONTACT = 'UPDATE_CONTACT';
-export const UPDATE_CONTACT_REJECTED = 'UPDATE_CONTACT_REJECTED';
 export const CREATE_CONTACT = 'CREATE_CONTACT';
-export const CREATE_CONTACT_REJECTED = 'CREATE_CONTACT_REJECTED';
 
 export function addToken(newToken) {
   return {
@@ -75,16 +70,25 @@ function storePhone(mustRemember, phone) {
   }
 }
 
-function networkReturn(response, messageError) {
+function networkReturn(response, messageError, noContentReturn) {
   const toThrow = { code: 0, message: null };
   switch (response.status) {
     case 200:
       return response.json();
 
+    case 204:
+      if (noContentReturn) {
+        return 204;
+      }
+      return false;
+
     case 400:
       toThrow.code = 400;
       toThrow.message = messageError;
       throw toThrow;
+
+    case 401:
+      return 401;
 
     case 500:
       toThrow.code = 500;
@@ -96,6 +100,7 @@ function networkReturn(response, messageError) {
       throw toThrow;
   }
 }
+
 export function createUser(user) {
   return (dispatch, getState) => {
     try {
@@ -151,6 +156,9 @@ export function addContactsList() {
             Tools.toastWarning(AppString.actionErrorContactList);
             return false;
           }
+          if (response === 401) {
+            return 401;
+          }
           return dispatch({
             type: ADD_CONTACTSLIST,
             contactsList: response,
@@ -170,9 +178,7 @@ export function addContactsList() {
 export function loginUser(loginString) {
   return (dispatch, getState) => {
     try {
-      const a = JSON.parse(loginString);
-      const phone = a.phone;
-      storePhone(getState().familinkReducer.rememberMe, phone);
+      storePhone(getState().familinkReducer.rememberMe, JSON.parse(loginString).phone);
 
       return networkOrNotNetwork(getState().familinkReducer.isConnected,
         `${getState().familinkReducer.uri}/public/login`,
@@ -222,6 +228,9 @@ export function getProfileUser() {
           if (response === null || response === false) {
             Tools.toastWarning(AppString.actionErrorGetUserProfile);
             return false;
+          }
+          if (response === 401) {
+            return 401;
           }
           return dispatch({
             type: ADD_USER_PROFILE,
@@ -283,49 +292,26 @@ export function forgotPassword(phoneString) {
           },
           body: phoneString,
         })
+        .then(response => networkReturn(response, AppString.actionErrorForgotPwdNotExist, true),
+        )
         .then((response) => {
-          try {
-            const toThrow = { code: 0, message: null };
-            switch (response.status) {
-              case 204:
-                // User found, mocking return of a new password
-                return true;
-
-              case 400:
-                // User not found
-                return false;
-
-              case 500:
-                toThrow.code = 500;
-                toThrow.message = AppString.actionError500Message;
-                throw toThrow;
-
-              default:
-                return false;
-            }
-          } catch (error) {
-            dispatch({
-              type: FORGOT_PASSWORD_REJECTED,
-              code: error.code,
-              message: error.message,
-            });
-
-            return false;
+          if (response === 204) {
+            return true;
           }
+          Tools.toastWarning(AppString.actionErrorForgotPwd);
+          return false;
         })
-        .then(response => dispatch({
-          type: FORGOT_PASSWORD,
-          result: response,
-        }));
+        .catch((error) => {
+          Tools.toastWarning(error.message);
+          return false;
+        });
     } catch (error) {
-      return dispatch({
-        type: FORGOT_PASSWORD_REJECTED,
-        code: error.code,
-        message: error.message,
-      });
+      Tools.toastWarning(error.message);
+      return false;
     }
   };
 }
+
 export function updateProfileUser(userProfile) {
   return (dispatch, getState) => {
     try {
@@ -345,6 +331,9 @@ export function updateProfileUser(userProfile) {
           if (response === null || response === false) {
             Tools.toastWarning(AppString.actionErrorUpdateUserProfile);
             return false;
+          }
+          if (response === 401) {
+            return 401;
           }
           return dispatch({
             type: ADD_PROFILE,
@@ -382,6 +371,9 @@ export function createContact(contactString) {
             Tools.toastWarning(AppString.actionErrorCreateContact);
             return false;
           }
+          if (response === 401) {
+            return 401;
+          }
           return dispatch({
             type: CREATE_CONTACT,
             contactString: response,
@@ -411,39 +403,25 @@ export function updateContact(id, contactString) {
           },
           body: contactString,
         })
+        .then(response => networkReturn(response, AppString.actionErrorUpdateContact, true),
+        )
         .then((response) => {
-          const toThrow = { code: 0, message: null };
-          switch (response.status) {
-            case 204:
-              return true;
-
-            case 400:
-              toThrow.code = 400;
-              toThrow.message = AppString.actionError400Message;
-              throw toThrow;
-
-            case 500:
-              toThrow.code = 500;
-              toThrow.message = AppString.actionError500Message;
-              throw toThrow;
-
-            default:
-              return false;
+          if (response === 204) {
+            return true;
           }
+          if (response === 401) {
+            return 401;
+          }
+          Tools.toastWarning(AppString.actionErrorUpdateContact);
+          return false;
         })
-        .then(response => dispatch({
-          type: UPDATE_CONTACT,
-          result: response,
-        }))
         .catch((error) => {
           Tools.toastWarning(error.message);
+          return false;
         });
     } catch (error) {
-      return dispatch({
-        type: UPDATE_CONTACT_REJECTED,
-        code: error.code,
-        message: error.message,
-      });
+      Tools.toastWarning(error.message);
+      return false;
     }
   };
 }
@@ -460,27 +438,17 @@ export function deleteContact(contact) {
             Authorization: `Bearer ${getState().familinkReducer.userToken}`,
           },
         })
+        .then(response => networkReturn(response, AppString.actionErrorRemoveContact, true),
+        )
         .then((response) => {
-          const toThrow = { code: 0, message: null };
-          switch (response.status) {
-            case 204:
-              return dispatch({
-                type: DELETE_CONTACT,
-              });
-
-            case 400:
-              toThrow.code = 400;
-              toThrow.message = AppString.actionError400Message;
-              throw toThrow;
-
-            case 500:
-              toThrow.code = 500;
-              toThrow.message = AppString.actionError500Message;
-              throw toThrow;
-
-            default:
-              return false;
+          if (response === 204) {
+            return true;
           }
+          if (response === 401) {
+            return 401;
+          }
+          Tools.toastWarning(AppString.actionErrorRemoveContact);
+          return false;
         })
         .catch((error) => {
           Tools.toastWarning(error.message);
