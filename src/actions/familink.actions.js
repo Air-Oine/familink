@@ -16,6 +16,7 @@ export const UPDATE_USER_PROFILE = 'UPDATE_USER_PROFILE';
 export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
 export const FORGOT_PASSWORD_REJECTED = 'FORGOT_PASSWORD_REJECTED';
 export const CREATE_CONTACT = 'CREATE_CONTACT';
+const _ = require('lodash');
 
 export function addToken(newToken) {
   return {
@@ -165,6 +166,18 @@ export function addContactsList() {
           });
         })
         .catch((error) => {
+          if (error.code === 0 && !_.isEmpty(getState().familinkReducer.contactsList)) {
+            Tools.toastWarning('Liste des contacts non mis à jour');
+            return true;
+          }
+          if (error.code === 0 && _.isEmpty(getState().familinkReducer.contactsList)) {
+            Tools.toastWarning(error.message);
+            dispatch({
+              type: ADD_CONTACTSLIST,
+              contactsList: [],
+            });
+            return -1;
+          }
           Tools.toastWarning(error.message);
           return false;
         });

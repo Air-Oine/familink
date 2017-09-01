@@ -111,7 +111,7 @@ I18n.translations = {
     addContactPhone: 'Tél *',
     addContactEmail: 'Mail',
     addContactToastSuccess: 'Contact ajouté avec succès',
-    addContactToastUpdateSuccess: 'Contact mis à jour avec succès',
+    addContactToastUpdateSuccess: 'Contact mise à jour avec succès',
 
     loginPageName: 'Déconnexion',
     homePageName: 'Accueil',
@@ -168,7 +168,7 @@ I18n.translations = {
 
     // contactList page:
     contactListEmptyMessage: 'Vous n\'avez aucun contacts',
-
+    contactListNoContactInApp: 'Aucun contact enregistré en mémoire dans l\'application',
     // Profile
     profileUser: 'Utilisateur',
     profileLastName: 'Nom',
@@ -269,6 +269,7 @@ const AppString = {
 
   // page contactList :
   contactListEmptyMessage: I18n.t('contactListEmptyMessage'),
+  contactListNoContactInApp: I18n.t('contactListNoContactInApp'),
 
   // Profile
   profileUser: I18n.t('profileUser'),

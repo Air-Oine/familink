@@ -40,10 +40,10 @@ class ContactListScreen extends Component {
     this.state = {
       contactsFilter: [],
       visible: true,
+      isConnected: true,
     };
     this.goToDetail = this.goToDetail.bind(this);
     this.searchInput = this.searchInput.bind(this);
-    this.do = false;
   }
 
 
@@ -54,21 +54,24 @@ class ContactListScreen extends Component {
     this.props.addContactsList().then((response) => {
       if (response === 401) {
         Tools.alertUnauthorized();
+        this.setState({ visible: false });
         this.props.navigation.navigate(LOGIN_SCENE_NAME);
+        return;
       }
       if (response === false) {
         this.setState({ visible: false });
+        return;
       }
+      if (response === -1) {
+        this.setState({
+          isConnected: false,
+        });
+      }
+      this.setState({
+        visible: false,
+        contactsFilter: this.props.listOfContacts });
     });
   }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({ contactsFilter: nextProps.listOfContacts });
-    if (this.state.visible === true) {
-      this.setState({ visible: false });
-    }
-  }
-
   goToDetail(user) {
     const navigation = this.props.navigation;
     this.props.addContactLink(user);
@@ -89,14 +92,20 @@ class ContactListScreen extends Component {
   }
 
   renderContactList() {
-    if (_.isEmpty(this.state.contactsFilter)) {
+    if (_.isEmpty(this.state.contactsFilter) && this.state.isConnected) {
       return (
         <Text style={styles.MenuText}>
           {AppString.contactListEmptyMessage}
         </Text>
       );
     }
-
+    if (_.isEmpty(this.state.contactsFilter) && !this.state.isConnected) {
+      return (
+        <Text style={styles.MenuText}>
+          {AppString.contactListNoContactInApp}
+        </Text>
+      );
+    }
     return (
       <List
         dataArray={this.state.contactsFilter}
