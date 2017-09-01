@@ -88,6 +88,23 @@ class ContactListScreen extends Component {
     }
   }
 
+  renderContactList() {
+    if (_.isEmpty(this.state.contactsFilter)) {
+      return (
+        <Text style={styles.MenuText}>
+          {AppString.contactListEmptyMessage}
+        </Text>
+      );
+    }
+
+    return (
+      <List
+        dataArray={this.state.contactsFilter}
+        renderRow={item => this.renderItem(item)}
+      />
+    );
+  }
+
   renderItem(item) {
     let image;
     if (item.gravatar === '') {
@@ -108,9 +125,10 @@ class ContactListScreen extends Component {
     );
   }
 
-
   render() {
     const navigation = this.props.navigation;
+
+
     return (
       <Container>
         <HeaderBar navigation={navigation} title={AppString.contactListPageName} />
@@ -121,11 +139,9 @@ class ContactListScreen extends Component {
             <Input placeholder="Search" onChangeText={(search) => { this.searchInput(search); }} />
           </Item>
         </Header>
+
         <View style={styles.flex1}>
-          <List
-            dataArray={this.state.contactsFilter}
-            renderRow={item => this.renderItem(item)}
-          />
+          {this.renderContactList()}
           <Fab
             style={{ backgroundColor: accentColor }}
             position="bottomRight"
