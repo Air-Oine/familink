@@ -1,4 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.familink"
     android:versionCode="1"
     android:versionName="1.0">
@@ -12,10 +14,11 @@
         android:targetSdkVersion="22" />
 
     <application
+      tools:replace="android:icon,android:theme"
       android:name=".MainApplication"
       android:allowBackup="true"
       android:label="@string/app_name"
-      android:icon="@mipmap/ic_launcher"
+      android:icon="@mipmap/icon_familink"
       android:theme="@style/AppTheme">
       <activity
         android:name=".MainActivity"
