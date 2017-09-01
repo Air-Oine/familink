@@ -38,35 +38,25 @@ class LoginScreen extends Component {
   }
 
   componentWillMount() {
-    this.setState({
-      rememberMeStatus: this.props.rememberMe,
-    });
-    this.isRememberChecked();
-  }
-
-  componentDidMount() {
     Storage.getItem('phone')
-      .then((v) => {
+      .then((response) => {
+        if (response === '' || response === null) {
+          this.setState({
+            rememberMeStatus: false,
+            user: '',
+          });
+        } else {
+          this.setState({
+            rememberMeStatus: true,
+            user: response,
+          });
+        }
+      })
+      .catch(() => {
         this.setState({
-          user: v,
+          rememberMeStatus: true,
         });
       });
-  }
-
-  /* componentWillReceiveProps(nextProps) {
-    if (nextProps.userToken !== false && nextProps.userToken !== '') {
-      this.goHome();
-    }
-  }  */
-
-  isRememberChecked() {
-    Storage.getItem('phone').then((value) => {
-      if (value !== '') {
-        this.props.rememberAction(true);
-      } else {
-        this.props.rememberAction(false);
-      }
-    });
   }
 
   async login() {
@@ -87,10 +77,15 @@ class LoginScreen extends Component {
     this.setState({
       rememberMeStatus: !this.state.rememberMeStatus,
     });
-    this.props.rememberAction(this.state.rememberMeStatus);
   }
 
   goHome() {
+    if (this.state.rememberMeStatus) {
+      Storage.setItem('phone', this.state.user);
+    } else {
+      Storage.setItem('phone', '');
+    }
+    this.props.rememberAction(this.state.rememberMeStatus);
     const navigation = this.props.navigation;
     navigation.navigate(HOME_SCENE_NAME);
   }
@@ -194,7 +189,6 @@ LoginScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
   loginAction: PropTypes.func.isRequired,
   rememberAction: PropTypes.func.isRequired,
-  rememberMe: PropTypes.any.isRequired,
 };
 
 function mapStateToProps(state) {
