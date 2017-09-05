@@ -84,6 +84,8 @@ I18n.translations = {
 
     // contactList page:
     contactListEmptyMessage: 'You don\'t have any contacts',
+    contactListSearch: 'Search',
+    contactListSpinner: 'Loading...',
 
     // Profile
     profileUser: 'User',
@@ -178,6 +180,8 @@ I18n.translations = {
 
     // contactList page:
     contactListEmptyMessage: 'Vous n\'avez aucun contacts',
+    contactListSearch: 'Rechercher',
+    contactListSpinner: 'Chargement...',
 
     // Profile
     profileUser: 'Utilisateur',
@@ -279,6 +283,8 @@ const AppString = {
 
   // page contactList :
   contactListEmptyMessage: I18n.t('contactListEmptyMessage'),
+  contactListSearch: I18n.t('contactListSearch'),
+  contactListSpinner: I18n.t('contactListSpinner'),
 
   // Profile
   profileUser: I18n.t('profileUser'),

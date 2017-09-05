@@ -160,12 +160,12 @@ class ContactListScreen extends Component {
         <Header searchBar androidStatusBarColor={darkPrimaryColor} rounded style={styles.searchBar}>
           <Item>
             <Icon name="ios-search" />
-            <Input placeholder="Search" onChangeText={(search) => { this.searchInput(search); }} />
+            <Input placeholder={AppString.contactListSearch} onChangeText={(search) => { this.searchInput(search); }} />
           </Item>
         </Header>
 
         <View style={styles.flex1}>
-          <Spinner visible={this.state.visible} textContent={'Loading...'} textStyle={styles.spinner} />
+          <Spinner visible={this.state.visible} textContent={AppString.contactListSpinner} textStyle={styles.spinner} />
           {this.renderContactList()}
           <Fab
             style={{ backgroundColor: accentColor }}
