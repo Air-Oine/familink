@@ -62,19 +62,30 @@ I18n.translations = {
     forgottenPasswordPopInNotFoundTitle: 'Warning',
 
     // Familink Action :
-    actionError400Message: 'Login or password error',
+    actionErrorLogin: 'Login or password error',
     actionError500Message: 'The server has encountered an error',
     actionErrorGetProfiles: 'Error while getting profiles',
-
+    actionErrorSignIn: 'Sign in error',
+    actionErrorUpdateUserProfile: 'Update error',
+    actionErrorGetUserProfile: 'Error getting profile',
+    actionErrorContactList: 'Error getting contacts',
+    actionErrorCreateContact: 'Error creating contact',
+    actionErrorUpdateContact: 'Error updating contact',
+    actionErrorRemoveContact: 'Error removing contact',
+    actionErrorForgotPwd: 'Error getting password',
+    actionErrorForgotPwdNotExist: 'The phone number does not match any user',
     // contact page:
     contactTitleAlertMessage: 'Confirm delete',
     contactBodyAlertMessage1: 'Are you sure you want to delete ?',
     contactBodyAlertMessage2: 'from your contact list ?',
     contactYesAlertMessage: 'yes',
     contactNoAlertMessage: 'no',
+    contactDeleteSuccess: 'Contact successfully deleted',
 
     // contactList page:
     contactListEmptyMessage: 'You don\'t have any contacts',
+    contactListSearch: 'Search',
+    contactListSpinner: 'Loading...',
 
     // Profile
     profileUser: 'User',
@@ -90,7 +101,7 @@ I18n.translations = {
   fr: {
     homescreenAnnuaire: 'Annuaire',
     homescreenHumeur: 'Humeur',
-    homescreenConfig: 'Settings',
+    homescreenConfig: 'Configuration',
     homescreenProfil: 'Profil',
     homescreenQuitter: 'Se déconnecter',
 
@@ -166,10 +177,13 @@ I18n.translations = {
     contactBodyAlertMessage2: 'de votre liste de contacts?',
     contactYesAlertMessage: 'oui',
     contactNoAlertMessage: 'non',
+    contactDeleteSuccess: 'Contact supprimé avec succès',
 
     // contactList page:
     contactListEmptyMessage: 'Vous n\'avez aucun contacts',
     contactListNoContactInApp: 'Aucun contact enregistré en mémoire dans l\'application',
+    contactListSearch: 'Rechercher',
+    contactListSpinner: 'Chargement...',
 
     // Profile
     profileUser: 'Utilisateur',
@@ -273,6 +287,8 @@ const AppString = {
   // page contactList :
   contactListEmptyMessage: I18n.t('contactListEmptyMessage'),
   contactListNoContactInApp: I18n.t('contactListNoContactInApp'),
+  contactListSearch: I18n.t('contactListSearch'),
+  contactListSpinner: I18n.t('contactListSpinner'),
 
   // Profile
   profileUser: I18n.t('profileUser'),

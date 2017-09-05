@@ -113,6 +113,14 @@ export const styles = StyleSheet.create({
     fontSize: defaultFontSize,
     marginTop: 10,
   },
+  headerAlphabetList: {
+    fontSize: defaultFontSizeButtonIcon,
+    color: textColorInput,
+    backgroundColor: darkPrimaryColor,
+    textAlign: 'center',
+    width: '100%',
+
+  },
   // -------------------------------------  Universel  ---------------------------------------------
   // --------------  CheckBox
   checkBox: {
