@@ -48,8 +48,9 @@ class ProfileScreen extends Component {
     this.props.getProfileUser()
       .then((response) => {
         if (response === 401) {
-          Tools.alertUnauthorized();
-          this.props.navigation.navigate(LOGIN_SCENE_NAME);
+          Tools.alertUnauthorized(() => {
+            this.props.navigation.navigate(LOGIN_SCENE_NAME);
+          });
         }
         if (response !== false) {
           this.setState({
@@ -92,8 +93,9 @@ class ProfileScreen extends Component {
     this.props.getProfiles()
       .then((response) => {
         if (response === 401) {
-          Tools.alertUnauthorized();
-          this.props.navigation.navigate(LOGIN_SCENE_NAME);
+          Tools.alertUnauthorized(() => {
+            this.props.navigation.navigate(LOGIN_SCENE_NAME);
+          });
         }
         if (response.profile !== false) {
           this.setState({
@@ -132,6 +134,11 @@ class ProfileScreen extends Component {
         }`;
       this.props.updateProfileUser(userProfile)
         .then((response) => {
+          if (response === 401) {
+            Tools.alertUnauthorized(() => {
+              this.props.navigation.navigate(LOGIN_SCENE_NAME);
+            });
+          }
           if (response !== false) {
             const navigation = this.props.navigation;
             Tools.toastSuccess(AppString.profileUpdateSuccess);

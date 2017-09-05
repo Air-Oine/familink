@@ -65,7 +65,6 @@ export default class Tools {
     okText = null, okOnPress = null, cancelText = null, cancelOnPress = null) {
     // Custom buttons
     const buttons = [];
-
     if (okText) {
       buttons.push({ text: okText, onPress: okOnPress });
     }
@@ -76,7 +75,7 @@ export default class Tools {
     Alert.alert(title, message, buttons.length > 0 ? buttons : null, { cancelable: false });
   }
 
-  static alertUnauthorized() {
-    Tools.alert(AppString.alertTitleConnection, AppString.alertMessageConnection);
+  static alertUnauthorized(onPress) {
+    Tools.alert(AppString.alertTitleConnection, AppString.alertMessageConnection, 'OK', onPress);
   }
 }

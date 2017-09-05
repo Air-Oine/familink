@@ -59,9 +59,10 @@ class ContactListScreen extends Component {
     // récupération de liste de contacts
     this.props.addContactsList().then((response) => {
       if (response === 401) {
-        Tools.alertUnauthorized();
-        this.setState({ visible: false });
-        this.props.navigation.navigate(LOGIN_SCENE_NAME);
+        Tools.alertUnauthorized(() => {
+          this.setState({ visible: false });
+          this.props.navigation.navigate(LOGIN_SCENE_NAME);
+        });
         return;
       }
       if (response === false) {
