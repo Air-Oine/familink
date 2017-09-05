@@ -51,7 +51,7 @@ class ProfileScreen extends Component {
           Tools.alertUnauthorized();
           this.props.navigation.navigate(LOGIN_SCENE_NAME);
         }
-        if (response.profile !== false) {
+        if (response !== false) {
           this.setState({
             userProfile: response.userProfile,
           });

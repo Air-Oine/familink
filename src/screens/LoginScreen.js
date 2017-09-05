@@ -1,12 +1,13 @@
 import React, { Component, PropTypes } from 'react';
-import { Image, View, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { Image, View, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity, NetInfo } from 'react-native';
 import { connect } from 'react-redux';
 import { Form, Item, Input, Button, CheckBox, Icon } from 'native-base';
 
 import AppString from '../strings';
 import { styles, inputError, inputPlaceHolderColor, inputSelectionColor } from '../style';
 import Storage from '../asyncStorage';
-import { loginUser, setRememberMe } from '../actions/familink.actions';
+import Hidden from '../Hidden';
+import { loginUser, setRememberMe, getProfileUser, addToken } from '../actions/familink.actions';
 
 import { HOME_SCENE_NAME } from './HomeScreen';
 import { SIGNIN_SCENE_NAME } from './SignInScreen';
@@ -17,9 +18,8 @@ const logo = require('../../assets/iconFamilink.png');
 
 class LoginScreen extends Component {
   static navigationOptions = {
-    drawerLockMode: 'locked-closed',
-    drawerLabel: AppString.loginPageName,
-    drawerIcon: () => (<Icon name="log-out" style={styles.menuDrawer_itemIcon} />),
+    title: 'JE suis HIDDEN',
+    drawerLabel: <Hidden />,
   };
 
   constructor(props) {
@@ -38,6 +38,25 @@ class LoginScreen extends Component {
   }
 
   componentWillMount() {
+    Storage.getItem('token').then((token) => {
+      if (token === null) {
+        this.props.addToken('');
+      } else {
+        this.props.addToken(token);
+      }
+      NetInfo.fetch().then((reach) => {
+        if (reach !== 'NONE') {
+          this.props.getProfileUser()
+            .then((response) => {
+              if (response === 401) {
+                this.props.addToken('');
+              } else if (response !== false) {
+                this.props.navigation.navigate(HOME_SCENE_NAME);
+              }
+            });
+        }
+      });
+    });
     Storage.getItem('phone')
       .then((response) => {
         if (response === '' || response === null) {
@@ -189,6 +208,8 @@ LoginScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
   loginAction: PropTypes.func.isRequired,
   rememberAction: PropTypes.func.isRequired,
+  getProfileUser: PropTypes.any.isRequired,
+  addToken: PropTypes.any.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -202,6 +223,8 @@ function mapDispatchToProps(dispatch) {
   return {
     loginAction: loginString => dispatch(loginUser(loginString)),
     rememberAction: newState => dispatch(setRememberMe(newState)),
+    getProfileUser: () => dispatch(getProfileUser()),
+    addToken: token => dispatch(addToken(token)),
   };
 }
 

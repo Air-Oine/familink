@@ -21,6 +21,7 @@ import { addContactLink, addContactsList } from '../actions/familink.actions';
 import Tools from '../Tools';
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
+
 import { CONTACT_SCENE_NAME } from './ContactScreen';
 import { LOGIN_SCENE_NAME } from './LoginScreen';
 import { styles, accentColor, darkPrimaryColor } from '../style';
@@ -41,6 +42,7 @@ class ContactListScreen extends Component {
       // contactsFilter: [],
       contactsIndex: [],
       visible: true,
+      isConnected: true,
     };
     this.tempList = [];
     this.goToDetail = this.goToDetail.bind(this);
@@ -58,10 +60,18 @@ class ContactListScreen extends Component {
     this.props.addContactsList().then((response) => {
       if (response === 401) {
         Tools.alertUnauthorized();
+        this.setState({ visible: false });
         this.props.navigation.navigate(LOGIN_SCENE_NAME);
+        return;
       }
       if (response === false) {
         this.setState({ visible: false });
+        return;
+      }
+      if (response === -1) {
+        this.setState({
+          isConnected: false,
+        });
       }
       this.setState({ contactsFilter: this.props.listOfContacts,
         contactsIndex: this.sortAnnuaire(this.props.listOfContacts),
@@ -111,14 +121,23 @@ class ContactListScreen extends Component {
   }
 
   renderContactList() {
-    if (_.isEmpty(this.state.contactsFilter) && !this.state.visible) {
-      return (
-        <Text style={styles.MenuText}>
-          {AppString.contactListEmptyMessage}
-        </Text>
-      );
+    // Show no contact messages if loading is done
+    if (!this.state.visible) {
+      if (_.isEmpty(this.state.contactsFilter) && this.state.isConnected) {
+        return (
+          <Text style={styles.MenuText}>
+            {AppString.contactListEmptyMessage}
+          </Text>
+        );
+      }
+      if (_.isEmpty(this.state.contactsFilter) && !this.state.isConnected) {
+        return (
+          <Text style={styles.MenuText}>
+            {AppString.contactListNoContactInApp}
+          </Text>
+        );
+      }
     }
-
     return (
       <AlphabetListView
         data={this.state.contactsIndex}
@@ -160,12 +179,19 @@ class ContactListScreen extends Component {
         <Header searchBar androidStatusBarColor={darkPrimaryColor} rounded style={styles.searchBar}>
           <Item>
             <Icon name="ios-search" />
-            <Input placeholder={AppString.contactListSearch} onChangeText={(search) => { this.searchInput(search); }} />
+            <Input
+              placeholder={AppString.contactListSearch}
+              onChangeText={(search) => { this.searchInput(search); }}
+            />
           </Item>
         </Header>
 
         <View style={styles.flex1}>
-          <Spinner visible={this.state.visible} textContent={AppString.contactListSpinner} textStyle={styles.spinner} />
+          <Spinner
+            visible={this.state.visible}
+            textContent={AppString.contactListSpinner}
+            textStyle={styles.spinner}
+          />
           {this.renderContactList()}
           <Fab
             style={{ backgroundColor: accentColor }}

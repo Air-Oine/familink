@@ -29,7 +29,7 @@ I18n.translations = {
     addContactToastSuccess: 'Contact successfully created',
     addContactToastUpdateSuccess: 'Contact successfully updated',
 
-    loginPageName: 'Disconnect',
+    logoutPageName: 'Disconnect',
     homePageName: 'Home',
     signInPageName: 'Sign in',
     forgottenPasswordPageName: 'Forgot password',
@@ -122,9 +122,9 @@ I18n.translations = {
     addContactPhone: 'Tél *',
     addContactEmail: 'Mail',
     addContactToastSuccess: 'Contact ajouté avec succès',
-    addContactToastUpdateSuccess: 'Contact mis à jour avec succès',
+    addContactToastUpdateSuccess: 'Contact mise à jour avec succès',
 
-    loginPageName: 'Déconnexion',
+    logoutPageName: 'Déconnexion',
     homePageName: 'Accueil',
     signInPageName: 'S\'inscrire',
     forgottenPasswordPageName: 'Mot de passe oublié',
@@ -169,6 +169,7 @@ I18n.translations = {
     actionErrorRemoveContact: 'Erreur lors de la suppression du contact',
     actionErrorForgotPwd: 'Erreur lors de la récupération du mot de passe',
     actionErrorForgotPwdNotExist: 'Le numéro saisi ne correspond a aucun utilisateur',
+    actionContactListNoUpdate: 'Liste des contacts non mise à jour',
 
     // contact page:
     contactTitleAlertMessage: 'Confirmer la suppression',
@@ -180,6 +181,7 @@ I18n.translations = {
 
     // contactList page:
     contactListEmptyMessage: 'Vous n\'avez aucun contact',
+    contactListNoContactInApp: 'Aucun contact enregistré en mémoire dans l\'application',
     contactListSearch: 'Rechercher',
     contactListSpinner: 'Chargement...',
 
@@ -224,7 +226,7 @@ const AppString = {
   addContactToastUpdateSuccess: I18n.t('addContactToastUpdateSuccess'),
 
   // PageName
-  loginPageName: I18n.t('loginPageName'),
+  logoutPageName: I18n.t('logoutPageName'),
   homePageName: I18n.t('homePageName'),
   signInPageName: I18n.t('signInPageName'),
   forgottenPasswordPageName: I18n.t('forgottenPasswordPageName'),
@@ -272,6 +274,7 @@ const AppString = {
   actionErrorRemoveContact: I18n.t('actionErrorRemoveContact'),
   actionErrorForgotPwd: I18n.t('actionErrorForgotPwd'),
   actionErrorForgotPwdNotExist: I18n.t('actionErrorForgotPwdNotExist'),
+  actionContactListNoUpdate: I18n.t('actionContactListNoUpdate'),
 
   // page contact :
   contactTitleAlertMessage: I18n.t('contactTitleAlertMessage'),
@@ -283,6 +286,7 @@ const AppString = {
 
   // page contactList :
   contactListEmptyMessage: I18n.t('contactListEmptyMessage'),
+  contactListNoContactInApp: I18n.t('contactListNoContactInApp'),
   contactListSearch: I18n.t('contactListSearch'),
   contactListSpinner: I18n.t('contactListSpinner'),
 
