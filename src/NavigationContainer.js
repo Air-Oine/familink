@@ -3,7 +3,7 @@ import { DrawerNavigator, DrawerItems } from 'react-navigation';
 
 import Tools from './Tools';
 import AppString from './strings';
-
+import Storage from './asyncStorage';
 import HomeScreen, { HOME_SCENE_NAME } from './screens/HomeScreen';
 import LoginScreen, { LOGIN_SCENE_NAME } from './screens/LoginScreen';
 import SignInScreen, { SIGNIN_SCENE_NAME } from './screens/SignInScreen';
@@ -63,12 +63,18 @@ function renderMenu(props) {
       labelStyle={styles.menuDrawer_itemLabel}
       activeBackgroundColor={lightPrimaryColor}
       onItemPress={(item) => {
+         console.log('gjgjg :',item.route.routeName);
         // Handle logout
         if (item.route.routeName === LOGIN_SCENE_NAME) {
-          Tools.toastSuccess(AppString.logoutConfirm);
+          console.log('jfhfhfhfghfhfhf');
+          Storage.setItem('token', '').then(() => {
+            Tools.toastSuccess(AppString.logoutConfirm);
+            props.navigation.navigate(item.route.routeName);
+          });
+        } else {
+          console.log('azerty');
+          props.navigation.navigate(item.route.routeName);
         }
-        // Navigate
-        props.navigation.navigate(item.route.routeName);
       }}
     />);
 }

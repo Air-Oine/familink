@@ -22,7 +22,7 @@ export const initialState = {
   code: null,
   rejectedMessage: 'REJECT',
   contactsList: [],
-  isConnected: false,
+  isConnected: true,
   rememberMe: true,
   uri: 'https://familink.cleverapps.io',
   userProfile: {

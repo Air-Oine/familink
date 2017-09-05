@@ -54,6 +54,10 @@ export function setConnected(newIsConnected) {
 }
 function networkOrNotNetwork(isConnected, uri, optionsFetch) {
   return new Promise((resolve) => {
+    if (isConnected === undefined) {
+      const toThrow = { code: -1, message: AppString.errorNoConnection };
+      throw toThrow;
+    }
     if (!isConnected) {
       const toThrow = { code: 0, message: AppString.errorNoConnection };
       throw toThrow;
@@ -208,6 +212,8 @@ export function loginUser(loginString) {
             Tools.toastWarning(AppString.actionErrorLogin);
             return false;
           }
+          console.log('token after log :', response.token);
+          Storage.setItem('token', response.token);
           return dispatch({
             type: ADD_TOKEN,
             token: response.token,
@@ -245,10 +251,11 @@ export function getProfileUser() {
           if (response === 401) {
             return 401;
           }
-          return dispatch({
+          dispatch({
             type: ADD_USER_PROFILE,
             userProfile: response,
           });
+          return true;
         })
         .catch((error) => {
           Tools.toastWarning(error.message);

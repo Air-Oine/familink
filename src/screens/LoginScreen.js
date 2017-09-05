@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
-import { Image, View, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { Image, View, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity, NetInfo } from 'react-native';
 import { connect } from 'react-redux';
 import { Form, Item, Input, Button, CheckBox, Icon } from 'native-base';
 
 import AppString from '../strings';
 import { styles, inputError, inputPlaceHolderColor, inputSelectionColor } from '../style';
 import Storage from '../asyncStorage';
-import { loginUser, setRememberMe } from '../actions/familink.actions';
+import { loginUser, setRememberMe, getProfileUser, addToken } from '../actions/familink.actions';
 
 import { HOME_SCENE_NAME } from './HomeScreen';
 import { SIGNIN_SCENE_NAME } from './SignInScreen';
@@ -38,8 +38,29 @@ class LoginScreen extends Component {
   }
 
   componentWillMount() {
+    Storage.getItem('token').then((token) => {
+      console.log('token :', token);
+      if (token === null) {
+        this.props.addToken('');
+      } else {
+        this.props.addToken(token);
+      }
+      NetInfo.fetch().then((reach) => {
+        if (reach !== 'NONE') {
+          this.props.getProfileUser()
+            .then((response) => {
+              console.log('response :', response);
+              if (response === true) {
+                console.log('ok');
+                this.props.navigation.navigate(HOME_SCENE_NAME);
+              }
+            });
+        }
+      });
+    });
     Storage.getItem('phone')
       .then((response) => {
+        console.log('ffffffff  ', response);
         if (response === '' || response === null) {
           this.setState({
             rememberMeStatus: false,
@@ -189,6 +210,8 @@ LoginScreen.propTypes = {
   navigation: PropTypes.any.isRequired,
   loginAction: PropTypes.func.isRequired,
   rememberAction: PropTypes.func.isRequired,
+  getProfileUser: PropTypes.any.isRequired,
+  addToken: PropTypes.any.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -202,6 +225,8 @@ function mapDispatchToProps(dispatch) {
   return {
     loginAction: loginString => dispatch(loginUser(loginString)),
     rememberAction: newState => dispatch(setRememberMe(newState)),
+    getProfileUser: () => dispatch(getProfileUser()),
+    addToken: token => dispatch(addToken(token)),
   };
 }
 

@@ -3,12 +3,7 @@ import { AsyncStorage } from 'react-native';
 export default class Storage {
   // return -1 si une erreur est survenu
   static async getItem(item) {
-    try {
-      const value = await AsyncStorage.getItem(item);
-      return value;
-    } catch (error) {
-      throw error;
-    }
+    return AsyncStorage.getItem(item).then(val => val);
   }
   // return 1 si l'enregistrement est OK
   // return -1 si une erreur est survenu et l'enregistrement pas OK

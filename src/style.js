@@ -1,9 +1,5 @@
 import { StyleSheet, Platform } from 'react-native';
 
-export const secondaryColor = '#256F5B';
-export const secondaryColor2 = '#89A236';
-export const complementaryColor = '#519331';
-
 const borderColorInput = '#000000';
 const sizeIcon = 135;
 const defaultFontSizeButton = 20;
@@ -187,11 +183,6 @@ export const styles = StyleSheet.create({
     color: textColor,
     fontSize: 20,
   },
-  icon: {
-    fontSize: sizeIcon,
-    color: secondaryColor,
-    textAlign: 'center',
-  },
   iconR: {
     fontSize: sizeIcon,
     color: primaryColor,
@@ -213,11 +204,6 @@ export const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: primaryColor,
     borderRadius: defaultBorderRadius,
-  },
-  textTouchableHighlight: {
-    textAlign: 'center',
-    fontSize: defaultFontSize,
-    color: complementaryColor,
   },
   flex1: {
     flex: 1,
