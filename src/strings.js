@@ -10,7 +10,7 @@ I18n.translations = {
     homescreenProfil: 'Profile',
     homescreenQuitter: 'Disconnect',
 
-    signIn_User: 'User *',
+    signIn_User: 'Phone number *',
     signIn_Pwd: 'Password *',
     signIn_PwdConfirm: 'Confirm password *',
     signIn_LastName: 'Last name',
@@ -105,13 +105,13 @@ I18n.translations = {
     homescreenProfil: 'Profil',
     homescreenQuitter: 'Se déconnecter',
 
-    signIn_User: 'Utilisateur *',
+    signIn_User: 'Téléphone *',
     signIn_Pwd: 'Mot de passe *',
     signIn_PwdConfirm: 'Confirmer mot de passe *',
     signIn_LastName: 'Nom',
     signIn_FirstName: 'Prénom *',
     signIn_Email: 'Email',
-    signIn_ErrorAccount: 'Erreur nom de compte déjà existant',
+    signIn_ErrorAccount: 'Erreur : numéro déjà existant',
     signIn_Error: 'Erreur lors de la création du compte',
     signIn_Success: 'Compte ajouté avec succès',
 
@@ -132,7 +132,7 @@ I18n.translations = {
     contactListPageName: 'Annuaire',
     profilePageName: 'Profil',
 
-    errorNoConnection: 'Pas de connexion réseaux',
+    errorNoConnection: 'Pas de connexion réseau',
     errorRequest: 'Erreur lors de la requête',
     alertTitleConnection: 'Connexion',
     alertMessageConnection: 'Jeton de connexion expiré',
@@ -179,7 +179,7 @@ I18n.translations = {
     contactDeleteSuccess: 'Contact supprimé avec succès',
 
     // contactList page:
-    contactListEmptyMessage: 'Vous n\'avez aucun contacts',
+    contactListEmptyMessage: 'Vous n\'avez aucun contact',
     contactListSearch: 'Rechercher',
     contactListSpinner: 'Chargement...',
 

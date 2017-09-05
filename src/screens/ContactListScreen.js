@@ -111,7 +111,7 @@ class ContactListScreen extends Component {
   }
 
   renderContactList() {
-    if (_.isEmpty(this.state.contactsFilter)) {
+    if (_.isEmpty(this.state.contactsFilter) && !this.state.visible) {
       return (
         <Text style={styles.MenuText}>
           {AppString.contactListEmptyMessage}

@@ -113,7 +113,7 @@ export function createUser(user) {
           },
           body: user,
         })
-        .then(response => networkReturn(response, AppString.actionErrorSignIn),
+        .then(response => networkReturn(response, AppString.signIn_ErrorAccount),
         )
         .then((response) => {
           if (response === null || response === false) {
