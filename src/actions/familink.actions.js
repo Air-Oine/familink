@@ -212,7 +212,6 @@ export function loginUser(loginString) {
             Tools.toastWarning(AppString.actionErrorLogin);
             return false;
           }
-          console.log('token after log :', response.token);
           Storage.setItem('token', response.token);
           return dispatch({
             type: ADD_TOKEN,

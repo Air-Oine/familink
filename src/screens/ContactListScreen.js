@@ -21,6 +21,7 @@ import { addContactLink, addContactsList } from '../actions/familink.actions';
 import Tools from '../Tools';
 import HeaderBar from '../components/HeaderBar';
 import AppString from '../strings';
+
 import { CONTACT_SCENE_NAME } from './ContactScreen';
 import { LOGIN_SCENE_NAME } from './LoginScreen';
 import { styles, accentColor, darkPrimaryColor } from '../style';
@@ -175,12 +176,19 @@ class ContactListScreen extends Component {
         <Header searchBar androidStatusBarColor={darkPrimaryColor} rounded style={styles.searchBar}>
           <Item>
             <Icon name="ios-search" />
-            <Input placeholder={AppString.contactListSearch} onChangeText={(search) => { this.searchInput(search); }} />
+            <Input
+              placeholder={AppString.contactListSearch}
+              onChangeText={(search) => { this.searchInput(search); }}
+            />
           </Item>
         </Header>
 
         <View style={styles.flex1}>
-          <Spinner visible={this.state.visible} textContent={AppString.contactListSpinner} textStyle={styles.spinner} />
+          <Spinner
+            visible={this.state.visible}
+            textContent={AppString.contactListSpinner}
+            textStyle={styles.spinner}
+          />
           {this.renderContactList()}
           <Fab
             style={{ backgroundColor: accentColor }}
