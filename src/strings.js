@@ -29,7 +29,7 @@ I18n.translations = {
     addContactToastSuccess: 'Contact successfully created',
     addContactToastUpdateSuccess: 'Contact successfully updated',
 
-    loginPageName: 'Disconnect',
+    logoutPageName: 'Disconnect',
     homePageName: 'Home',
     signInPageName: 'Sign in',
     forgottenPasswordPageName: 'Forgot password',
@@ -113,7 +113,7 @@ I18n.translations = {
     addContactToastSuccess: 'Contact ajouté avec succès',
     addContactToastUpdateSuccess: 'Contact mise à jour avec succès',
 
-    loginPageName: 'Déconnexion',
+    logoutPageName: 'Déconnexion',
     homePageName: 'Accueil',
     signInPageName: 'S\'inscrire',
     forgottenPasswordPageName: 'Mot de passe oublié',
@@ -212,7 +212,7 @@ const AppString = {
   addContactToastUpdateSuccess: I18n.t('addContactToastUpdateSuccess'),
 
   // PageName
-  loginPageName: I18n.t('loginPageName'),
+  logoutPageName: I18n.t('logoutPageName'),
   homePageName: I18n.t('homePageName'),
   signInPageName: I18n.t('signInPageName'),
   forgottenPasswordPageName: I18n.t('forgottenPasswordPageName'),

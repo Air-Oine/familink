@@ -251,11 +251,10 @@ export function getProfileUser() {
           if (response === 401) {
             return 401;
           }
-          dispatch({
+          return dispatch({
             type: ADD_USER_PROFILE,
             userProfile: response,
           });
-          return true;
         })
         .catch((error) => {
           Tools.toastWarning(error.message);

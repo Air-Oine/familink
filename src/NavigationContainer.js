@@ -1,11 +1,9 @@
 import React, { PropTypes } from 'react';
 import { DrawerNavigator, DrawerItems } from 'react-navigation';
 
-import Tools from './Tools';
-import AppString from './strings';
-import Storage from './asyncStorage';
 import HomeScreen, { HOME_SCENE_NAME } from './screens/HomeScreen';
 import LoginScreen, { LOGIN_SCENE_NAME } from './screens/LoginScreen';
+import LogoutScreen, { LOGOUT_SCENE_NAME } from './screens/LogoutScreen';
 import SignInScreen, { SIGNIN_SCENE_NAME } from './screens/SignInScreen';
 import ContactScreen, { CONTACT_SCENE_NAME } from './screens/ContactScreen';
 import ContactListScreen, { CONTACTLIST_SCENE_NAME } from './screens/ContactListScreen';
@@ -44,6 +42,9 @@ stackNavigatorConfig[LOGIN_SCENE_NAME] = {
   screen: LoginScreen,
 };
 
+stackNavigatorConfig[LOGOUT_SCENE_NAME] = {
+  screen: LogoutScreen,
+};
 /**
  * Define items in menu
  * @param {*} props
@@ -53,29 +54,14 @@ function renderMenu(props) {
     { key: HOME_SCENE_NAME, routeName: HOME_SCENE_NAME },
     { key: CONTACTLIST_SCENE_NAME, routeName: CONTACTLIST_SCENE_NAME },
     { key: PROFILE_SCENE_NAME, routeName: PROFILE_SCENE_NAME },
-    { key: LOGIN_SCENE_NAME, routeName: LOGIN_SCENE_NAME },
+    { key: LOGOUT_SCENE_NAME, routeName: LOGOUT_SCENE_NAME },
   ];
-
   return (
     <DrawerItems
       {...props}
       items={itemsArray}
       labelStyle={styles.menuDrawer_itemLabel}
       activeBackgroundColor={lightPrimaryColor}
-      onItemPress={(item) => {
-         console.log('gjgjg :',item.route.routeName);
-        // Handle logout
-        if (item.route.routeName === LOGIN_SCENE_NAME) {
-          console.log('jfhfhfhfghfhfhf');
-          Storage.setItem('token', '').then(() => {
-            Tools.toastSuccess(AppString.logoutConfirm);
-            props.navigation.navigate(item.route.routeName);
-          });
-        } else {
-          console.log('azerty');
-          props.navigation.navigate(item.route.routeName);
-        }
-      }}
     />);
 }
 

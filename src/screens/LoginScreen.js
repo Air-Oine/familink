@@ -6,6 +6,7 @@ import { Form, Item, Input, Button, CheckBox, Icon } from 'native-base';
 import AppString from '../strings';
 import { styles, inputError, inputPlaceHolderColor, inputSelectionColor } from '../style';
 import Storage from '../asyncStorage';
+import Hidden from '../Hidden';
 import { loginUser, setRememberMe, getProfileUser, addToken } from '../actions/familink.actions';
 
 import { HOME_SCENE_NAME } from './HomeScreen';
@@ -17,9 +18,8 @@ const logo = require('../../assets/iconFamilink.png');
 
 class LoginScreen extends Component {
   static navigationOptions = {
-    drawerLockMode: 'locked-closed',
-    drawerLabel: AppString.loginPageName,
-    drawerIcon: () => (<Icon name="log-out" style={styles.menuDrawer_itemIcon} />),
+    title: 'JE suis HIDDEN',
+    drawerLabel: <Hidden />,
   };
 
   constructor(props) {
@@ -39,7 +39,6 @@ class LoginScreen extends Component {
 
   componentWillMount() {
     Storage.getItem('token').then((token) => {
-      console.log('token :', token);
       if (token === null) {
         this.props.addToken('');
       } else {
@@ -49,9 +48,9 @@ class LoginScreen extends Component {
         if (reach !== 'NONE') {
           this.props.getProfileUser()
             .then((response) => {
-              console.log('response :', response);
-              if (response === true) {
-                console.log('ok');
+              if (response === 401) {
+                this.props.addToken('');
+              } else if (response !== false) {
                 this.props.navigation.navigate(HOME_SCENE_NAME);
               }
             });
@@ -60,7 +59,6 @@ class LoginScreen extends Component {
     });
     Storage.getItem('phone')
       .then((response) => {
-        console.log('ffffffff  ', response);
         if (response === '' || response === null) {
           this.setState({
             rememberMeStatus: false,
