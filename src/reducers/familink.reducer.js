@@ -21,8 +21,8 @@ export const initialState = {
   userToken: '',
   code: null,
   rejectedMessage: 'REJECT',
-  contactsList: {},
-  isConnected: false,
+  contactsList: [],
+  isConnected: true,
   rememberMe: true,
   uri: 'https://familink.cleverapps.io',
   userProfile: {

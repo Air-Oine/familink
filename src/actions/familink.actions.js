@@ -16,6 +16,7 @@ export const UPDATE_USER_PROFILE = 'UPDATE_USER_PROFILE';
 export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
 export const FORGOT_PASSWORD_REJECTED = 'FORGOT_PASSWORD_REJECTED';
 export const CREATE_CONTACT = 'CREATE_CONTACT';
+const _ = require('lodash');
 
 export function addToken(newToken) {
   return {
@@ -53,6 +54,10 @@ export function setConnected(newIsConnected) {
 }
 function networkOrNotNetwork(isConnected, uri, optionsFetch) {
   return new Promise((resolve) => {
+    if (isConnected === undefined) {
+      const toThrow = { code: -1, message: AppString.errorNoConnection };
+      throw toThrow;
+    }
     if (!isConnected) {
       const toThrow = { code: 0, message: AppString.errorNoConnection };
       throw toThrow;
@@ -165,6 +170,18 @@ export function addContactsList() {
           });
         })
         .catch((error) => {
+          if (error.code === 0 && !_.isEmpty(getState().familinkReducer.contactsList)) {
+            Tools.toastWarning(AppString.actionContactListNoUpdate);
+            return true;
+          }
+          if (error.code === 0 && _.isEmpty(getState().familinkReducer.contactsList)) {
+            Tools.toastWarning(error.message);
+            dispatch({
+              type: ADD_CONTACTSLIST,
+              contactsList: [],
+            });
+            return -1;
+          }
           Tools.toastWarning(error.message);
           return false;
         });
@@ -195,6 +212,7 @@ export function loginUser(loginString) {
             Tools.toastWarning(AppString.actionErrorLogin);
             return false;
           }
+          Storage.setItem('token', response.token);
           return dispatch({
             type: ADD_TOKEN,
             token: response.token,
