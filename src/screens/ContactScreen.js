@@ -113,8 +113,7 @@ class ContactScreen extends Component {
             Tools.alertUnauthorized(() => {
               this.props.navigation.navigate(LOGIN_SCENE_NAME);
             });
-          }
-          if (response !== false) {
+          } else if (response !== false) {
             // Show success
             Tools.toastSuccess(AppString.addContactToastSuccess);
             // Go back to contact list
@@ -128,8 +127,7 @@ class ContactScreen extends Component {
             Tools.alertUnauthorized(() => {
               this.props.navigation.navigate(LOGIN_SCENE_NAME);
             });
-          }
-          if (response !== false) {
+          } else if (response !== false) {
             // Show success
             Tools.toastSuccess(AppString.addContactToastUpdateSuccess);
 
@@ -154,8 +152,7 @@ class ContactScreen extends Component {
         Tools.alertUnauthorized(() => {
           this.props.navigation.navigate(LOGIN_SCENE_NAME);
         });
-      }
-      if (response !== false) {
+      } else if (response !== false) {
         this.props.navigation.navigate(CONTACTLIST_SCENE_NAME);
         Tools.toastSuccess(AppString.contactDeleteSuccess);
       }

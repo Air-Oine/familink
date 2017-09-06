@@ -51,8 +51,7 @@ class ProfileScreen extends Component {
           Tools.alertUnauthorized(() => {
             this.props.navigation.navigate(LOGIN_SCENE_NAME);
           });
-        }
-        if (response !== false) {
+        } else if (response !== false) {
           this.setState({
             userProfile: response.userProfile,
           });
@@ -96,8 +95,7 @@ class ProfileScreen extends Component {
           Tools.alertUnauthorized(() => {
             this.props.navigation.navigate(LOGIN_SCENE_NAME);
           });
-        }
-        if (response.profile !== false) {
+        } else if (response.profile !== false) {
           this.setState({
             profile: response.profile,
           });
@@ -138,8 +136,7 @@ class ProfileScreen extends Component {
             Tools.alertUnauthorized(() => {
               this.props.navigation.navigate(LOGIN_SCENE_NAME);
             });
-          }
-          if (response !== false) {
+          } else if (response !== false) {
             const navigation = this.props.navigation;
             Tools.toastSuccess(AppString.profileUpdateSuccess);
             navigation.navigate(HOME_SCENE_NAME);
