@@ -122,19 +122,22 @@ class ContactListScreen extends Component {
   }
 
   renderContactList() {
-    if (_.isEmpty(this.state.contactsFilter) && this.state.isConnected) {
-      return (
-        <Text style={styles.MenuText}>
-          {AppString.contactListEmptyMessage}
-        </Text>
-      );
-    }
-    if (_.isEmpty(this.state.contactsFilter) && !this.state.isConnected) {
-      return (
-        <Text style={styles.MenuText}>
-          {AppString.contactListNoContactInApp}
-        </Text>
-      );
+    // Show no contact messages if loading is done
+    if (!this.state.visible) {
+      if (_.isEmpty(this.state.contactsFilter) && this.state.isConnected) {
+        return (
+          <Text style={styles.MenuText}>
+            {AppString.contactListEmptyMessage}
+          </Text>
+        );
+      }
+      if (_.isEmpty(this.state.contactsFilter) && !this.state.isConnected) {
+        return (
+          <Text style={styles.MenuText}>
+            {AppString.contactListNoContactInApp}
+          </Text>
+        );
+      }
     }
     return (
       <AlphabetListView
