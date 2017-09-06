@@ -138,18 +138,20 @@ class ContactListScreen extends Component {
           </Text>
         );
       }
+
+      return (
+        <AlphabetListView
+          data={this.state.contactsIndex}
+          cell={item => this.renderItem(item)}
+          cellHeight={30}
+          sectionHeaderHeight={22.5}
+          sectionHeader={item => <Text style={styles.headerAlphabetList} >{item.title}</Text>}
+          hideSectionList
+          enableEmptySections
+        />
+      );
     }
-    return (
-      <AlphabetListView
-        data={this.state.contactsIndex}
-        cell={item => this.renderItem(item)}
-        cellHeight={30}
-        sectionHeaderHeight={22.5}
-        sectionHeader={item => <Text style={styles.headerAlphabetList} >{item.title}</Text>}
-        hideSectionList
-        enableEmptySections
-      />
-    );
+    return <View />;
   }
 
   renderItem(item) {
