@@ -72,7 +72,10 @@ class ContactListScreen extends Component {
       if (response === -1) {
         this.setState({
           isConnected: false,
+          visible: false,
         });
+      } else if (response === true) {
+        this.setState({ visible: false });
       }
       this.setState({ contactsFilter: this.props.listOfContacts,
         contactsIndex: this.sortAnnuaire(this.props.listOfContacts),
